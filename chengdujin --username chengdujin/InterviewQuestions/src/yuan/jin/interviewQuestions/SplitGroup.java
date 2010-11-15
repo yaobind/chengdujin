@@ -6,6 +6,8 @@ import java.util.TreeSet;
 /**
  * The Beauty of Programming 2.18
  * 
+ * Balanced Partition http://people.csail.mit.edu/bdean/6.046/dp/
+ * 
  * @author Yuan
  * 
  */
