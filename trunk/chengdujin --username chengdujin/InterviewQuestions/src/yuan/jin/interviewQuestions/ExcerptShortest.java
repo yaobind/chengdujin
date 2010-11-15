@@ -1,6 +1,5 @@
 package yuan.jin.interviewQuestions;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -19,16 +18,17 @@ import java.util.HashSet;
  */
 public class ExcerptShortest {
 
-	static int[] text = { 1, 4, 15, 2, 5, 3, 15, 4, 5, 2, 1, 14, 3 };
-	static int[] input = { 1, 2, 3, 4, 1 };
+	static String[] text = { "A", "D", "O", "B", "E", "C", "O", "D", "E", "B",
+			"A", "N", "C" };
+	static String[] input = { "A", "B", "C" };
 
 	static boolean isAllIncluded(int begin, int end) {
 		if (end < text.length) {
-			HashSet<Integer> numbers = new HashSet<Integer>();
+			HashSet<String> letters = new HashSet<String>();
 			for (int i = begin; i < end + 1; i++)
-				numbers.add(text[i]);
+				letters.add(text[i]);
 			for (int i = 0; i < input.length; i++)
-				if (!numbers.contains(input[i]))
+				if (!letters.contains(input[i]))
 					return false;
 			return true;
 		} else
@@ -61,7 +61,7 @@ public class ExcerptShortest {
 	}
 
 	// http://www.mitbbs.com/article_t1/JobHunting/31696043_0_1.html
-	static void method2() {
+	/*static void method2() {
 		boolean[] chars = new boolean[256];
 		for (int i = 0; i < input.length; i++)
 			if (!chars[input[i]])
@@ -70,7 +70,7 @@ public class ExcerptShortest {
 		for (int i = 0; i < text.length; i++)
 			if (chars[text[i]])
 				records.add(i);
-	}
+	}*/
 
 	public static void main(String[] args) {
 		findExcerpt(text.length);
