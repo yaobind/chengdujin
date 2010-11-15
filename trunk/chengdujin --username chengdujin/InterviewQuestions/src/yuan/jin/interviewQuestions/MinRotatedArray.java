@@ -9,7 +9,7 @@ package yuan.jin.interviewQuestions;
  * @author Yuan
  * 
  */
-public class RotatedArrayMin {
+public class MinRotatedArray {
 	// O(logN)
 	static int min(int[] numbers) {
 		int low = 0;

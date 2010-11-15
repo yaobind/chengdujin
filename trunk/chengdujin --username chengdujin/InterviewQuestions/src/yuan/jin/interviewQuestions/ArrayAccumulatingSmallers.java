@@ -8,6 +8,16 @@ import java.util.Arrays;
  * 
  * http://www.careercup.com/question?id=3320663
  * 
+ * Scan from right to left of the array
+ * 
+ * Now as you create the tree if the new element is to the right of the node
+ * then add the freq of that node until that element find place in the tree The
+ * total freq = no of elements small or equal to it.
+ * 
+ * If element is already their in the tree then increase its freq.
+ * 
+ * Time complexity: O(nlogn)
+ * 
  * @author Yuan
  * 
  */
@@ -28,8 +38,7 @@ public class ArrayAccumulatingSmallers {
 			} else if (value < node.data) {
 				node.freq++;
 				node.left = addNode(node.left, value, arr, index, count);
-			}
-			else
+			} else
 				node.right = addNode(node.right, value, arr, index,
 						(count + node.freq));
 		}
@@ -37,12 +46,12 @@ public class ArrayAccumulatingSmallers {
 	}
 
 	public static void main(String[] args) {
-		
+
 		int[] input = { 34, 49, 42, 10, 30, 18, 31, 14, 1, 35 };
 		// int[] input = { 1, 3, 2, 4, 5, 4, 2 };
 		int[] counter = new int[input.length];
 		Tree root = null;
-		counter[input.length-1] = 0;
+		counter[input.length - 1] = 0;
 		for (int i = input.length - 1; i >= 0; i--)
 			root = addNode(root, input[i], counter, i, 0);
 		System.out.println(Arrays.toString(input));
