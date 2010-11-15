@@ -19,7 +19,6 @@ public class PairSum {
 	// deprecated.
 	static void findPairs(int[] seq, int val) {
 		Arrays.sort(seq);
-
 		for (int i = 0, j = (seq.length - 1); i != j;) {
 			if ((seq[i] + seq[j]) == val) {
 				System.out.println(seq[i] + " + " + seq[j]);
@@ -29,7 +28,6 @@ public class PairSum {
 			else
 				i++;
 		}
-
 		System.out.println("Whoops! We can't find one pair!");
 	}
 	
@@ -56,8 +54,7 @@ public class PairSum {
 	public static void main(String[] args) {
 //		int[] input = { -1, 2, 0, 4, 1, 2, -1, -4, 3 };
 		int[] input = { 9, 3, 6, 5, 7, -1, 13, 14, -2, 12, 0 };
-//		printPairSums(input, 5);
-		printPairSums(input, 13);
+		printPairSums(input, 11);
 	}
 
 }

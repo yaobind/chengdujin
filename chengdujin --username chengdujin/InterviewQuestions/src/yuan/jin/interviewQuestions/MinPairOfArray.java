@@ -2,12 +2,13 @@ package yuan.jin.interviewQuestions;
 
 /**
  * 数组中两两之差最小的值 有一个整数数组，请求出两两之差最小的值,记住，只要得出最小值即可，不需要求出是哪两个数
+ * 
  * http://fayaa.com/tiku/view/116/
  * 
  * @author Yuan
  * 
  */
-public class MinOfDifferentVariables {
+public class MinPairOfArray {
 
 	static int findMinDiff(int[] input) {
 		int[] input2 = new int[input.length - 1];
@@ -31,7 +32,7 @@ public class MinOfDifferentVariables {
 	}
 
 	public static void main(String[] args) {
-//		int[] seq = { 15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14 };
+		// int[] seq = { 15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14 };
 		int[] seq = { 56, 44, 8, 59, 120, 9, 121, -6, -10, 90, -11 };
 		System.out.println(findMinDiff(seq));
 	}

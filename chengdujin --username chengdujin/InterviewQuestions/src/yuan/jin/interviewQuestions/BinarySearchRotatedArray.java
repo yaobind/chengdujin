@@ -9,7 +9,7 @@ package yuan.jin.interviewQuestions;
  * @author Yuan
  * 
  */
-public class RotatedArrayBinarySearch {
+public class BinarySearchRotatedArray {
 
 	static int rotatedBinarySearch(int key, int a[], int left, int rite) {
 		if (left > rite)
