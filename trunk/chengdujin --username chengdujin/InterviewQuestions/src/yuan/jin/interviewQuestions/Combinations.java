@@ -55,10 +55,10 @@ public class Combinations {
 		combinations = new ArrayList<String>();
 		String[] sequence = { "1", "2", "3", "4" };
 		StringBuilder outstr = new StringBuilder();
-//		doCombine(sequence, outstr, 0);
+//		 doCombine(sequence, outstr, 0);
 		combByIndex(sequence, outstr, 0, 0, 1);
 		// findCombinations(sequence);
-		System.out.println(combinations.toString());
+		// System.out.println(combinations.toString());
 	}
 
 }

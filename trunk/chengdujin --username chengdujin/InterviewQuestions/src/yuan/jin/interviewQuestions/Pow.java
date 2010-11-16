@@ -20,7 +20,7 @@ public class Pow {
 
 	static int multiply(int x, int y) {
 		if (y != 0)
-			return (x + multiply(x, y - 1));
+			return x + multiply(x, y - 1);
 		else
 			return 0;
 	}
