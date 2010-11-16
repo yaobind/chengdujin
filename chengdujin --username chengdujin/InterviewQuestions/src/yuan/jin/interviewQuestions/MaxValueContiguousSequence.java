@@ -51,6 +51,7 @@ public class MaxValueContiguousSequence {
 		}
 		return max;
 	}
+	
 	// only compute for the length
 	static int max_sum(int[] vector) {
 		int best = 0, current = 0;
@@ -63,6 +64,29 @@ public class MaxValueContiguousSequence {
 		}
 		return best;
 	}
+	
+	// method2, without using class ....
+	static int sum(int[] a) {
+	    int max = 0, mi, mj;
+	    int curr = 0, ci = 0, cj = 0;
+	    for (int i = 0; i < a.length; i++) {
+	        int temp = curr + a[i];
+	        if (a[i] > temp) {
+	            ci = i;
+	            cj = i;
+	            curr = a[i];
+	        } else {
+	            curr = temp;
+	            cj++;
+	        }
+	        if (curr > max) {
+	            mi = ci;
+	            mj = cj;
+	            max = curr;
+	        }
+	    }
+	    return max;
+	}
 
 	public static void main(String[] args) {
 		MaxValueContiguousSequence result = new MaxValueContiguousSequence();
@@ -70,6 +94,7 @@ public class MaxValueContiguousSequence {
 		int[] seq = { 1, -2, 4, 5, -2, 6, 7 };
 		// int[] seq = { 2, -8, 3, -2, 4, -10 };
 		System.out.println(result.findMaxValueContigousSeq(seq));
+		System.out.println(sum(seq));
 	}
 
 }
