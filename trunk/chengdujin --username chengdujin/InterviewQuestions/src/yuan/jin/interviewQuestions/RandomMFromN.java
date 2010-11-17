@@ -8,12 +8,12 @@ import java.util.Random;
  * @author Yuan
  *
  */
-public class MNumbersFromN {
+public class RandomMFromN {
 	private static int[] pickMRandomly(int[] array, int m) {
 		Random gen = new Random();
 		int[] subset = new int[m];
 		for (int j = 0; j < m; ++j) {
-			int index = gen.nextInt(array.length - j) + j;
+			int index = j + gen.nextInt(array.length - j);
 			subset[j] = array[index];
 			array[index] = array[j];
 		}
