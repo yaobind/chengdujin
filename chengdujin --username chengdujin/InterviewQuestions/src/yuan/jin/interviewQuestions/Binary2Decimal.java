@@ -25,11 +25,25 @@ public class Binary2Decimal {
 		}
 		return output;
 	}
+	// depricated
+	static int binary2decimal(int n) {
+	    int count = 0;
+	    int digit = 0;
+	    while(n != 0) {
+	        int pow = (int) Math.pow(2, digit);
+	        int current = n & 1;
+	        count += pow * current;
+	        n >>= 1;
+			digit++;
+	    }
+	    return count;
+	} 
 
 	public static void main(String[] args) {
 		int bin = str2Int(Integer.toBinaryString(12));
 		System.out.println("Our binary is: " + bin);
 		System.out.println("Its decimal is: " + binary2Decimal(bin));
+//		System.out.println("Its decimal is: " + binary2decimal(bin));
 	}
 
 }
