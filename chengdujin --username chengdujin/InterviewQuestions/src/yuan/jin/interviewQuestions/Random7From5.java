@@ -14,11 +14,9 @@ public class Random7From5 {
 
 	static int random7() {
 		int random7 = 0;
-
 		do {
 			random7 = random5() ^ random5();
 		} while (random7 == 0);
-
 		return random7;
 	}
 
