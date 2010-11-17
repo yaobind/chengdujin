@@ -28,6 +28,7 @@ public class PolynomialReversePolishNotationChecker {
 			} else {
 				part = scan.next();
 				double a = 0, b = 0;
+				System.out.println(part.length());
 				for (int i = 0; i < part.length(); i++) {
 					switch (part.charAt(i)) {
 					case '+':
@@ -39,10 +40,10 @@ public class PolynomialReversePolishNotationChecker {
 						a = stack.pop();
 						b = stack.pop();
 						stack.push(b - a);
-						a = stack.pop();
-						b = stack.pop();
 						break;
 					case '*':
+						a = stack.pop();
+						b = stack.pop();
 						stack.push(b * a);
 						break;
 					case '/':

@@ -66,7 +66,8 @@ public class MedianBSTDynamicGeneration {
 		TreeNode node = root;
 		int m = (node.size - 1) / 2;
 		int size = 0;
-		while (true) {
+		// originally the condition is "true"
+		while (node != null) {
 			size = node.left != null ? node.left.size : 0;
 			if (size == m)
 				return node.data;
@@ -77,6 +78,8 @@ public class MedianBSTDynamicGeneration {
 				m -= size + 1;
 			}
 		}
+		// originally no return statement here
+		return size;
 	}
 
 	void print(TreeNode root) {

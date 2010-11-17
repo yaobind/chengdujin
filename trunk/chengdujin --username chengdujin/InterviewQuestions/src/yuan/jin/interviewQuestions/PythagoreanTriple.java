@@ -3,7 +3,7 @@ package yuan.jin.interviewQuestions;
 import java.util.Arrays;
 
 /**
- * Find pythagorean triplets in an array in O(N)
+ * Find Pythagorean triplets in an array in O(N)
  * 
  * Compare with PairSum and TripletsSum2K
  * 
