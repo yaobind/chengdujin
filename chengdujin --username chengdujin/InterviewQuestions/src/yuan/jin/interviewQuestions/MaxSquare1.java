@@ -9,7 +9,7 @@ package yuan.jin.interviewQuestions;
  */
 public class MaxSquare1 {
 
-	static int[][] test = { 
+	static int[][] input = { 
 		{ 0, 1, 1, 0, 1 }, 
 		{ 1, 1, 0, 1, 0 },
 		{ 0, 1, 1, 1, 0 }, 
@@ -17,19 +17,18 @@ public class MaxSquare1 {
 		{ 1, 1, 1, 1, 1 },
 		{ 0, 0, 0, 0, 0 } };
 
-	static int[][] result = new int[test.length][test[0].length];
+	static int[][] result = new int[input.length][input[0].length];
 
 	public static void main(String[] args) {
-		for (int i = 0; i < test[0].length; i++)
-			result[0][i] = test[0][i];
-
-		for (int i = 0; i < test.length; i++)
-			result[i][0] = test[i][0];
+		for (int i = 0; i < input[0].length; i++)
+			result[0][i] = input[0][i];
+		for (int i = 0; i < input.length; i++)
+			result[i][0] = input[i][0];
 
 		int max = 0, may = 0;
-		for (int i = 1; i < test.length; i++) {
-			for (int j = 1; j < test[0].length; j++) {
-				if (test[i][j] == 1) {
+		for (int i = 1; i < input.length; i++) {
+			for (int j = 1; j < input[0].length; j++) {
+				if (input[i][j] == 1) {
 					int temp = result[i][j - 1] < result[i - 1][j] ? result[i][j - 1]
 							: result[i - 1][j];
 					result[i][j] = 1 + (temp < result[i - 1][j - 1] ? temp
@@ -45,9 +44,8 @@ public class MaxSquare1 {
 
 		// print out
 		for (int i = 0; i < result[max][may]; i++) {
-			for (int j = 0; j < result[max][may]; j++) {
-				System.out.print(test[max - i][may - j]);
-			}
+			for (int j = 0; j < result[max][may]; j++)
+				System.out.print(input[max - i][may - j]);
 			System.out.println();
 		}
 	}

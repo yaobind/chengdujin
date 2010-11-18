@@ -32,7 +32,7 @@ public class MaxRectangle1 {
 		return max;
 	}
 	
-	static void compute() {
+	static void computeLength() {
 		// initialization
 		for (int j = 0; j < matrix[0].length; j++) {
 			upper[0][j] = 0;
@@ -70,7 +70,7 @@ public class MaxRectangle1 {
 			}
 	}
 	
-	static void preprocess() {
+	static void find1s() {
 		for (int i = 0; i < matrix.length; i++) {
 			assistant[i][matrix[0].length-1] = matrix[i][matrix[0].length-1];
 		}
@@ -85,8 +85,8 @@ public class MaxRectangle1 {
 	}
 	
 	public static void main(String[] args) {
-		preprocess();
-		compute();
+		find1s();
+		computeLength();
 		System.out.println(findLargest());
 	}
 
