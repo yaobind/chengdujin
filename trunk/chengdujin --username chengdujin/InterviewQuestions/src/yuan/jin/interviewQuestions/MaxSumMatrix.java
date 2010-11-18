@@ -42,29 +42,8 @@ public class MaxSumMatrix {
 			return procest[row2][col2] - procest[row2][col1 - 1]
 					- procest[row1 - 1][col2] + procest[row1 - 1][col1 - 1];
 	}
-
-	static int method1(int[][] A, int n, int m) {
-		int max = Integer.MIN_VALUE;
-		for (int i = 0; i < n; i++)
-			for (int j = i + 1; j < n; j++) {
-				int current = compute(i, m, j, m);
-				int currMax = current;
-				for (int k = m - 1; k >= 1; k--) {
-					if (current < 0)
-						current = 0;
-					current += compute(i, k, j, k);
-					if (current > currMax)
-						currMax = current;
-				}
-				if (currMax > max) {
-					System.out.println("" + i + ":" + j + "-" + m);
-					max = currMax;
-				}
-			}
-		return max;
-	}
-	
-	public static int method2(int[][] original) {
+	// dummy code
+	public static int method1(int[][] original) {
 		int maxArea = Integer.MIN_VALUE;
 		int rowCount = original.length; 
 		int columnCount = original[0].length;
@@ -79,11 +58,32 @@ public class MaxSumMatrix {
 		}
 		return maxArea;
 	}
+	// more efficient
+	static int method2(int[][] A, int n, int m) {
+		int max = Integer.MIN_VALUE;
+		for (int i = 0; i < n; i++)
+			for (int j = i + 1; j < n; j++) {
+				int current = compute(i, m-1, j, m-1);
+				int currMax = current;
+				for (int k = m - 2; k >= 0; k--) {
+					if (current < 0)
+						current = 0;
+					current += compute(i, k, j, k);
+					if (current > currMax)
+						currMax = current;
+				}
+				if (currMax > max) {
+					System.out.println("" + i + ":" + j + "-" + m);
+					max = currMax;
+				}
+			}
+		return max;
+	}
 
 	public static void main(String[] args) {
 		preprocess(input);
-		System.out.println(method1(input, 4, 3));
-		System.out.println(method2(input));
+		System.out.println(method1(input));
+		System.out.println(method2(input, 4, 4));
 	}
 
 }
