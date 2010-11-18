@@ -8,6 +8,12 @@ class PNode {
 	public PNode(int data) {
 		this.data = data;
 	}
+
+	@Override
+	public String toString() {
+		return "" + this.data;
+	}
+	
 }
 
 /**
