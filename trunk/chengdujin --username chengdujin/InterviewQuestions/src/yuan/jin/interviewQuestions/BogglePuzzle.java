@@ -33,7 +33,7 @@ public class BogglePuzzle {
 				{ 'b', 'h', 'a', 'r', 'l', 's' },
 				{ 'w', 'r', 'i', 's', 'l', 'o' },
 				{ 'a', 's', 'n', 'k', 't', 'q' } };
-		String str = "slow";
+		String str = "ktqas";
 		BogglePuzzle sf = new BogglePuzzle();
 		System.out.print(sf.stringFinder(ar, str));
 	}
@@ -45,19 +45,20 @@ public class BogglePuzzle {
 				if (ar[i][j] == charArray[0]) {
 					boolean checker;
 					// check up, down, left and right
+					// System.out.println("*" + i + ":" + j);
 					checker = isMatch(ar, charArray, i,
 							Math.abs((j + 1) % ar[0].length), 1,
 							Direction.right)
 							|| isMatch(ar, charArray,
 									Math.abs((i + 1) % ar.length), j, 1,
 									Direction.down)
-							|| isMatch(ar, charArray,
-									Math.abs((i - 1) % ar.length), j, 1,
-									Direction.up)
+							|| isMatch(ar, charArray, (i - 1 < 0) ? ar.length
+									+ i - 1 : i - 1, j, 1, Direction.up)
 							|| isMatch(ar, charArray, i,
-									Math.abs((j - 1) % ar[0].length), 1,
-									Direction.left);
+									(j - 1 < 0) ? ar[0].length + j - 1 : j - 1,
+									1, Direction.left);
 					// check diagonals, deep water, be careful
+					// ......
 					if (checker)
 						return true;
 				}
@@ -73,16 +74,21 @@ public class BogglePuzzle {
 			else
 				return false;
 		}
+		// System.out.println(i + "-" + j + ":" + dir);
 		if (ar[i][j] == charArray[k]) {
-			System.out.println(i + "-" + j + ":" + dir);
 			if (dir == Direction.down)
 				i = Math.abs((i + 1) % ar.length);
 			else if (dir == Direction.right)
 				j = Math.abs((j + 1) % ar[0].length);
-			else if (dir == Direction.left)
-				j = Math.abs((j - 1) % ar[0].length);
-			else if (dir == Direction.up)
-				i = Math.abs((i - 1) % ar.length);
+			else if (dir == Direction.left) {
+				j = j - 1;
+				if (j < 0)
+					j = ar[0].length + j;
+			} else if (dir == Direction.up) {
+				i = i - 1;
+				if (i < 0)
+					i = ar.length + i;
+			}
 			return isMatch(ar, charArray, i, j, k + 1, dir);
 		}
 		return false;

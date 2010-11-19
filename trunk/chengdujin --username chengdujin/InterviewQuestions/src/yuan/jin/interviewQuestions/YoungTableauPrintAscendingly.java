@@ -13,11 +13,17 @@ import java.util.List;
  * 
  */
 public class YoungTableauPrintAscendingly {
-	static int[][] test = { { 2, 4, 9, 11 }, { 3, 8, 16, 17 },
-			{ 5, 14, 20, 25 }, { 12, 15, 23, 30 } };
+	static int[][] test = { 
+		{ 2, 4, 9, 11 }, 
+		{ 3, 8, 16, 17 },
+		{ 5, 14, 20, 25 }, 
+		{ 12, 15, 23, 30 } };
 
-	static int[][] test2 = { { 5, 14, 20, 25 }, { 2, 4, 9, 11 },
-			{ 12, 15, 23, 30 }, { 3, 8, 16, 17 } };
+	static int[][] test2 = { 
+		{ 5, 14, 20, 25 }, 
+		{ 2, 4, 9, 11 },
+		{ 12, 15, 23, 30 }, 
+		{ 3, 8, 16, 17 } };
 
 	static int m = test[0].length;
 	static int n = test.length;

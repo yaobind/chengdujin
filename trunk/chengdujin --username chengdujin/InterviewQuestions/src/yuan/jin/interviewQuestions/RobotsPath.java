@@ -74,6 +74,7 @@ public class RobotsPath {
 		if (!success) {
 			path.remove(p);
 			m[x][y] = 2;
+			return false;
 		}
 
 		return success;
