@@ -1,8 +1,11 @@
 package yuan.jin.interviewQuestions;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
+import java.util.Vector;
 
 /**
  * Pre-order, In-order and Post-order tree traversal's iterative solution
@@ -105,47 +108,47 @@ public class TreeTraversal {
 			}
 		}
 	}
-	
+
 	// Print the binary tree by level (BFS)
 	static void levelOrder(PNode root) {
-	    if (root == null)
-	        return;
-	    Queue<PNode> q1 = new LinkedList<PNode>();
-	    Queue<PNode> q2 = new LinkedList<PNode>();
-	    q1.add(root);
-	    while (!q1.isEmpty()) {
-	        PNode n = (PNode) q1.poll();
-	        if (n != null) {
-	        	System.out.print(n + " ");
-	        	q2.add(n.left);
-	        	q2.add(n.right);
-	        }
-	        if (q1.isEmpty()) {
-	            q1.addAll(q2);
-	            q2.clear();
-	            System.out.println();
-	        }
-	    }
+		if (root == null)
+			return;
+		Queue<PNode> q1 = new LinkedList<PNode>();
+		Queue<PNode> q2 = new LinkedList<PNode>();
+		q1.add(root);
+		while (!q1.isEmpty()) {
+			PNode n = (PNode) q1.poll();
+			if (n != null) {
+				System.out.print(n + " ");
+				q2.add(n.left);
+				q2.add(n.right);
+			}
+			if (q1.isEmpty()) {
+				q1.addAll(q2);
+				q2.clear();
+				System.out.println();
+			}
+		}
 	}
-	
+
 	// // Print the binary tree by level (Non BFS)
 	static void levelOrderNonBFS(PNode root) {
-	    if (root == null)
-	        return;
-	    int hite = height(root);
-	    for (int i = 1; i <= hite; i++) {
-	        printLevel(root, i);
-	        System.out.println();
-	    }
+		if (root == null)
+			return;
+		int hite = height(root);
+		for (int i = 1; i <= hite; i++) {
+			printLevel(root, i);
+			System.out.println();
+		}
 	}
 
 	static void printLevel(PNode root, int level) {
-	    if (root == null)
-	        return;
-	    if (level == 1)
-	        System.out.print(root.data + " ");
-	    printLevel(root.left, level - 1);
-	    printLevel(root.right, level - 1);
+		if (root == null)
+			return;
+		if (level == 1)
+			System.out.print(root.data + " ");
+		printLevel(root.left, level - 1);
+		printLevel(root.right, level - 1);
 	}
 
 	// Print the binary tree by level (BFS) in reverse order.
@@ -163,10 +166,10 @@ public class TreeTraversal {
 			if (n != null) {
 				q2.add(n.left);
 				if (n.left != null)
-				s.push(n.left);
+					s.push(n.left);
 				q2.add(n.right);
 				if (n.right != null)
-				s.push(n.right);
+					s.push(n.right);
 			}
 			if (q1.isEmpty()) {
 				q1.addAll(q2);
@@ -203,34 +206,34 @@ public class TreeTraversal {
 		int hright = height(root.right);
 		return 1 + Math.max(hleft, hright);
 	}
-	
+
 	// Given a binary tree, print out the tree in zig zag level order
 	static void levelOrderZigZag(PNode root) {
-	    if (root == null)
-	        return;
-	    Stack<PNode> s = new Stack<PNode>();
-	    Stack<PNode> t = new Stack<PNode>();
-	    s.push(root);
-	    boolean left2rite = true;
-	    while (!s.isEmpty()) {
-	        PNode n = (PNode) s.pop();
-	        if (n != null) {
-	        	System.out.print(n + " ");
-	        	if (left2rite) {
-	            	t.push(n.left);
-	            	t.push(n.right);
-	        	} else {
-	            	t.push(n.right);
-	            	t.push(n.left);
-	        	}
-	        }
-	        if (s.isEmpty()) {
-	            left2rite = !left2rite;
-	            s.addAll(t);
-	            t.clear();
-	            System.out.println();
-	        }
-	    }
+		if (root == null)
+			return;
+		Stack<PNode> s = new Stack<PNode>();
+		Stack<PNode> t = new Stack<PNode>();
+		s.push(root);
+		boolean left2rite = true;
+		while (!s.isEmpty()) {
+			PNode n = (PNode) s.pop();
+			if (n != null) {
+				System.out.print(n + " ");
+				if (left2rite) {
+					t.push(n.left);
+					t.push(n.right);
+				} else {
+					t.push(n.right);
+					t.push(n.left);
+				}
+			}
+			if (s.isEmpty()) {
+				left2rite = !left2rite;
+				s.addAll(t);
+				t.clear();
+				System.out.println();
+			}
+		}
 	}
 
 	public static void main(String[] args) {
@@ -253,6 +256,7 @@ public class TreeTraversal {
 		postOrder(node);
 		System.out.println();
 		levelOrder(node);
+		System.out.println();
 		levelOrderZigZag(node);
 	}
 
