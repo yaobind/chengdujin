@@ -39,14 +39,13 @@ public class Combinations {
 
 	// Print out all combinations of k numbers out of 1...N e.g. when k = 2, n =
 	// 4 Print out 12, 13, 14, 23, 24, 34
-	static void combByIndex(String[] instr, StringBuilder outstr, int width,
-			int start, int digit) {
+	static void combByIndex(String[] instr, StringBuilder outstr, int start, int width, int digit) {
 		for (int i = start; i < instr.length; i++) {
 			outstr.append(instr[i]);
 			if (digit == 0)
 				System.out.println(outstr);
 			if (width < digit)
-				combByIndex(instr, outstr, width + 1, i + 1, digit - 1);
+				combByIndex(instr, outstr, i + 1, width + 1, digit - 1);
 			outstr.setLength(outstr.length() - 1);
 		}
 	}

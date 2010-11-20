@@ -8,23 +8,25 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+/**
+ * Given dictionary, transform one word to another of same length.
+ * 
+ * @author Yuan
+ * 
+ */
 public class EditDistantWordInDictionary {
 
 	static LinkedList<String> transform(String start, String end,
 			Set<String> dict) {
 		start = start.toUpperCase();
 		end = end.toUpperCase();
-
 		Queue<String> queue = new LinkedList<String>();
 		Set<String> visited = new HashSet<String>();
 		Map<String, String> backtrack = new TreeMap<String, String>();
-		
 		queue.add(start);
 		visited.add(start);
-
 		while (!queue.isEmpty()) {
 			String w = queue.poll();
-			
 			for (String v : getOneEditWords(w)) {
 				if (v.equals(end)) {
 					LinkedList<String> result = new LinkedList<String>();
@@ -35,14 +37,13 @@ public class EditDistantWordInDictionary {
 					}
 					return result;
 				}
-
-//				if (dict.contains(v)) {
-					if (!visited.contains(v)) {
-						queue.add(v);
-						visited.add(v);
-						backtrack.put(v, w);
-					}
-//				}
+				// if (dict.contains(v)) {
+				if (!visited.contains(v)) {
+					queue.add(v);
+					visited.add(v);
+					backtrack.put(v, w);
+				}
+				// }
 			}
 		}
 
@@ -51,7 +52,6 @@ public class EditDistantWordInDictionary {
 
 	static Set<String> getOneEditWords(String word) {
 		Set<String> words = new TreeSet<String>();
-
 		for (int i = 0; i < word.length(); i++) {
 			char[] wordArray = word.toCharArray();
 			for (char c = 'A'; c < 'Z'; c++) {
@@ -61,7 +61,6 @@ public class EditDistantWordInDictionary {
 				}
 			}
 		}
-
 		return words;
 	}
 
@@ -72,7 +71,7 @@ public class EditDistantWordInDictionary {
 		dictionary.add("LIMP");
 		dictionary.add("LIME");
 		dictionary.add("LIKE");
-		
+
 		System.out.println(transform("Face", "Book", dictionary));
 	}
 

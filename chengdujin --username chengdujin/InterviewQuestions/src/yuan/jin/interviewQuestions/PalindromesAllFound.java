@@ -22,19 +22,15 @@ public class PalindromesAllFound {
 	}
 
 	public static boolean isPalindrome(String s) {
-		int length = s.length();
-
-		if (length <= 1)
-			return false;
-
-		int halfWay = length / 2;
-		char[] text = s.toCharArray();
-
-		for (int i = 0; i < halfWay; i++)
-			if (text[i] != text[length - 1 - i])
-				return false;
-
-		return true;
+	    int i = 0;
+	    int j = s.length()-1;
+	    while (i < j) {
+	        if (s.charAt(i) != s.charAt(j))
+	            return false;
+	        i++;
+	        j--;
+	    }
+	    return true;
 	}
 
 }

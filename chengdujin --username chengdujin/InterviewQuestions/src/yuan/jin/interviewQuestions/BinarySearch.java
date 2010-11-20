@@ -21,7 +21,7 @@ public class BinarySearch {
 			return -1;
 		int i = 0;
 		int j = input.length;
-		while (true) {
+		while (i <= j) {
 			if (i == j && input[i] != key)
 				return -1;
 			int middle = (i + j)/2;
@@ -32,6 +32,7 @@ public class BinarySearch {
 			} else
 				i = middle + 1;
 		}
+		return -1;
 	}
 
 	public static void main(String[] args) {

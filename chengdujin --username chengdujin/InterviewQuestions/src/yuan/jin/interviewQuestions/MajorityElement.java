@@ -25,19 +25,19 @@ public class MajorityElement {
 	}
 
 	static int findCandidate(int a[], int size) {
-		int maj_index = 0, count = 1;
+		int maj = 0, count = 1;
 		int i;
 		for (i = 1; i < size; i++) {
-			if (a[maj_index] == a[i])
+			if (a[maj] == a[i])
 				count++;
 			else
 				count--;
 			if (count == 0) {
-				maj_index = i;
+				maj = i;
 				count = 1;
 			}
 		}
-		return a[maj_index];
+		return a[maj];
 	}
 
 	static boolean isMajority(int a[], int size, int cand) {

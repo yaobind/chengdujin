@@ -23,7 +23,8 @@ public class DifferenceEqual2KSortedArray {
 							.println("(" + arr[left] + "," + arr[right] + ")");
 				if (diff < key)
 					break;
-				left++;
+				else
+					left++;
 			}
 		}
 	}

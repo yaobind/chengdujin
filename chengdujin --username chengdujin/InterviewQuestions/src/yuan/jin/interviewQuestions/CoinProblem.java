@@ -55,10 +55,10 @@ public class CoinProblem {
 		}
 	}
 
-	static void print(int[] denom, int j) {
+	static void print(int[] a, int j) {
 		if (j > 0) {
-			System.out.print(denom[j] + " ");
-			print(denom, j - denom[j]);
+			System.out.print(a[j] + " ");
+			print(a, j - a[j]);
 		}
 	}
 

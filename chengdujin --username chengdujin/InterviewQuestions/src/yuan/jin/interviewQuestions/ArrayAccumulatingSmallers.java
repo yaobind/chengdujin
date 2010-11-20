@@ -23,37 +23,36 @@ import java.util.Arrays;
  */
 public class ArrayAccumulatingSmallers {
 
-	static Tree addNode(Tree node, int value, int[] arr, int index, int count) {
+	static Tree insert(int[] a, Tree node, int index, int value, int count) {
 		if (node == null) {
 			node = new Tree();
 			node.data = value;
-			node.freq++;
+			node.size++;
 			node.left = null;
 			node.right = null;
-			arr[index] = count;
+			a[index] = count;
 		} else {
 			if (value == node.data) {
-				arr[index] = count + node.freq;
-				node.freq++;
+				node.size++;
+				a[index] = count + node.size;
 			} else if (value < node.data) {
-				node.freq++;
-				node.left = addNode(node.left, value, arr, index, count);
+				node.size++;
+				node.left = insert(a, node.left, index, value, count);
 			} else
-				node.right = addNode(node.right, value, arr, index,
-						(count + node.freq));
+				node.right = insert(a, node.right, index, value,
+						(count + node.size));
 		}
 		return node;
 	}
 
 	public static void main(String[] args) {
-
 		int[] input = { 34, 49, 42, 10, 30, 18, 31, 14, 1, 35 };
 		// int[] input = { 1, 3, 2, 4, 5, 4, 2 };
 		int[] counter = new int[input.length];
 		Tree root = null;
 		counter[input.length - 1] = 0;
 		for (int i = input.length - 1; i >= 0; i--)
-			root = addNode(root, input[i], counter, i, 0);
+			root = insert(counter, root, i, input[i], 0);
 		System.out.println(Arrays.toString(input));
 		System.out.println(Arrays.toString(counter));
 	}
@@ -61,7 +60,7 @@ public class ArrayAccumulatingSmallers {
 
 class Tree {
 	int data;
-	int freq;
+	int size;
 	Tree left;
 	Tree right;
 }

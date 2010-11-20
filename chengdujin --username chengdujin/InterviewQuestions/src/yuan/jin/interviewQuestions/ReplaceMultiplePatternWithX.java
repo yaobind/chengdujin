@@ -24,31 +24,32 @@ public class ReplaceMultiplePatternWithX {
 		return true;
 	}
 
-	static void replace(char str[], char[] pattern) {
-		if (str == null || pattern == null)
+	static void replace(char str[], char[] pan) {
+		if (str == null || pan == null)
 			return;
 		char[] pSlow = str;
 		char[] pFast = str;
 		int iSlow = 0;
 		int iFast = 0;
-		int pLen = pattern.length;
+		int pLen = pan.length;
 		while (iFast < str.length) {
-			System.out.println(iFast);
-			if (isMatch(pFast, iFast, pattern)) {
+			if (isMatch(pFast, iFast, pan)) {
 				iFast += pLen;
+				if (iSlow - 1 > 0 && pSlow[iSlow - 1] == 'X')
+					continue;
 				pSlow[iSlow++] = 'X';
-				continue;
-			}
-			if (iFast < str.length)
+			} else if (iFast < str.length)
 				pSlow[iSlow++] = pFast[iFast++];
 		}
 		Arrays.fill(pSlow, iSlow, pSlow.length, '\0');
-		System.out.println(Arrays.toString(pSlow));
+		System.out.println("After replacement: " + new String(pSlow));
 	}
 
 	public static void main(String[] args) {
 		String text = "abcdeffdfegabcabc";
 		String pattern = "abc";
+		System.out.println("Text: " + text);
+		System.out.println("Pattern: " + pattern);
 		replace(text.toCharArray(), pattern.toCharArray());
 	}
 
