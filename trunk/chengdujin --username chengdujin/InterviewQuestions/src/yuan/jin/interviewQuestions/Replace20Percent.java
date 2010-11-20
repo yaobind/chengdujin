@@ -2,41 +2,38 @@ package yuan.jin.interviewQuestions;
 
 import java.util.Arrays;
 
+/**
+ * Replace all spaces in a string with ‘%20’
+ * 
+ * @author Yuan
+ * 
+ */
 public class Replace20Percent {
-	
-	private static char[] replaceFun(char[] str, int length) {
-		int spaceCount = 0;
-		int newlength = 0;
-		int i = 0;
-		
-		for (i = 0; i < length; i ++) {
+
+	static char[] replace(char[] str, int length) {
+		int count = 0;
+		for (int i = 0; i < str.length; i++)
 			if (str[i] == ' ')
-				spaceCount++;
-		}
-		
-		newlength = length + spaceCount*2;
-		char[] output = new char[newlength];
-		
-		for(i = length - 1; i >= 0; i --) {
-			if (str[i] == ' ') {
-				output[newlength - 1] = '0';
-				output[newlength - 2] = '2';
-				output[newlength - 3] = '%';
-				newlength = newlength -3;
+				count++;
+		char[] c = new char[str.length + 2 * count];
+		int j = c.length - 1;
+		for (int i = str.length - 1; i >= 0; i--) {
+			if (str[i] != ' ') {
+				c[j] = str[i];
+				j--;
 			} else {
-				output[newlength - 1] = str[i];
-				newlength -= 1;
+				c[j--] = '0';
+				c[j--] = '2';
+				c[j--] = '%';
 			}
-		}	
-		
-		return output;
+		}
+		return c;
 	}
 
 	public static void main(String[] args) {
 		String seq = "tes tOn ly";
 		char[] input = seq.toCharArray();
-		
-		System.out.println(Arrays.toString(replaceFun(input, 10)));
+		System.out.println(Arrays.toString(replace(input, 10)));
 	}
 
 }

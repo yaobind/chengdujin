@@ -27,8 +27,8 @@ public class SplitGroup {
 		matrix[0][0] = true;
 
 		for (int i = 1; i < input.length; i++) {
-			for (int k = 1; (k <= i && k <= input.length / 2); k++) {
-				for (int v = 1; v <= sum / 2; v++) {
+			for (int v = 1; v <= sum / 2; v++) {
+				for (int k = 1; (k <= i && k <= input.length / 2); k++) {
 					if ((v >= input[i]) && matrix[k - 1][v - input[i]]) {
 						if (v == sum / 2)
 							result.add(input[i]);

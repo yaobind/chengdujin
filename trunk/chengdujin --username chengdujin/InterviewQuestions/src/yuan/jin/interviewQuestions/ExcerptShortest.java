@@ -35,28 +35,25 @@ public class ExcerptShortest {
 			return false;
 	}
 
-	static void findExcerpt(int N) {
-		int nTargetLen = N;
-		int pBegin = 0;
-		int pEnd = 0;
-		int nLen = N;
-		int nAbstractBegin = 0;
-		int nAbstractEnd = 0;
+	static void findExcerpt() {
+		int currBegin = 0, currEnd = 0;
+		int minBegin = 0, minEnd = 0;
+		int minLen = text.length;
 		while (true) {
-			while (pEnd < nLen && !isAllIncluded(pBegin, pEnd))
-				pEnd++;
-			while (isAllIncluded(pBegin, pEnd)) {
-				if (pEnd - pBegin < nTargetLen) {
-					nTargetLen = pEnd - pBegin;
-					nAbstractBegin = pBegin;
-					nAbstractEnd = pEnd;
+			while (currEnd < text.length && !isAllIncluded(currBegin, currEnd))
+				currEnd++;
+			while (isAllIncluded(currBegin, currEnd)) {
+				if (currEnd - currBegin < minLen) {
+					minLen = currEnd - currBegin;
+					minBegin = currBegin;
+					minEnd = currEnd;
 				}
-				pBegin++;
+				currBegin++;
 			}
-			if (pEnd >= N)
+			if (currEnd >= text.length)
 				break;
 		}
-		for (int i = nAbstractBegin; i <= nAbstractEnd; i++)
+		for (int i = minBegin; i <= minEnd; i++)
 			System.out.print(text[i] + " ");
 	}
 
@@ -73,7 +70,7 @@ public class ExcerptShortest {
 	}*/
 
 	public static void main(String[] args) {
-		findExcerpt(text.length);
+		findExcerpt();
 	}
 
 }

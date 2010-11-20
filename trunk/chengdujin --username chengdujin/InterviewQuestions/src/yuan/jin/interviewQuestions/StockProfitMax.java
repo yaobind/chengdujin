@@ -13,24 +13,7 @@ import java.util.Arrays;
  * 
  */
 public class StockProfitMax {
-	// method2 O(n)
-	static void getBestTime(int stocks[]) {
-		int min = 0;
-		int maxDiff = 0;
-		int buy = 0, sell = 0;
-		for (int i = 0; i < stocks.length; i++) {
-			if (stocks[i] < stocks[min])
-				min = i;
-			int diff = stocks[i] - stocks[min];
-			if (diff > maxDiff) {
-				buy = min;
-				sell = i;
-				maxDiff = diff;
-				System.out.println(maxDiff + ": " + stocks[buy] + "-" + stocks[sell]);
-			}
-		}
-	}
-
+	
 	// method1 O(n) time O(n) space
 	static int compute(int[] input) {
 		int current = input[0], currstart = 0, currend = 0;
@@ -53,6 +36,25 @@ public class StockProfitMax {
 		}
 		return max;
 	}
+	
+	// method2 O(n)
+	static void getBestTime(int stocks[]) {
+		int min = 0;
+		int maxDiff = 0;
+		int buy = 0, sell = 0;
+		for (int i = 0; i < stocks.length; i++) {
+			if (stocks[i] < stocks[min])
+				min = i;
+			int diff = stocks[i] - stocks[min];
+			if (diff > maxDiff) {
+				buy = min;
+				sell = i;
+				maxDiff = diff;
+				System.out.println(maxDiff + ": " + stocks[buy] + "-" + stocks[sell]);
+			}
+		}
+	}
+
 
 	public static void main(String[] args) {
 		int[] input = { 3, 8, 5, 1, 7, 18, 16, 4 };

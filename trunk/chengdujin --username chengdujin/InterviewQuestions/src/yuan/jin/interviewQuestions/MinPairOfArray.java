@@ -22,11 +22,11 @@ public class MinPairOfArray {
 		int min = Math.abs(input[0]);
 		for (int i = 1; i < input.length; i++) {
 			current = current + input[i];
-			if (current <= 0)
+			if (current <= 0) {
 				if (Math.abs(current) < min)
 					min = Math.abs(current);
-				else
-					current = 0;
+			} else
+				current = 0;
 		}
 		return min;
 	}

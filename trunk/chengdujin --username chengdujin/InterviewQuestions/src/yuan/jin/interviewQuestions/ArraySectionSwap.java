@@ -11,7 +11,7 @@ import java.util.Arrays;
  */
 public class ArraySectionSwap {
 
-	private static void rightRotate(int[] seq, int start, int window) {
+	static void rightRotate(int[] seq, int start, int window) {
 		int temp = seq[start + window];
 		for (int i = (start + window - 1); i > (start - 1); i--)
 			seq[i + 1] = seq[i];

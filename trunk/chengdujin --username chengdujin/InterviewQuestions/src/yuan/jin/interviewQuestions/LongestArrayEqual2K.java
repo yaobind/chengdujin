@@ -13,20 +13,21 @@ package yuan.jin.interviewQuestions;
 public class LongestArrayEqual2K {
 	// O(n^2)
 	static int find(int[] a, int k) {
-		int initSum = 0;
 		int sum = 0;
+		int current = 0;
 		int maxLen = 0;
 		for (int i = 0; i < a.length; i++) {
-			sum = initSum = initSum + a[i];
+			sum += a[i];
+			current = sum;
 			for (int j = 0; j < i; j++) {
-				sum = sum - a[j];
-				if (sum <= k) {
-					if (maxLen < (i - j - 1)) {
-						maxLen = i - j - 1;
+				current = current - a[j];
+				if (current <= k) {
+					if (maxLen < (i - j)) {
+						maxLen = i - j;
 						System.out.print("* ");
+						System.out.println("Elements from " + (j + 1) + "("
+								+ a[j + 1] + ") to " + i + "(" + a[i] + ")");
 					}
-					System.out.println("Elements from " + (j + 1) + "("
-							+ a[j + 1] + ") to " + i + "(" + a[i] + ")");
 				}
 			}
 		}

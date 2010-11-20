@@ -17,21 +17,21 @@ import java.util.Arrays;
 public class NegativePositiveRearrange {
 
 	static int[] reorder(int[] a) {
-		int [] b = new int [a.length];
-		int i = 0, j =0;
-		for(; i < a.length; i++)
-			if(a[i] < 0)
+		int[] b = new int[a.length];
+		int i = 0, j = 0;
+		for (; i < a.length; i++)
+			if (a[i] < 0)
 				b[j++] = a[i];
-		for(i =0; i < a.length; i++)
-			if(a[i] >= 0)
+		for (i = 0; i < a.length; i++)
+			if (a[i] >= 0)
 				b[j++] = a[i];
 		return b;
 	}
 
 	public static void main(String[] args) {
 		int[] input = { -5, -7, 3, 4, -2, 9, -1, 7 };
-//		 int[] input = { 0, -4, 37, 4, 66, 5, -2, -3, 65, -6, 60, 39, 50, -8,
-//		 42, 33, 20, 29, 53, 36, 0, -20 };
+		// int[] input = { 0, -4, 37, 4, 66, 5, -2, -3, 65, -6, 60, 39, 50, -8,
+		// 42, 33, 20, 29, 53, 36, 0, -20 };
 		System.out.println(Arrays.toString(input));
 		System.out.println(Arrays.toString(reorder(input)));
 	}

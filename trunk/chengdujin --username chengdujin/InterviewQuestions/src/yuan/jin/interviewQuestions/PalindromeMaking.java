@@ -47,6 +47,22 @@ public class PalindromeMaking {
 		}
 		return s + sb.reverse().toString();
 	}
+	
+	// Figure out min characters to make the word a palindrome.
+	static int count(String s) {
+	    int i = 0;
+	    int j = s.length() - 1;
+	    int counter = 0;
+	    while (i < j) {
+	        if (!isPalindrome(s)) {
+	            s = s.substring(i+1);
+	            counter++;
+	        }
+	        i++;
+	        j--;
+	    }
+	    return counter;
+	}
 
 	static boolean isPalindrome(String s) {
 		int i1 = 0;
@@ -62,6 +78,7 @@ public class PalindromeMaking {
 
 	public static void main(String[] args) {
 		System.out.println(makePalindrome("FAE"));
+		System.out.println(count("FAEE"));
 	}
 
 }

@@ -45,5 +45,4 @@ public class TripletsSum2K {
 		int[] input = { -1, 2, 0, 4, 1, 2, -1, -4, 3 };
 		findTriplets(input, 5);
 	}
-
 }

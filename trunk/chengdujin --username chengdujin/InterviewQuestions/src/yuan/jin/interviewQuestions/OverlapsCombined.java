@@ -19,27 +19,9 @@ import java.util.List;
  */
 public class OverlapsCombined {
 
-	class Pair {
-		int x;
-		int y;
+	static List<Pair> list = new ArrayList<Pair>();
 
-		public Pair(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		@Override
-		public String toString() {
-			return "[" + this.x + "," + this.y + "]";
-		}
-
-	}
-
-	@SuppressWarnings("rawtypes")
-	static List list = new ArrayList();
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	List combine() {
+	static List<Pair> combine() {
 		int i = 0;
 		int j = 1;
 		while (j < list.size()) {
@@ -50,7 +32,7 @@ public class OverlapsCombined {
 				a.y = Math.max(a.y, b.y);
 				list.remove(i);
 				list.add(i, a);
-				list.remove(b);
+				list.remove(j);
 			} else {
 				i++;
 				j++;
@@ -59,18 +41,15 @@ public class OverlapsCombined {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
-	void init() {
+	public static void main(String[] args) {
 		list.add(new Pair(1, 3));
 		list.add(new Pair(2, 4));
 		list.add(new Pair(5, 6));
-
 		list.add(new Pair(-3, 0));
 		list.add(new Pair(8, 9));
 		list.add(new Pair(4, 6));
 		list.add(new Pair(1, 3));
 		list.add(new Pair(5, 7));
-
 		Collections.sort(list, new Comparator<Pair>() {
 			@Override
 			public int compare(Pair o1, Pair o2) {
@@ -78,12 +57,22 @@ public class OverlapsCombined {
 			}
 		});
 		System.out.println(list.toString());
+		System.out.println(combine().toString());
+	}
+}
+
+class Pair {
+	int x;
+	int y;
+
+	public Pair(int x, int y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	public static void main(String[] args) {
-		OverlapsCombined over = new OverlapsCombined();
-		over.init();
-		System.out.println(over.combine().toString());
+	@Override
+	public String toString() {
+		return "[" + this.x + "," + this.y + "]";
 	}
 
 }

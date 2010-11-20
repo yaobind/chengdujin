@@ -18,7 +18,7 @@ public class NFloors {
 
 	static void printLadderPath(int[] path, int height, int level) {
 		int i = 0, sum = 0;
-		for (i = 0, sum = 0; i < level; i++) {
+		for (; i < level; i++) {
 			sum += path[i];
 		}
 		if (sum == height) {
@@ -29,13 +29,11 @@ public class NFloors {
 		}
 		if (sum <= height - 1) {
 			path[level] = 1;
-			printLadderPath(path, height, ++level);
-			level--;
+			printLadderPath(path, height, level + 1);
 		}
 		if (sum <= height - 2) {
 			path[level] = 2;
-			printLadderPath(path, height, ++level);
-			level--;
+			printLadderPath(path, height, level + 1);
 		}
 	}
 
