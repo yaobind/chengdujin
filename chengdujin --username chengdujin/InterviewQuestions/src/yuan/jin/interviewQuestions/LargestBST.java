@@ -1,11 +1,14 @@
 package yuan.jin.interviewQuestions;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 /**
  * Given a binary tree, find the largest subtree which is a Binary Search Tree
  * (BST), where largest means subtree with largest number of nodes in it.
+ * 
+ * http://www.rawkam.com/?p=822
  * 
  * http://www.ihas1337code.com/2010/11/largest-binary-search-tree-bst-in.html
  * 
@@ -90,6 +93,28 @@ public class LargestBST {
 		}
 	}
 
+	// method 2: much simpler
+	// http://www.rawkam.com/?p=822
+	static int maxSortedSequence(int[] arr) {
+		int[] aux = new int[arr.length];
+		int i;
+		for (i = arr.length - 2; i >= 0; i--)
+			if (arr[i] < arr[i + 1])
+				aux[i] = aux[i + 1] + 1;
+		int max = aux[0];
+		int startIndex = 0;
+		for (i = 1; i < arr.length; i++) {
+			if (aux[i] > max) {
+				max = aux[i];
+				startIndex = i;
+			}
+		}
+		for (i = startIndex; i < startIndex + max + 1; i++)
+			System.out.print(arr[i] + " ");
+		System.out.println();
+		return max + 1;
+	}
+
 	public static void main(String[] args) {
 		LNode root = new LNode(10);
 		root.left = new LNode(5);
@@ -97,8 +122,10 @@ public class LargestBST {
 		root.left.left = new LNode(1);
 		root.left.right = new LNode(8);
 		root.right.right = new LNode(7);
-		printBSF(root);
-		System.out.println(find(root));
+//		printBSF(root);
+//		System.out.println(find(root));
+		int[] seq = { 1, 5, 8, 10, 15, 7};
+		System.out.println(maxSortedSequence(seq));
 	}
 
 }
