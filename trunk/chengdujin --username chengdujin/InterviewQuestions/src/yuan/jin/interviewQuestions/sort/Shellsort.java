@@ -5,6 +5,8 @@ import java.util.Arrays;
 /**
  * Best O(n) Worst depends on gap sequence. Best known: O(nlog2n)
  * 
+ * http://rosettacode.org/wiki/Sorting_algorithms/Shell_sort#Java
+ * 
  * @author Yuan
  * 
  */
