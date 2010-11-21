@@ -1,11 +1,8 @@
 package yuan.jin.interviewQuestions;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 import java.util.Stack;
-import java.util.Vector;
 
 /**
  * Pre-order, In-order and Post-order tree traversal's iterative solution

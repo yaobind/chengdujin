@@ -10,6 +10,31 @@ package yuan.jin.interviewQuestions;
  */
 public class MinPairOfArray {
 
+	// http://tech-queries.blogspot.com/2010/07/maximum-difference-in-array.html
+	static void max(int[] a) {
+		int curri = 0, currj = 1, maxDiff = 0, maxi = 0, maxj = 0;
+		int currDiff = a[currj] - a[curri];
+		for (int i = 2; i < a.length; i++) {
+			if (a[i] < a[curri]) {
+				curri = i;
+				currDiff = a[maxj] - a[curri];
+				if (currDiff > maxDiff) {
+					maxi = curri;
+					maxDiff = currDiff;
+				}
+			} else {
+				currj = i;
+				currDiff = a[currj] - a[maxi];
+				if (currDiff > maxDiff) {
+					maxj = currj;
+					maxDiff = currDiff;
+				}
+			}
+		}
+		System.out.println("i = " + maxi + " j = " + maxj + " diff = "
+				+ maxDiff);
+	}
+
 	static int findMinDiff(int[] input) {
 		int[] input2 = new int[input.length - 1];
 		for (int i = 0; i < input.length - 1; i++)
@@ -32,9 +57,10 @@ public class MinPairOfArray {
 	}
 
 	public static void main(String[] args) {
-		// int[] seq = { 15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14 };
+//		 int[] seq = { 15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14 };
 		int[] seq = { 56, 44, 8, 59, 120, 9, 121, -6, -10, 90, -11 };
-		System.out.println(findMinDiff(seq));
+//		System.out.println(findMinDiff(seq));
+		max(seq);
 	}
 
 }
