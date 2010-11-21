@@ -31,14 +31,14 @@ public class Permutations {
 			System.out.println((counter++) + "." + result.toString());
 			return;
 		}
-		char prev = '\0';
+//		char prev = '\0';
 		for (int i = 0; i < input.length(); i++) {
 			if (used[i])
 				continue;
-			if (prev == cquence[i])
-				continue;
-			else
-				prev = cquence[i];
+//			if (prev == cquence[i])
+//				continue;
+//			else
+//				prev = cquence[i];
 			result.append(cquence[i]);
 			used[i] = true;
 			rekrPermute1();

@@ -7,7 +7,7 @@ package yuan.jin.interviewQuestions;
  * @author Yuan
  * 
  */
-public class TrailingZerosOfFactorial {
+public class FactorialTrailingZeros {
 	
 	static int numZeros(int n) {
 		int count = 0;
