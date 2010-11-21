@@ -1,6 +1,6 @@
 package yuan.jin.interviewQuestions;
 
-public class NonZeroDigitOfFactorial {
+public class FactorialNonZeroDigit {
 	private static int last_digit_factorial(int N) {
 		int i, j, ans = 1, a2 = 0, a5 = 0, a;
 		for (i = 1; i <= N; i++) {
