@@ -6,7 +6,7 @@ package yuan.jin.interviewQuestions;
  * @author Yuan
  * 
  */
-public class SquareRoot {
+public class Sqrt {
 
 	private static double computeSquareRoot(int value) {
 		double estimated = value / 2;

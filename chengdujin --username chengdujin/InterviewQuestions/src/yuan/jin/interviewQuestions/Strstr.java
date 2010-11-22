@@ -29,7 +29,7 @@ public class Strstr {
 		}
 		return false;
 	}
-	
+	// my modified version
 	static boolean strstr(String str1, String str2) {
 		char[] c1 = str1.toCharArray();
 		char[] c2 = str2.toCharArray();

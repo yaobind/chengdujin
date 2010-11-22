@@ -18,15 +18,15 @@ public class TelephoneNumber {
 	    }
 	    
 	    for (int i = 1; i <= 3; i++) {
-	        result[curDigit] = (char) getCharKey(phoneNum[curDigit], i);
+	        result[curDigit] = getCharKey(phoneNum[curDigit], i);
 	        doPrintTelephoneWords(phoneNum, curDigit+1, result);
 	        if (phoneNum[curDigit] == 0 || phoneNum[curDigit] == 1)
 	            return;
 	    }
 	}
 	
-	int getCharKey(int number, int position) {
-		return 0;
+	char getCharKey(int number, int position) {
+		return 'A';
 	}
 	
 	public static void main(String[] args) {
