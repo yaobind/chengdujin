@@ -76,6 +76,15 @@ public class ReverseLinkedlist {
 			head = head.next;
 		}
 	}
+	
+	static void printReverse(BNode head) {
+		if (head == null)
+			return ;
+		else {
+			printReverse(head.next);
+			System.out.print(head.data + " ");
+		}
+	}
 
 	static List<BNode> list = new ArrayList<BNode>();
 
@@ -92,8 +101,9 @@ public class ReverseLinkedlist {
 		head.next.next.next.next = new BNode(5);
 		list.add(head.next.next.next.next);
 		// BNode tail = reverseListRecursive(head);
-		BNode tail = reverseKBNodes(head, 2);
-		print(tail);
+//		BNode tail = reverseKBNodes(head, 2);
+//		print(tail);
+		printReverse(head);
 	}
 
 }
