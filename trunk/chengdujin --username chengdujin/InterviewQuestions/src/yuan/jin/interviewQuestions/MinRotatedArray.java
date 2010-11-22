@@ -30,8 +30,8 @@ public class MinRotatedArray {
 	}
 
 	public static void main(String[] args) {
-		// int[] sequence = { 15, 16, 19, 20, 25, 1, 3, 4, 5, 7, 10, 14 };
-		int[] sequence = { 7, 8, 9, 1, 2, 3, 4, 5, 6 };
+		int[] sequence = { 15, 16, 19, 20, 25, 2, 3, 4, 5, 7, 9, 10, 11, 12, 14 };
+		// int[] sequence = { 7, 8, 9, 1, 2, 3, 4, 5, 6 };
 		// int[] sequence = { 6, 7, 8, 1, 2, 3, 4, 5 };
 		int val = min(sequence);
 		System.out.println("The minimum is " + val);
