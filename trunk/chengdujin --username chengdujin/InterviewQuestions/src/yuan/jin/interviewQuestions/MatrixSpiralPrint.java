@@ -20,11 +20,11 @@ public class MatrixSpiralPrint {
 		m1(test3);
 	}
 
+	// method1 prints out the matrix spirally
 	private static void m1(int[][] input) {
 		int i, w, h, k;
 		int height = input.length;
 		int width = input[0].length;
-		
 		for (i = 0, w = width - 1, h = height - 1; w > 0; i++, w--, h--) {
 			for (k = i; k < w; k++)
 				System.out.println(input[i][k]);
@@ -37,6 +37,7 @@ public class MatrixSpiralPrint {
 		}
 	}
 
+	// method2 creates a spiral matrix
 	private static void m2(int[][] input) {
 		int x = 0, y = 0;
 

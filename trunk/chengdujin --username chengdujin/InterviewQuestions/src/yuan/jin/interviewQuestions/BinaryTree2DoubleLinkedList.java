@@ -58,7 +58,7 @@ public class BinaryTree2DoubleLinkedList {
 		aList = append(aList, bList);
 		return aList;
 	}
-	
+
 	// http://www.mitbbs.com/article_t/JobHunting/31602199.html
 	// Take note at DSW algorithm
 	static void bst2LL(BNode root, BNode list) {
@@ -71,38 +71,36 @@ public class BinaryTree2DoubleLinkedList {
 		list = root;
 		bst2LL(root.prev, list);
 	}
-
+	
 	/**
 	 * iterative
 	 */
-	static BNode inorderTraversal(BNode root, BNode head) {
+	static BNode inorder(BNode root, BNode head) {
 		if (root == null)
 			return null;
-		Stack s = new Stack();
-		BNode current = root;
-		boolean done = false;
-		while (!done) {
-			if (current != null) {
-				s.push(current);
-				current = current.prev;
+		Stack<BNode> s = new Stack<BNode>();
+		while (true) {
+			if (root != null) {
+				s.push(root);
+				root = root.prev;
 			} else {
 				if (s.isEmpty())
-					done = true;
+					break;
 				else {
-					current = (BNode) s.pop();
-					System.out.print(current.data + " ");
+					root = (BNode) s.pop();
+					System.out.print(root.data + " ");
 					if (head == null) {
-						head = new BNode(current.data);
+						head = new BNode(root.data);
 						head.next = null;
 						head.prev = null;
 					} else {
-						BNode node = new BNode(current.data);
+						BNode node = new BNode(root.data);
 						node.prev = head;
 						node.next = null;
 						head.next = node;
 						head = node;
 					}
-					current = current.next;
+					root = root.next;
 				}
 			}
 		}
@@ -160,7 +158,7 @@ public class BinaryTree2DoubleLinkedList {
 		BNode head = null;
 		// for better efficiency
 		// http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284994103_2.g0/ms%C3%E6%CA%D4%CC%E2
-		inorderTraversal(root, head);
+		inorder(root, head);
 		printList(head); // 1 2 3 4 5 yay!
 	}
 }
