@@ -7,6 +7,8 @@ package yuan.jin.interviewQuestions;
  * 
  * Modified from http://www.doctorinterview.com/A/2A/2A44.html
  * 
+ * Compare with ConsecutiveIntegers
+ * 
  * @author Yuan
  * 
  */
@@ -28,6 +30,7 @@ public class LongestArrayEqual2K {
 						System.out.println("Elements from " + (j + 1) + "("
 								+ a[j + 1] + ") to " + i + "(" + a[i] + ")");
 					}
+					break;
 				}
 			}
 		}

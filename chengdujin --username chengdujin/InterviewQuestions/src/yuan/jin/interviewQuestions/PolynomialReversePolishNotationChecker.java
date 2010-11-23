@@ -28,7 +28,6 @@ public class PolynomialReversePolishNotationChecker {
 			} else {
 				part = scan.next();
 				double a = 0, b = 0;
-				System.out.println(part.length());
 				for (int i = 0; i < part.length(); i++) {
 					switch (part.charAt(i)) {
 					case '+':

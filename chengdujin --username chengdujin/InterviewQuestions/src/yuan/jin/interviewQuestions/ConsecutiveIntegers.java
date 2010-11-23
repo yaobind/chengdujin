@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M
  * .1284782598_2.w0/%BC%B8%B5%C0%C3%E6%CA%D4%CC%E2
  * 
- * It is very much like the coin change problem.
+ * It is very much like the coin change problem. Compare with LongestArrayEqual2K
  * 
  * @author Yuan
  * 
