@@ -68,7 +68,7 @@ public class MaxValueContiguousSequence {
 
 	// method2, without using class ....
 	static int sum(int[] a) {
-		int max = 0, mi, mj;
+		int max = 0, mi = 0, mj = 0;
 		int curr = 0, ci = 0, cj = 0;
 		for (int i = 0; i < a.length; i++) {
 			int temp = curr + a[i];

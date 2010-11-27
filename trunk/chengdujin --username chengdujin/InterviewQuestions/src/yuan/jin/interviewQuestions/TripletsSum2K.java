@@ -18,7 +18,7 @@ import java.util.Arrays;
  * 
  */
 public class TripletsSum2K {
-
+	// O(nlgn)
 	static void findTriplets(int[] arr, int key) {
 		Arrays.sort(arr);
 		int n = arr.length;

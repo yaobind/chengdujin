@@ -31,7 +31,7 @@ package yuan.jin.interviewQuestions;
  */
 public class CountAndSay {
 	
-	private static String countAndSay(int n) {
+	static String countAndSay(int n) {
 		StringBuilder prev = new StringBuilder("1");
 		StringBuilder curr = new StringBuilder();
 		while (n-- > 0) {
