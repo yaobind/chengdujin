@@ -137,16 +137,36 @@ Maths
 
 Questions in the Placement
 1. Unsorted array - Find i, j such that a[i] + a[j] is max. Find solution better than O(nlgn).
+
 2. Partitioning a given integer n into unique partitions of size m, like if n = 10, m = 4, 7111 is one such partition. Give all such partitions.
+
 3. Given 2 arrays of arbitrary sizes N and M each. Write a program for finding mutual exclusion of these two arrays. (Copy the non-common elements into another array).
+
 4. Find a saddle point in matrix. (smallest in its row and largest in its column)
+
 5. Given sorted array and an integer C, find 2 elements a[i] and a[j] such that their difference is C. O(n)
+
 6. A matrix, print it from top-left anti-clockwise
+
 7. Given 4 points write a program for finding whether the points form a square or not. -- Angles, Sides, diagonal three aspects of looking at it.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Questions from Avidullu
 http://avidully.wordpress.com
+
 17.1. Given that you have one string of length N and M small strings of length L . How do you efficiently find the occurrence of each small string in the larger one ?
 
 17.6. Given a list of machines where each machine has a hard disk limit and memory capacity and given a list of processes where each process requires certain hard disk space and memory, write an efficient algorithm to match processes to machines. (You may assume process to server mapping is 1:1).
@@ -231,4 +251,109 @@ Find all the ‘pair of words’ that occur together in one and only document.
 
 10.2. You are given a set of n points in a XY plane. Suggest an algorithm to determine if every point is at least separated by every other point by a Manhattan distance of 5 units. Return should be true or false. Better than O(n^2).
 
-107. Write a function that takes an array of five integers, each of which is between 1 and 10, and returns the number of combinations of those integers that sum to 15. For example, calling the function with the array [1, 2, 3, 4, 5] should return 1, while calling it with [5, 5, 10, 2, 3] should return 4 (5 + 10, 5 + 10, 5 + 5 + 2 + 3, 10 + 2 + 3). You may assume that the input has already been validated. Show how you would test this function.
+10.7. Write a function that takes an array of five integers, each of which is between 1 and 10, and returns the number of combinations of those integers that sum to 15. For example, calling the function with the array [1, 2, 3, 4, 5] should return 1, while calling it with [5, 5, 10, 2, 3] should return 4 (5 + 10, 5 + 10, 5 + 5 + 2 + 3, 10 + 2 + 3). You may assume that the input has already been validated. Show how you would test this function.
+
+9.1. How to find two vertices of a polygon which are farthest from each other in linear time.
+
+9.2. Given a string find the number of distinct substrings of the string.
+ex:
+input-> aaaa
+output-> 4(a, aa, aaa, aaaa)
+input->abcd
+output->10(a, b, c, d, ab, bc, cd, abc, bcd, abcd)
+
+9.8. Given a number line 1734, how to return the next higher permutation of its digits.
+
+9.9. Sort the input array. Only following operations on array is allowed:
+1)get(index) -gets the element at that index
+2)reverse(int start,int end) – example reverse(1,3) for the array [1,2,3,4,5] will return [1,4,3,2,5]
+
+9.10. Given a large set of balls say N such that these balls are identical if they are of the same color. We have to randomly pick one of the balls such that the probability of picking is the same. Find an efficient way of solving this in terms of space and running time complexity.
+
+8.1. Find the longest common subsequence of given N strings each having length between 0 to M.
+
+8.3. Given a bst of n nodes, find two nodes whose sum is equal to a number k in O(n) time and constant space
+
+8.4. We have N element array with k distinct keys. sort this array without using any extra memory.
+
+8.5. You buy a newspaper and notice that page 8 and 21 are on the same sheet. Can you infer the total number of pages in the newspaper?
+
+8.6. Given two sorted postive integer arrays A(n) and B(n) (let’s say they are decreasingly sorted), we define a set S = {(a,b) | a \in A and b \in B}. Obviously there are n^2 elements in S. The value of such a pair is defined as Val(a,b) = a + b. Now we want to get the n pairs from S with largest values. in O(n).
+
+7.2. Given a polygon and a point, you have to find that whether the point is inside the polygon or outside.
+
+7.3. How to identify bits that alternate 1 and 0. Ex: 101010, 10101, 01010, 01
+
+7.5. What has to be done in order to be able to do a O(logn) binary search on a linked list.
+
+7.6. Given a sorted array (ex. {1,2,3,4,5,6,7,8}). A random number from the array is taken and put the left side array to right side and left side array to right side. In the example; if 6 is randomly taken, the array will become like {7,8,6,1,2,3,4,5}
+Question:
+Given the above mangled array, write a searching algorithm to find a number present or not. That algo should not be of O(n) solution.
+
+7.7. Write a function which takes a number as input and returns it next number. Condition: the next and given number should have equal number of 1′s in its binary format.
+Example: 5 – 101 its next number 6-110. both have two 1′s.
+
+6.1. Given an array of integers A[N], find the maximum value of (j-k) such that A[k] <= k and j > k.
+
+6.4. Given a>0 can you compute a^-1 without any division?
+
+6.5. 100 digits are chosen at random. What is the probability to find two numbers, a and b, such that a^2=b and each digit is used just one time in forming the two numbers?
+
+6.6. You are given a sequence of m distinct numbers extracted by a set of 1…n numbers, with m < n. Can you give an efficient algorithm for identifying a number non in the sequence.
+
+6.8. Given an array of integers from 1 to N, and given a number X, how many ways are there to pick X elements from the array such that no two elements in the selected X elements are consecutive.
+
+6.9. Given a log file which has customer id and corresponding to that id it has a page id visited by that customer. Given such log files for 3 consecutive days, design an algo to find those customers which visited the site on exactly 2 out of 3 days and visited at least 3 distinct pages. Discuss the design and space complexity. Optimize (question is not about using unix tricks)
+
+6.10. Given a log file with first field being an url and second being the render time of that page. find the page with least render time. Url is accessed many times like 50 times or 100 times. every access has an entry so we have to find the average.
+
+6.11. Which is the DS used in dictionary mode in mobile (t9)
+
+6.12. Write a program which given a numerator and a denominator, prints the fractional value in a special format. eg. Numerator: 1, Denominator: 3. So Num/Denom = 0.3333333333, but output should be .(3) similarly 0.123123 as .(123) also 0.34232323 as 0.34(23)
+
+6.13. Given a string construct a new string containing the occurrences of unique characters in it. You can
+assume that only a-z & A-Z appear in the string with ‘a’ being different from ‘A’. Also the letters in the output string must be in the order of their occurrence in the input string.
+e.g. for the string “ThunderBirdFirefox” you must return the string “T1h1u1n1d2e2r3B1i2F1f1o1x1″
+
+6.14. Given an integer array of which both first half and second half are sorted. Write a function to merge the two parts to create one single sorted array in place [do not use any extra space].
+e.g. If input array is [1,3,6,8,-5,-2,3,8] It should be converted to: [-5,-2,1,3,3,6,8,8]
+
+6.15. If the Fibonacci series is 1,2,3,5,8,13,….. then 10 can be written as 8 + 2 ==> 10010 and 17 can be written as 13 + 3 + 1 ==> 100101. Got it??
+The Question was, given n, I need to get all possible representations of n in Fibonacci Binary Number System.
+as 10 = 8 + 2 ==> 10010
+also 10 = 5 + 3 + 2 ==> 1110
+
+6.17. Given a string S of alphabets and 2 characters a,b find the minimum distance between instances of them such that position of a <= position of b.
+
+5.5. Given an n X n array with rows sorted and cols sorted, find the number of negative elements in most efficient way.
+
+5.7. Design a data structure with the following properties.
+a. Insert in O(logn)
+b. Delete in O(logn)
+c. FindMin in O(logn)
+d. FindMax in O(logn)
+
+5.8. How will you find the number of all possible common subsequences between 2 given strings.
+
+4.6. Suppose the positive integer n is odd. I write the numbers 1, 2, 3, …, 2n on the blackboard. Then I pick two numbers a, b, erase them and write, instead, |a-b|. Continue this practice till a single number remain on the board. Prove that an odd number will remain at the end.
+
+4.7. Given an array with some repeating numbers. Like 12,6,5,12,6.
+output should be printed as 12,12,6,6,5; i.e, all occurrences of the no. should come together and nos. should come in the order given in the array.
+
+3.1. Given and Array of A[1..n] bits, find the length of longest consecutive substring of 0 and 1 such that number of 0s and 1s are equal.
+
+3.3. In a 1D rotated (about an unknown index) sorted array, an element is local minimum if a[i-1] < a[i] < a[i+1]. How to find an index where local minimum exists in O(logn). Similar question in a 2D array where a local minimum is the number which is smaller than all its 4 neighbors.
+
+3.5. You are given a character array say "aabcdadabc"-you have to generate all unique patterns(subarrays) containing 2 or more chars? Minimize time and space complexity.
+
+3.6. Given an array of 'n' random integers. Given an integer 1<=n. Find the k numbers such that the minimum difference of all the possible pairs of k numbers is maximum (maximum among other minimum differences for various possible selections of k numbers ).
+
+2.1. You are given 2 arrays of size ‘n’ each. You need to stable-merge these arrays such that in the new array sum of product of consecutive elements is maximized.
+e.g.
+A= { 2, 1, 3}
+B= { 3, 7, 9}
+Stable merging A and B will give an array C with ’2n’ elements say C={c1, c2, c3, c4, c5, c6}
+You need to find a new array C by merging (stable) A and B such that sum= c1*c2 + c3*c4 + c5* c6….. n terms is maximum.
+
+1.1. Consider a binary tree, and listing of its nodes in the inorder traversal. Now write a function such that given any node in the tree it returns the next node that is visited by in the inorder traversal program.
+E.g. if the is tree is like root – 1 has children 2, 3. 2 has children 4, 5. Then given 4, it should return 2 and given 5 it should return 1 etc.
