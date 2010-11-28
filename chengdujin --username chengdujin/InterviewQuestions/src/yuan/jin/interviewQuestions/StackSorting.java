@@ -4,8 +4,8 @@ import java.util.Random;
 import java.util.Stack;
 
 public class StackSorting {
-	static Stack s1 = new Stack();
-	static Stack s2 = new Stack();
+	static Stack<Integer> s1 = new Stack<Integer>();
+	static Stack<Integer> s2 = new Stack<Integer>();
 
 	static void sort() {
 		while (!s1.isEmpty()) {
