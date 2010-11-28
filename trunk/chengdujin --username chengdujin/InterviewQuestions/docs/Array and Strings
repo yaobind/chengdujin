@@ -1388,3 +1388,13 @@ Q: You have a matrix with 0 & 1 with rows being in sorted order. Find the row wi
 0 1 1 1 1
 0 0 1 1 1
 A: <http://inder-gnu.blogspot.com/2010/03/find-row-with-minumum-0s.html> (已建工程RowWithMin0s)
+
+115.
+Q: Given that you have one string of length N and M small strings of length L . How do you efficiently find the occurrence of each small string in the larger one ?
+A: <http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html>
+This solution has been framed on the assumption that all the occurances of a string in the large string of length N are to be reported.
+So one can just sort the M strings in O(l*Mlog(M)).An additional l figures because comparison function of strings of length l is of complexity O(l).
+Once these M strings are sorted,we can simply do a binary search on them for each of the N-l+1 continuous substrings of big string.The complexity of this search for each such substring is O(l*logM).
+So the complexity of this procedure is O(l*MlogM)+O((N-l+1)*(l*logM)).
+For N>>l this reduces to O(l*MlogM)+O(N*l*log(M).
+This can be reduced to O((M+N)*l*log(M)).

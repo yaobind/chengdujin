@@ -143,3 +143,92 @@ Questions in the Placement
 5. Given sorted array and an integer C, find 2 elements a[i] and a[j] such that their difference is C. O(n)
 6. A matrix, print it from top-left anti-clockwise
 7. Given 4 points write a program for finding whether the points form a square or not. -- Angles, Sides, diagonal three aspects of looking at it.
+
+
+Questions from Avidullu
+http://avidully.wordpress.com
+17.1. Given that you have one string of length N and M small strings of length L . How do you efficiently find the occurrence of each small string in the larger one ?
+
+17.6. Given a list of machines where each machine has a hard disk limit and memory capacity and given a list of processes where each process requires certain hard disk space and memory, write an efficient algorithm to match processes to machines. (You may assume process to server mapping is 1:1).
+
+17.7. A container is filled up with balls. Each ball has a value. Red = 7, Yellow = 5, Green = 2, Blue 2. Some balls are removed from the container and the product of their value is 147,000. How many red balls have been removed?
+
+16.2. A file is given with many 0s stored in continuous way , store it in another file such that when you store try saving the space by using minimum amount of space. When you want to create the original file , you should be able to do so with the new file created.
+
+16.3. Propose a data structure that would store numbers, without any knowledge about them, and allow to perform the operations: insert, get median, as efficiently as possible. Modify/optimize your design, only this time the numbers are from a group V, which is |V|<<n. [Hint: O(logn), O(logn)]
+
+16.4. Given N computers networked together, with each computer storing N integers, describe a procedure for finding the median of all of the numbers. Assume that a computer can only hold O(N) integers (i.e. no computer can store all N^2 integers). Also assume that there exists a computer on the network without integers, that we can use to interface with the computers storing the integers.
+
+15.2. Given a char array with words in it, find all ‘a’ characters and replace with xyz. Modify the input array, do not create a copy of the array.
+
+15.3. How do you output the nodes from a binary search tree given a range
+
+15.5. Write a program to arrange numbers from 1 to 16 such that the sum of two consecutive numbers is a perfect square.
+
+14.2. Given a BST, print all the values >=vmin and <=vmax. Time complexity should be better than O(n). O(logn + (vmax-vmin)) in worst case. No parent pointers are available.
+
+14.4. Write a function: int count_div(int a,int b,int k);
+That given three integer numbers a, b and k return number of integers from range [a..b] divisible by k, i.e.: For example, for a=6, b=11, and k=2, your function should return 3, because there are 3 numbers divisible by 2 in the range [6..11], namely 6, 8 and 10. You can assume that , and k>0.
+
+14.5. Given is an array of integers. Element is called an extreme if no other element’s value is more distant from the average. Write a function
+int extreme(int[] A);
+That given an array of integers returns the index of an extreme (any one of them if there are many).
+If no extreme exists, the function should return -1.
+A[0]=9, A[1]=4, A[2]=-3, A[3]=-10
+the index of an extreme is 3, because the average of the array is
+(9 + 4 + (-3) + (-10)) / 4 = 0
+and in this array no value is further from 0 than -10
+
+14.6. Say you need to design a web application which needs to support friends of friends function(like in linked in, when you search a person, it will show you if this person is linked with you, your connection or your connections’ conection…), we expect to have millions of users and each user may have thousands of friends, how would you design/implement this function to make it scalable.
+
+14.7. Given two n digit prime numbers, change the first number to the second by changing one digit at a time. The resulting intermediate numbers should also be prime.
+
+14.10. Given a list of strings say N, how would you write a perfect hash function and ensure 0 collisions?
+
+13.4. Given a 3d plane, and infinite points find kth closest point from a given point.
+
+13.10. Given a dictionary of words and a string with all spaces removed, return whether the string is composed of valid words
+e.g
+helloworld-> hello world (valid)
+isitniceinhere-> is it nice in here (valid)
+zxyy-> invalid
+
+13.4. Write pattern matching algorithm.
+i.e isMatch(String,Pattern)
+Pattern can have ?(one character) and *(many characters).
+ex. abbdef and a?b*f are a match
+aaabab and a*ba are not a match
+
+13.5. Pretend there is a robot that has to navigate a maze (N x M). The robot can only move down or right and the maze can contain walls. Write an algorithm to determine the number of paths the robot can take.
+
+13.6. Write a function to find the nearest link on a webpage given the mouse x,y coordinates. If your algorithm just iterates through all the links, give an idea of how to make it faster.
+
+13.8. There is a byte array which contains the character of one byte and two bytes. One byte character has range 0 to 127 and first character of 2 byte character is 128 to 255 and second byte character has range 0 to 255. Now, two pointers are given, one points to the start of the and another points to somewhere else. Tell which character 2nd pointers points to?
+
+13.9. You have a graph with and start point A and end point B. All edges have positive weights. Now the shortest path from A to B can be found using Djikstra.
+a) Find the kth shortest path
+b) Find the longest path
+
+12.2. How will you go about implementing google suggest kind of functionality for a cellphone.
+
+12.7. You have millions of documents numbered 1,2,3,4,5 ……
+You also have a mapping from a word to the list of documents that contains it.
+Find all the ‘pair of words’ that occur together in one and only document.
+
+12.8. How will you find the page with most incoming links from billions of web-pages.
+
+11.1. Given 10K of 16bit integers and unlimited memory, find most efficient algorithm that counts number of bits set to 1.
+
+11.3. Print elements that are in a vertical column (per column) in a Binary tree
+
+11.4. Given customer vs visited pages log for three days, find the customers who have visited for exactly 2 days and visited page count > 2. Customer can visit the same page any number of times.
+
+11.6. Palindrome Date: A date is said to be a palindrome when it is expressed in MMDDYYYY format, it reads the same both ways. Given 2 years as input(ex: 2000, 2010), print out all the dates which are palindrome dates.
+
+11.8. Write a preorder traversal of a binary search tree w/o recursion / stack / extra memory storage. Hint – you can augment the node data structure. However, you can’t add a visited field to the node.
+
+11.11. An array is given like {1,4,5,2,3,6,7}. sort the odd elements in descending order and even numbers in ascending order. so result would be {7,5,3,1,2,4,6}.
+
+10.2. You are given a set of n points in a XY plane. Suggest an algorithm to determine if every point is at least separated by every other point by a Manhattan distance of 5 units. Return should be true or false. Better than O(n^2).
+
+107. Write a function that takes an array of five integers, each of which is between 1 and 10, and returns the number of combinations of those integers that sum to 15. For example, calling the function with the array [1, 2, 3, 4, 5] should return 1, while calling it with [5, 5, 10, 2, 3] should return 4 (5 + 10, 5 + 10, 5 + 5 + 2 + 3, 10 + 2 + 3). You may assume that the input has already been validated. Show how you would test this function.
