@@ -1,7 +1,10 @@
 package yuan.jin.interviewQuestions;
 
 /**
- * Write an Efficient Method to Check if a Number is Multiple of 3.
+ * Write an Efficient Method to Check if a Number is Multiple of 3. Or, Suppose
+ * you are getting an infinite binary stream of characters then after any point
+ * of time you need to print whether the no is divisible by 3 or not, how will
+ * you do that?
  * 
  * The very first solution that comes to our mind is the one that we learned in
  * school. If sum of digits in a number is multiple of 3 then number is multiple
