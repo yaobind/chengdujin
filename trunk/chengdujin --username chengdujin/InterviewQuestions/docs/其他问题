@@ -1,0 +1,187 @@
+其他问题
+
+
+>>>>>>>>>>>> 找出前N个数， 与时间有关
+1. 
+1 billion query里选出时间最近5分钟内最frequent的1000个,one pass
+
+2. 
+海量日志数据，提取出某日访问百度次数最多的那个IP。 
+
+3.
+Q: you have a billion google searches a day, design a data structure which lets you pull out the top 100 unique ones at the end of the day.
+A: <http://www.glassdoor.com/Interview/There-were-2-questions-1-design-and-1-implementation-The-design-was-something-like-the-following-you-have-a-billion-goog-QTN_19461.htm>
+You don't have to store each search query individually - think string hash - you can create a dictionary of hash to word and store each search query as a single byte per word (allowing you 65536 words - enough for the english language at least). Two bytes per word would give you 4billion possible words. Each search query can be represented by a combination of word hashs, so you create another hash table containing (combined hash -> count). A billion non-repeating search queries, assuming an average of five words per query, would be stored in 10GB. At the end of the day, you can iterate through the data and use a min heap to store the top results. If the next value is greater than the current min, insert it in the min heap and remove the current min (root node). Finally, sort the heap.
+
+4. 
+Facebook的log，如果每个log文件有10 billion行，每行包括timestamp, user_id, visited page三个field。如果高效的统计一个月内用户访问量最多的十个网页。假设文件已经按照timestamp排好序了。不用写code，谈想法就成。我的解法是，如果内存足够，建立一个<网页,访问数>的hash表，每读入一条记录，该网页key对应的项加一。但是加入内存不够大，可能需要map reduce方法。面试官马上说，内存根本不是问题，用个4G或者8G内存来算这个月访问量很值得，不要省内存。然后我说，那hash表就好了。面试官表示赞许，接着提出引申问题：
+
+5.
+假设我们已经算了一个月的，如果这个滑动窗口要往前移动一个delta量，就是说，已经算好timestamp=[t_1..t_x]区间的访问量，要计算timestamp=[t_2..t_x+1]的访问量，提出高效算法。当然，最brute force的方法就是针对[t_2..t_x+1]再建一个hash表，显然这不是面试官想要的。我提出来，可以建个multi-level hash表，外层为网页，内层为timestamp，但是仔细想想也不算好。
+
+6.
+然后问我给定一个FaceBook log file，100 billion行，每一行记录含“timestamp user_id visited_page”，找到top 10 最长出现的三连串访问模式。比如user先后访问了页面a,b,a，那么就形成一个模式a->b->a。但是记录没有按照timestamp排好序！我的答案是，1）brute force：对整个文件先对timestamp再对user id排序，然后建hash表，读入log文件，对每一个模式计数。 2）map-reduce：将每一个user id对应的记录读到单独的机器上--map，接着对timestamp排序建hash表，这样效率高些，然后--reduce，将intermediate结果对每个模式key累加，计算最后结果。然后因为只需要top10，可以用一个10个元素的min heap维护当前top 10。哥哥满意。
+
+
+
+>>>>>>>>>> 找出前N个数， 与时间无关
+1.
+Q: Given really large (beyond normal memory limits) with data in some sort of tokenized format, write code to print top "n" frequently occurring data. 类似题 有一个1G大小的一个文件，里面每一行是一个词，词的大小不超过16个字节，内存限制大小是1M。返回频数最高的100个词 // Given an article, find the unique words, find the most frequent 25 words. // 一个文本文件，大约有一万行，每行一个词，要求统计出其中最频繁出现的前十个词。请给出思想，给时间复杂度分析。
+A: <http://www.careercup.com/question?id=208832> 或者 <http://www.careercup.com/question?id=1791742>
+Well, it's a "very large" file. The idea is that there isn't as much memory. So holding the complete data structure in memory is not possible. Just like in External merge sort, you sort chunks of file and write all the sorted chunks to a temporary file. Now in the memory, Create k chunks(k = number of chunks in file), although the chunk size in memory is not as big as it is in the file. This is fine since we'd load the remaining data in the memory chunk from the file chunk as we reach the end of memory chunk. Create a min-heap using the top elements (min elements) of each memory chunk. Now just keep Extracting the min element and filling in the heap. Since you are getting all the elements in sorted order, it's easy to keep track of 3 most used keys so far.
+
+2.
+Q: Design and describe a system/application that will most efficiently produce a report of the top 1 million Google search requests. You are given 12 servers to work with. They are all dual-processor machines with 4Gb of RAM, 4x400GB hard drives and networked together.(Basically, nothing more than high-end PC's) The log data has already been cleaned for you. It consists of 100 Billion log lines, broken down into 12 320 GB files of 40-byte search terms per line. You can use only custom written applications or available free open-source software.
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.787349.3>
+
+3. 
+寻找热门查询：搜索引擎会通过日志文件把用户每次检索使用的所有检索串都记录下来，每个查询串的长度为1-255字节。假设目前有一千万个记录，这些查询串的重复度比较高，虽然总数是1千万，但如果除去重复后，不超过3百万个。一个查询串的重复度越高，说明查询它的用户越多，也就是越热门。请你统计最热门的10个查询串，要求使用的内存不能超过1G。（1）请描述你解决这个问题的思路（2）请给出主要的处理流程，算法，以及算法的复杂度。 // 统计可以用hash,二叉数,trie树。对统计结果用堆求出现的前n大数据。增加点限制可以提高效率，比如 出现次数>数据总数／N的一定是在前N个之内
+
+
+
+>>>>>>>>>>>>> 去掉重复的
+1.
+Q: read n lines of random numbers(space as delimiter) from a file, lines with same numbers are treated as duplicated lines, regardless of the order. check and print non-duplicate lines. performance time analysis.
+A: 每一排读进来的时候作为String, 得到一个hash值, 然后加入到一个hashmap中. hash值为key, string作为value. 当发现有新的key值和老值相同, 去掉hashmap中的那一项. 
+
+2.
+Q: You have a large dataset (a many-TB file) consisting of elements that each have a 128-bit GUID and a "record locator" (an arbitrary blob less than 1K in size), in no particular order. You have workspace on disk that's about 150% the size of your dataset. Produce an output file containing the following: for each element in the input for which the GUID exists 2 or more times, produce an output element with the GUID followed by all of the appropriate record locators. That is, collect all the duplicates, and discard all the non-duplicates. No ordering is required in the output, but performance matters (measured in I/O terms; anything that happens in memory is free).
+A: <http://discuss.techinterview.org/default.asp?interview.11.568672.0>
+Read N elements into memory (where N is the number that cab be held in memory), sort them, write them back. Do this for every group of N elements. At the end of this step you've written and read every element once. So now you have InitialSize/N sorted sections of the file. Open each one and iterate through them by moving to the next element for the file(s) with the lowest GUID, writing out duplicates as you go. So it starts of like a merge sort, but replaces the merging step with a custom duplicate GUID collecting step.
+
+3. 
+1000万字符串，其中有些是相同的(重复),需要把重复的全部去掉，保留没有重复的字符串。请问怎么设计和实现？ 
+<http://mach.debagua.com/archives/2010/0419_001120.html>
+
+
+>>>>>>>>>>> 文件比较，找到相同的
+1.
+Q: You have a very large document, for an instance the document containing 1 million words. You are given a huge file, which contains list of 1 million words (includes multi-word strings). Give an algorithm/data structure which returns the positions of the words/multiwords occurring in document which exist in the list given. For example, given document (which can be up to 1 million words):“I am xyz who did my bachelors from Aab Bbc Ccd Dde university. I like solving puzzles like Albert Einstein used to.“ Given list: Albert Einstein, Abdul Kalam, Aab Bbc Ccd Dde, Massachusetts Institute of Technology, xyz …….. up to million words.  Result: Word position: 3, 9-12, 19-20.
+A: <http://discuss.techinterview.org/default.asp?interview.11.695995.8> Suffix Tree
+
+2.
+Q: 给你A,B两个文件，各存放50亿条URL，每条URL占用64字节，内存限制是4G，让你找出A,B文件共同的URL。 // You are given 2 big file (Giga byte) which has one string in each line. Write a memory efficient code to find all the strings which are common in both the files. 
+A: 选择一个size小的文件开始. 将第一个文件中每排哈希后存入hashmap中. read through第二个文件, 将每排hash后与hashmap中对比, 存在则打印出来.
+
+3.
+Q: You are given a small sorted list of numbers, and a very long sorted list of numbers - so long that it had to be put on a disk in different blocks. How would you find those short list numbers in the bigger one?
+A: <http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html>
+For each chunk of sorted list which occupies a block,make a note of the first and last elements.Thus we have lookup table giving the first and last elements of each of the blocks.Now associate an empty list with each of the blocks. Now try to find the block which might contain the first entry A[1] of the small sorted list (say) A given.Since we knew the first and last elements of all the blocks,we can identify the block Bi ,which only can contain the desired number.Now add A[1] to the empty list associated with Bi.Now we need to identify the candidate block for A[2].As A is also sorted,A[2] should lie either in Bi or its successors.So we simultaneously traverse A as well as lookup table.When we are done with finding the probable blocks of all the numbers in A, we have also finished the look up table. We also have in the lists associated with each block,all those entries of A to search for, in that particular block.Now for each block Bi,search for all the entries in its list using binary search.This way we have minimized the number of disk block accesses,which is the bottleneck.
+
+4. You have a fixed list of numbers. Now given any other list, how can you efficiently find out if there is any element in the second list that is an element of the first list (fixed list).
+
+
+>>>>>>>>>>>>>> 找出未出现的／不重复的数
+1.
+You have an array with all the numbers from 1 to N, where N is at most 32,000. The array may have duplicate entries and you do not know what N is. With only 4KB of memory available, how would you print all duplicate elements in the array? (见CareerCup 4.12.4)
+
+2. 
+Given an input ␣le with four billion integers, provide an algorithm to generate an integer which is not contained in the ␣le. Assume you have 1 GB of memory. What if you have only 10 MB of memory? (见CareerCup 4.12.3)
+
+3.
+You have a billion urls, where each is a huge page. How do you detect the duplicate documents? (见CareerCup 4.12.6)
+
+
+
+
+
+
+
+>>>>>>>>>>>>> 独立题
+1.
+Q: Whats the most efficient data structure to represent a dictionary and its operations like add, probe.
+A: <http://discuss.techinterview.org/default.asp?interview.11.536153.20>
+
+
+2.
+Q: You are given the amazon.com database which consists of names of millions of products. When a user enters a search query for particular object with the keyword say "foo" , output all the products which have names having 50% or more similarity with the given keyword ie "foo". Write the most efficient algorithm for the same. 字符串相似度问题
+A: <http://www.careercup.com/question?id=3749707>
+看样子类似于用Trie的办法
+
+
+3. 一共有N个机器，每个机器上有N个数。每个机器最多存O(N)个数并对它们操作。如何找到N^2个数的中数(median)？// Given N computers networked together, with each computer storing N integers, describe a procedure for finding the median of all of the numbers. Assume that a computer can only hold O(N) integers (i.e. no computer can store all N^2 integers). Also assume that there exists a computer on the network without integers, that we can use to interface with the computers storing the integers.
+
+
+4.
+Q: I have large set of integers in a file (in billions). Integer values range from 1 to 1000. I want to partition this file into three files. Top 20% in one file next 30% in another file. Low 50% in another file. if there 10 elements then top 2 will in one file and next three elements will be in next file. last 5 will be another file.
+A: <http://suanfa.blogspot.com/search/label/interviews>
+
+
+5.
+Q: A dictionary is given. You have a word which may be misspelled. How will you check if it is misspelled?
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284323339_2.C0/an+interview+question+in+careercup>
+1. prefix tree, 2. sort the dict & word, 对比. 
+
+
+6.
+Q: 大文件随机sample,one pass
+A: 一个max/min heap 存储k个最大/最小值. 每遇到一个新值的时候, 附一个随机数给它, 然后更新max/min heap.
+
+7. 
+Q: You have a stream of infinite queries (i.e.: real time Google search queries that people are entering). Describe how you would go about finding a good estimate of 1000 samples from this never ending set of data and then write code for it.
+
+
+8.
+Q: Suppose you have given N companies, and we want to eventually merge them into one big company. How many ways are theres to merge?
+A: <http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html> 
+Different solutions exist for this problem,depending on how once perceives the question.
+If all the companies are assumed to be unique things,then the solution goes like this.Initially we need to merge 2 companies.These 2 can be chosen in Nc2 ways.Now in the second iteration we can merge 2 companies among the remaining N-1 in N-1c2.
+We go on merging like this until we have a single union of all the companies.
+Hence the number of ways of doing this is (Nc2)*(N-1c2)*(N-2c2)*........*(2c2)=(N!*(N-1)!)/2^(N-1) .
+
+One more way of looking at this problem is the structural aspect of merging.In the above solution suppose there are 4 companies say,to be merged.
+
+We could have merged companies 1&2 in the first iteration and 3&4 in the 2nd iteration.Likewise we could have also merged 3&4 in the first iteration and then 1&2 in the 2nd iteration.After these 2 merges,both of them are identical,though we put them as different ways in solution1,depending on which 2 were merged before the other 2.If we were interested only in the structural aspects,then the above solution doesn't even consider that.
+If we are interested in the number of structurally different ways to merge these, then we can confront this problem on the assumption that all the given companies are identical .Then this problem reduces to parenthesis problem,i.e number of ways of putting N pairs of parenthesis.The answer then would be N-1 th Catalan Number,
+i.e (2N-2)!/N!(N-1)!.
+
+If the companies aren't identical ,with some permutations also getting into the picture, then the solution isn't straightforward and we couldn't figure it out.
+
+
+9.
+Q: How will you design the backend for facebook. To handle millions of users. Explain the following transactions
+1) Adding/Deleting a friend
+2) Friend suggestions
+What if you cannot store all users on one server?
+A: <http://www.careercup.com/question?id=3392682>
+@Akshat
+1) Link profiles together forming trees. Or linking nodes in Graph Matrix.
+
+2) Friend suggestions can be made
+a) If the given node is not already a friend
+b) has a distance of 2 from the current Node
+c) Has Maximum distinct routes of length 2 between them compared to other nodes
+(Or has maximum common friends between them)
+
+3) Make country specific or geographic servers for users.
+Since friends tend to be geographically co-located.
+
+@srikar
+For friends using Graphs as data structures seem a better option. hence forth referred to a YY.
+
+1) Adding a friend needs an approval process, hence once someone adds X as a friend; we send an invite to X that you are interested. It means, updating the cache layer (so that you don't end up inviting the same person more than once) plus DB that an invite has been sent.
+
+Deleting on the other hand has to instantaneously make changes to YY. Probably notify the friend that he has been deleted from your friend list.
+
+2) Friend suggestions - is basically recommendations.
+-> maybe you are from the same school/college/workplace etc. (distance 2)
+-> maybe friends of friends from same school/college/workplace etc. (distance 2)
+-> maybe you are a friend of your very popular friend.
+-> import email addresses from your Gmail or other mail accounts.
+As one can see all this recommendation list can be done offline & needs to be accessed when the user logs in.
+
+3) Point mentioned by Akshat seems ok here.
+
+In Facebook's infrastructure ALL (or most of it) exists in cache (i.e. RAM) for faster access. So one of the biggest challenges is to sync data between this cache layer & the actual mysql DB.
+
+
+10. 
+Q: 海量数据处理
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284407849_2.S0/%B4%F3%CA%FD%BE%DD%C1%BF%A3%AC%BA%A3%C1%BF%CA%FD%BE%DD+%B4%A6%C0%ED%B7%BD%B7%A8%D7%DC%BD%E1+%D7%AA%D7%D4%B1%F8>
+
+
+11.
+Q: 求一个论坛的在线人数，假设有一个论坛，其注册ID有两亿个，每个ID从登陆到退出会向一个日志文件中记下登陆时间和退出时间，要求写一个算法统计一天中论坛的用户在线分布，取样粒度为秒。
+A: <http://hi.baidu.com/mianshiti/blog/item/104589c07641ed5eb319a897.html>
+一天总共有 3600*24 = 86400秒。
+定义一个长度为86400的整数数组int delta[86400]，每个整数对应这一秒的人数变化值，可能为正也可能为负。开始时将数组元素都初始化为0。然后依次读入每个用户的登录时间和退出时间，将与登录时间对应的整数值加1，将与退出时间对应的整数值减1。这样处理一遍后数组中存储了每秒中的人数变化情况。定义另外一个长度为86400的整数数组int online_num[86400]，每个整数对应这一秒的论坛在线人数。假设一天开始时论坛在线人数为0，则第1秒的人数online_num[0] = delta[0]。第n+1秒的人数online_num[n] = online_num[n-1] + delta[n]。这样我们就获得了一天中任意时间的在线人数。

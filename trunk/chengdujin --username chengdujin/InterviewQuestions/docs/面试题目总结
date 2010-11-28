@@ -1,0 +1,858 @@
+<https://spreadsheets.google.com/ccc?key=0AnuTXiQGnj3JdGhHNHlTWmxhYVVlamFxWE1RWGJnS3c&hl=en#gid=0>
+<http://avidullu.wordpress.com/tag/interview-questions/>
+
+
+Interview Qs
+<http://suanfa.blogspot.com/2010/05/questions-list.html>
+在mitbbs上是Ilikebeatles
+
+Data Structures
+
+1. Integer
+- find number of 1s
+- next largest smaller
+- smallest larger number
+- determine if is palindrom
+- itoa, atoi
+- add 2 numbers w/o using + or arithmetic operators
+- implement *, -, / using only +
+- find max of two numbers w/o comparison
+- swap two numbers with +/-
+- swap two numbers with ^
+- given an integer, find the closest number that is palindrome
+- implement putlong() by putchar()
+2. Bit array
+3. Linked list
+- find cycle,
+- find position of cycle starts
+- reverse LL
+- delete a node in middle
+- each node contains a value pointer pointing to a node,
+duplicate LL.
+- remove duplicates from sorted/un-sorted LL.
+- find n-th to last node to end
+- number is represented by LL, add 2 numbers
+4. Array
+- Longest common substring (LCSubstr)
+- Longest common subsequence (LCS).
+- Longest increasing subsequence (LIS).
+- Longest palingdrome in string.
+- array, elements are +/-, find subsequence of max sum
+- circular array, elements are +/-, find subsequence of max sum
+- find all pairs of integers add up to a sum
+- find all pairs of integers add up to a sum,
+integers are +/- and sorted
+- find one missing number in N numbers in range [0, N]
+- find two missing number in N numbers in range [0, N].
+- binary search circular array
+- Given {a1, a2, a3, ..}, {b1, b2, b3, ...},
+get {a1, b1, a2, b2, ...}
+- Given 2 arrays A and B, A large enough to hold both,
+merge B into A.
+5. String
+- KMP, Rabin-Karp, Boyer Moore
+- reverse string
+- reverse words in string 
+- strcpy, strcmp, strstr, atoi, itoa, strdup
+- remove duplicate characters in O(1) space
+- Given dictionary, transform one word to another of same length.
+- Given large text, find min cover distance of n words.
+- find longest word made of other words
+- find first non-repeated char
+- remove specified char from a string
+6. Matrix
+- matrix elements are +/-, find submatrix of max sum
+- rotate a matrix by 90 degrees
+- each cell is black/white, find max subsquare with black border.
+- binary matrix, find largest square matrix with 1s
+- binary matrix, find largest rectangle matrix with 1s
+7. Stack
+- implement stack by queue.
+- augmented stack with O(1) push, pop, min
+- use single array to implement 3 stacks
+- sort a stack in ascending order using only
+push/pop/top/isEmpty/isFull
+8. Queue
+- implement queue by 2 stacks
+9. Priority Queue
+10. Heap
+- create heap on array
+11. Young Tableau
+- find element
+- get k-th element
+12. BST
+- pre/in/post-order traversal, recursive and iterative
+- pre/in/post-order traversal, recursive and iterative,
+with parent pointer
+- find height
+- determine IsBST
+- find "next" node of a given node in inorder sequence
+- find k-th inorder element
+- find range of elements
+- find diameter
+- find all path adding to a sum
+- Check if a tree is balanced
+- Convert sorted array into balanced BST
+- Find first common ancestor of two nodes in a BT or BST
+- Link each node to its right sibling
+- Print by level (BFS)
+- Print by level (BFS) in reverse order
+- Determine if 2 BSTs have the same structure
+- Create a mirror BT of a BT
+- Replicate a linked structure
+13. 2-3-4 Tree
+14. Red-Black Tree
+15. Splay Tree
+16. AVL Tree
+17. Trie
+18. Suffix Array
+19. Suffix Tree 
+- LCSubstr (longest common substring)
+- Longest repeated substring
+- longest palindrome
+- substring search
+- data compression
+20. B-Tree
+21. KD Tree
+22. Range Tree
+23. Hash Table
+24. Bloom filter
+25. Disjoint set
+26. Graph
+- DFS, BFS
+- find path existence between two nodes
+- Min vertice set covering all edges
+- shortest path
+- minimum spanning tree
+- min edge coverage by vertex
+
+Sorting
+
+1. Bubble sort
+2. Insertion sort
+3. Selection sort
+4. Shell sort
+5. Heap sort
+6. Quick sort
+7. Merge sort
+8. N-way merge sort (external sort)
+9. Counting sort
+10. Bucket sort
+
+Search
+
+1. Linear search
+2. Binary search
+- Binary search, iterative/recursive
+- find missing number is sorted array
+- search in circular sorted array
+3. Quick Select
+
+Dynamic programming
+
+1. BST
+2. COV
+3. ILP
+4. KS
+5. LCS
+6. LSP
+7. MCM
+8. ODP
+9. SCP
+10. SPA
+11. SPC
+12. TSP
+13. Given array a[], when i < j, get max(a[i] - a[j]).
+14. levenshtein edit distance
+15. Coin Change problem.
+
+Large-scale system
+
+1. Bloom filter
+2. Bit-array/bit-map
+3. Heap
+4. Hash table
+- d-left hashing
+5. Sub-division
+6. Database indexing
+7. Inverted index
+8. External sort
+9. Map-reduce
+
+Discrete math, Probability and Statistics, Numerical Computation
+
+1. Permutation
+- 3 colors, how many ways to color a cube?
+- robot, ways to go to diagonal corner on NxN matrix?
+- print all combinations of valid n-pairs of parentheses
+- print all subsets of a set
+2. Combination
+3. Sampling
+4. Random number generator
+- What's a good random number generator?
+- Given random generator [1, 2, 3, 4, 5],
+generate random in [1..7].
+5. Reservoir sampling
+6. Find median in stream
+7. Card shuffling
+8. Primality testing
+9. Find prime numbers: naive, sieve of Eratosthenes, sieve of Atkin
+10. Randomized primality testing, what's good random generator
+11. Fibonacci sequence
+12. Factorial numbers
+13. Frobenous numbers
+14. Newton-Ralphson algorithm
+15. Bayes theorem
+
+Computational algebra
+
+1. Convex-hull
+2. Closest pairs
+
+Computational theory
+
+1. Automata theory
+2. DFA
+3. NFA
+4. Regular language
+5. Pumping lemma
+6. Turing machine
+7. NP-completeness
+1. TSP
+2. Vertex-cover problem
+3. Set-covering problem.
+4. Subset-sum problem.
+
+OS
+
+1. Process and thread
+2. Semaphore, mutex, monitor
+3. Function call/call frame
+4. Context switch
+5. Multi-threading
+6. Multi-process
+7. Thread safety
+8. Big/Little-endian
+9. Heap/stack
+10. Malloc/free
+11. Virtual memory, page fault, thrashing
+12. DMA (Direct Memory Access)
+
+Networking
+
+1. 7-layer OSI model
+2. 4-layer TCP/UDP model
+3. TCP/UDP
+4. TCP 3-way handshake (ACK machanism),
+flow control, congestion control
+5. Things happen after entering url
+6. Routing protocols: BGP, OSPF, RIP
+7. Subnet mask, packet routing on same/different network.
+8. Performance
+
+Database
+
+1. Normalization
+2. External sorting
+3. B-tree, B+-tree.
+4. Relational algebra
+
+Compiler
+
+1. LL, SLR, LALR, LR, GLR
+2. recursive precedence
+3. Operator precedence
+4. Postfix evaluation of arithmetic expression
+- implement a calculator
+
+C/C++/Java
+
+1. const char *, char * const, const char * const
+2. static
+3. volatile
+4. explicit
+5. Object/class
+6. Inheritance
+7. Encapsulation
+8. Polymorphism
+9. operator overloading
+10. Composition/inheritance
+11. Interface, abstract class
+12. Struct/class
+13. 4 default methods of a C++ struct/class
+14. deep copy/shallow copy
+15. C++ name hiding
+16. C++ smart pointer
+17. friend function/class
+18. Multiple inheritance
+19. Virtual inheritance
+20. Constructor
+21. Copy/assignment constructor
+22. Virtual destructor
+23. Virtual function, vtable
+24. Pure virtual function
+25. Macro, typedef, inline
+26. C, C++, Java comparison
+27. Garbage collection
+28. Dangling pointer, free null pointer, memory leak
+29. New/Delete
+30. Malloc/free/realloc/calloc
+31. Lock
+32. Dead lock's four conditions
+33. #pragma directive
+34. Exception handling
+35. try/catch/finally
+36. final, finally, finalize
+37. Java object reflection
+38. C++ templates, java generics
+39. Effect of keeping constructor private
+40. Pass by Value, reference, pointer
+41. Reference v.s. pointer
+42. In-memory file system data structures and algorithms?
+43. Implement singleton
+44. Implement singleton w/o static/global variable
+45. Thread programming possible problems
+46. sizeof operator.
+47. Java: vector v.s. ArrayList
+48. int (a*)[10]
+49. Implement a lock.
+50. Implement a buffer for DataOutputStream.
+51. awk, tr, uniq, grep
+
+Other problems
+
+1. 2 eggs, 100 floors, find floor that breaks egg
+minimizing number of drops.
+2. 5 quart jug and 3 quart jug, measure 4 quarts of water.
+3. 100 lockers, open every other i-th locker (i = 1, 2, ..., 100).
+Final open?
+4. Men on island, can see hat on others only. N men, C hats,
+days to remove?
+5. 8/12 balls, find the one lighter/heavier
+6. 8/12 balls, find one weighs different
+7. 2 fuses each burns in 1 hour, measure 45 minutes
+8. Bridge crossing, 1, 2, 5, 10. Minual number to pass bridge
+9. Orange, apple, orange and apple, all labeled wrong. Find out.
+10. 3 light switches, only one can be on at a time. Find it out.
+11. Find the biggest, 2 biggest, biggest & smallest
+12. n*m*k cube, how many are on the surface?
+13. Test a pen, ATM machine, webpage, vending machine, program crash?
+14. Given phone #, print all word representations on phone pad.
+15. Find overlap of rectangles
+16. Find median of two sorted arrays.
+17. N computers each hold N numbers. Find median of these N*N numbers.
+18. Recontruct a BT from pre/in/post-order traversal
+19. Recontruct a BST from pre/in/post-order traversal
+20. Find longest prefix common to all strings
+21. Implement LRU cache system, O(1) find and update
+22. Shifted sorted array, rotate.
+23. Histogram, find max internal rectangle.
+24. Tournament problem
+25. N people, 1 celebrity, find celebrity in O(n) time.
+26. 4 jars, 1 polluted so pills weigh +1, find out which jar
+27. 25 horses, 5 horses maximal each match. Find the fastest 3
+28. Mirror, why left/right reversed, not up/down?
+29. How is next_permutation() in STL implemented?
+30. N line segments on number axis, calculate common coverage
+31. wild card match on patterns * (0-n) and ? (1).
+32. Find number of trailing zeros in n!
+33. Print square matrix in a spiral inwardly.
+34. Find one's phone number given resume only
+35. N stairs, each time can go up 1 or 2. How many ways to go up?
+36. Find majority element in an array.
+37. Two cubes as a calendar
+38. Coin change problem
+39. Josephus Circle, last survivor?
+40. Pick marbles, strategy to win?
+41. Get sequence 1, 11, 21, 1211, ...
+42. C program that prints itself
+43. Print week given date
+44. enter code, allow one miss
+45. Check equality of two number sets
+
+
+
+
+
+
+
+
+
+
+
+Some experiences in job hunting for software engineer
+<http://losedream0.spaces.live.com/blog/cns!FB2973A4F44E2705!1676.entry>
+ 
+I will present my understanding of job hunting in this short article. I think there are two parts that are both important in job hunting: technique part and non technique part. In the technique part, I mean questions answering, white board coding. In the non technique part, I mean your preparation of resume, communication with friends to get interview opportunities, and interaction with interviewers. I will focus on the technique part. In fact I don't think I did well in the non technique part. 
+ 
+In the technique part, you have to prepare for interview questions. It is extremely different for big companies and small companies. For the big companies, the questions are stereotyped. According to my understanding, everyone who prepares for some time should be able to success in one of the following companies: amazon, google, microsoft, facebook, bloomberg. Usually all these companies will ask algorithm questions and coding on whiteboard. But the exact questions that would be asked largely depends on the interviewers.  
+ 
+Personally I think the difficulty of the algorithm questions would be google = facebook > amazon = microsoft > bloomberg. You need to know C++/STL or Java/Containers since most white board coding will use them. It is also less error prone if you used containers. For example, you need to create an array in C++ and initialize it to all 0. Instead of writing new int[] and then initialize in a loop, just vector<int> v(100,0) will do the work. You save 2 lines.
+
+ 
+
+You are expected to know basic language concepts, object oriented programming definitions and os definitions. On the other hand, if you say you specialize in database or networking, then they will ask the related questions. It is very possible that they will find a guy holding Ph.D. in the same area to ask you questions. Thus you must be familiar with your research. For example, one Cisco question: what would happen after you typed the URL in the browser? Explain all the steps and details that you know. If you interview for Cisco, you need to know OS, networking very well. 
+ 
+Google and Facebook are more mysterious because they did not allow ppl to post the problems online. Thus people did not know what exactly the questions are. In fact, you can find similar questions in the problems collections of amazon and microsoft. Algorithm questions of bloomberg are very simple. For all these companies, algorithms related to trees, sorting, hashing are their favorite. In the following I will list some special things about each company.  
+ 
+1. Amazon. It is very likely that they will ask design questions (how to design a parking lot, how to design a zoo). Unfortunately there is no precise answers online. I guess they want to see you use some design patterns. They also ask some pattern matching questions (find all phone numbers from files in the directory). You should have some knowledge of regular expression. 
+ 
+2. Google questions focus on algorithms. They keep pushing you to save space, time, or sacrifice space for time and vice versa. Thus you should always put the trade off in you mind. (Simple one, when to use hash, and when to use binary search tree?) The other thing is google will ask large scale processing questions. For example, given 1 billion urls, 1M memory, remove duplicates. Thus you need to be familiar with: map-reduce, hashing. There are some hashing concepts in Database that is useful. It is like two steps hashing. I forgot the name. There is also one useful article about large scale problems on jobhunting board which mentions some basic techniques including Bloom filters. Bit manipulations are also asked frequently. Check this link for it: http://graphics.stanford.edu/~seander/bithacks.html 
+ 
+3. Microsoft. There are a lot of questions online. Note that they always ask behavior questions. For behavior questions, there is some instructions on jobhunting board. Basically you create a situation, and show them how you solved the questions under such situations. You are always the hero saving the world as in the Hollywood movies. (Personally I think these questions are stupid! But ms always ask them :< The good thing about google is the rarely ask behavior questions.) 
+ 
+4. Facebook. You can solve some puzzles online to get phone interview opportunites. Note that some questions are NPC :< or related to knn (use kd tree or quad tree) It is good time to pursue facebook now. They usually give fresh PHD 10k stocks, which should be more than $200k. 
+ 
+5. Bloomberg. They ask details about c++. You have to read C++ FAQ, effective C++, more effective C++ carefully. They also ask detailed operating system questions, which are tough. Their algorithm questions are extremely easy.  
+ 
+Where can I get the real interview questions? 
+Check www.careercup.com. People would post the questions there. Note that there are some stupid guys posting wrong answers. Ignore most of the answers there. Just for ms and amazon there are more than 1k questions. So you have a lot of homework to do. The good news is there are a lot of duplicate questions. There are also ppl posting interview questions on jobhunting board. 
+ 
+How can I improve coding skills? 
+Practice, practice and practice. Personally I think you should be capable to code a normal problem (usually around 30 lines) in 15 minutes and compile with just one or two errors. In the interview process, one round generally last 45 minutes and they will ask 2 or 3 questions. You need to understand what he said and then ask interviewer questions to clarify the problem, 5 mins passed. Then you explain your algorithms and the complexities, another 5mins passed. Finally you have to write 10-30 lines in about 10 minutes, which means you have to write 2-3 lines a min. Thus my suggestion is: 
+      1) write formal notes about problems. Knowing how to do it now does not mean you  know how  to do it one month later.
+
+         2. be serious. Always pretending you are in the interview and try to give yourself pressure. Record the starting time, ending time of each program you wrote and the questions.
+         3. set up a time table and check yourself for improvement
+         4. it is always more efficient when you are pushed to study. Thus rember to submit resumes at the same time.
+
+ 
+
+Frequently asked questions  (I pick the ones I remembered. They are not complete.) 
+1. Given a sentence, reverse each word inside it. Thus "hello, my world" would be "olleh, ym dlrow". 
+2. Given an article, find the unique words, find the most frequent 25 words. 
+3. Given an article with a set of key words and where they appeared, find a shortest abstract that contain all the words. What if I require each word to appear a certain times? 
+4. Given an array, find the continuous subarray with largest sum. Given an array put on the circle, find the continuous subarray with largest sum. Given a matrix, find the submatrix with largest sum. 
+5. Given a histogram graph, find the rectangle with largest area in it. Given a 01 matrix, find the max all 1 matrix. (extension of the histogram problem.) 
+6. Inorder, preorder, postorder traversal of a binary tree nonrecuisively. (Drozdek's book.) Suppose each node has a parent link, write inorder, postorder traversal nonrecursively without using queue or stack. 
+7. Deutchland flag problem. (In fact the partition step of quick sort.) 
+8. Given an array a[1:n], we say a[i], a[j] forms a reverse if a[i] > a[j], i < j. Count the number of reverse. (merge sort) 
+9. Given a sorted array, answer query "is x in A?" If yes, return the interval that contains x. 
+10. Given a sorted array, cycliclely shift it right. Answer query "is x in A"? For example, 1 2 3 4 5, shifted 2 positions and we have 4 5 1 2 3. (How to do the shifting? There are three algorithms mentioned in Pearls.) Note what will happen if there a lot of equal elements in the array. 
+11. Given an array containing positive and negative numbers, put negative in left side and positive in right side while keeping original order, i.e, if 3 is before 2 in original array, then 3 is still before 2 in updated array. (D&C) 
+12. Use two stacks to simulate a queue.  
+13. Design a stack that can do basic stack operation and also answer query: the largest element of the stack, in const time. (Add extra information to the stack.) Design a queue that can answer the preceding query. (Use 2 stacks designed above.) 
+14. Given x, output the number of appearances of 1's from 1 to x. (What is the relation between i-digit number and i+1 digit number? Do it recursively.) 
+15. Given a stream of different integers coming one at a time, when I say stop, output one of them that each of the numbers appeared before has equal prob of being chosen. (Reservoir algorithm). 
+16. Given a binary tree, change it to a Dlink list. (DSW algorithm) 
+17. Find a pattern from a string. (KMP algorithm) 
+18. Lowest common ancester and range minimus query. 
+The best reference would be Eric Demaine's lecture notes: http://courses.csail.mit.edu/6.897/spring03/scribe_notes/L11/lecture11.pdf 
+topcoder notes: http://www.topcoder.com/tc?module=Static&d1=tutorials&d2=lowestCommonAncestor 
+19. BST (binary search tree) with augumented data structures. 
+20. Generate all permutations of a set of numbers, recursively (how to save space?), nonrecursively (check the source code of STL next_permuation). Extensions: generate all the subsets of {1,2,...,n} in (any) alphabetical order, all 3-subset in (any) alphabetical order. 
+21. Memory management, i.e, write your own malloc function. 
+There are several algorithms which are explained in Knuth's bible. However, you can also find reference in: the last chapter of "The c programming language" http://www.amazon.com/Programming-Language-2nd-Brian-Kernighan/dp/0131103628, which use link list 
+There is another algorithm mentioned in: http://www.amazon.com/Computer-Systems-Programmers-Perspective-Introduction/dp/0582832411/ref=sr_1_2?ie=UTF8&s=books&qid=1273956233&sr=8-2 
+22. Suffix tree and complex pattern matching. (There is no need to know exactly how suffix tree is constructed. Just need to have an idea that they can be used to solve many problems.)  Many applications of it are mentioned in: http://www.amazon.com/dp/0521585198 
+That is advanced algorithms and are rarely asked.  
+23. Coin change. (DP related questions.) It is frequently asked. It seems that DP may not always be asked but you still need to prepare for it. The following link is very good: http://people.csail.mit.edu/bdean/6.046/dp/  
+24. (Probability questions.) Use a fair coin to simulate an unfair coin. (Binary representation.) Use an unfair coin to simulate a fair coin. (von neumann trick) 
+25. Mergesort, recursive and bottom up. (Clearly explained in Sedgewick's book) Given array A and B that are both sorted, merge them to A. Suppose A has enough space in the back.  
+26. Quicksort. Why do we use insertion sort when the size reduce to small? (20 in stl) When should we use O(n^2) time algorithm rather than O(nlgn) time algorithm? (space constraint and the constant before big O) How to choose the partition algorithm? (rand takes 3 and then use the median) 
+27. Linear selection, i.e, get the i-th largest element in linear time. It is used as a subroutine to solve other problems. For example, given an array where a element has appeared more than n/2 times, find it in linear time. (Any other algorithm?) Given an array of ints, find k of them that is closest to the median.  
+28. Suppose we use an int array to represent the 800*600 screen where each pixel corresponds to 1 bit (on or off), write code to turn a line segment on. (Pearls, chapter 1) 
+29. Given a rectangle, starting from the left corner and visiting all elements in spiral order. Write the code to generate the sequence. (There is a mathematical relation between the original order and the spiral order, i.e, (i,j) is the k-th element in the spiral order where i, j, k satisfy certain conditions.) 
+30. Write your own garbage collector. (The art of c++) 
+31. Counting sort.  
+32. Given a rooted binary tree where each edge has a weight, find a path with maximal weight.  
+33. Given two string, find the edit distance. (DP) Given two set of ints, can we find a subset with sum x? (Note the ints may be negative.) 
+34. Given an array, find the longest increasing sequence. (Use patience sort which is easy to remember.) 
+35. Given 4*10^9 integers represented by 32 bits, find a missing one. (Pearls, chap 1) 
+36. Hash function. (There is one realization of Hash function in last chapter of Pearls. Basically you will use chain hashing.) 
+ 
+Is there any recommendation of algorithm books? 
+Two books that you must read through: Programming interview exposed.  
+This book is easy and you can finish reading it in two weeks.  
+Programming pearls. 
+This book is very elegant and contain a lot of frequently asked questions. Note that all exercises need to be mastered. There are around 100 problems in the book. Personally I think you can pass phone interviews if you really understand the book. 
+There are also other books people like: 
+R. Sedgewick http://www.amazon.com/Algorithms-Parts-1-4-Fundamentals-Structure/dp/0201350882 
+The good thing about this book is they have versions in c, cpp, java. 
+Drozdek http://www.amazon.com/Data-Structures-Algorithms-Adam-Drozdek/dp/0534491820/ref=sr_1_1?ie=UTF8&s=books&qid=1273890524&sr=1-1 
+The author presents severl algorithms that are rarely seen elsewhere: DSW algorithm, nonrecursively inorder (postorder, preorder) traversal. 
+careercup also edited two small books. One is 150 interview questions with answers (some answers are not complete or not optimal), the other one is about google which is pretty useful for google interview. 
+Bianchengzhimei 
+That is a book written in Chinese and has some interesting problems. 
+Introduction to algorithms by CLRS 
+A lot of questions are from this book. Or the ideas can be found in this book. The chapters on sorting, binary search tree, heap, hashing, augmented BST are worth reading (not complete). The problem is: the book is huge. My suggestion is tackle Pearls first, and try to read this book when you have time. 
+
+How about other directions in interview?
+
+In the preceding part, I focused on algorithm questions. In fact I am not so sure about other directions. But anyway, for Java, C++, OS, networks, database, you have to memorize the concepts and spend time reading the material.
+
+ 
+Any quick ways for improvement? 
+Frankly speaking, it is difficult to get all questions in a short time for normal ppl. Thus you have to start early. The good thing about algorithm questions is: you don't need to remember anything if you know how to do it. If you really understand it, it is hard to forget. The bad thing is algorithm questions are too tricky and if you did not see them before, you may not figure them out in a short time. But note that during the interview, you can ask interviewer questions and he will give you hint. Thus communication skills are important. I strongly suggest you write notes for the questions in your own words without referring to book. Usually it would be very effective to talk with others and share the idea. 
+ 
+Where can I find answers for a question? 
+google, friends, and jobhunting board. Turn to others when you get stuck. Sure you need to think it for some time before hand. 
+ 
+Is not this a waste of life to study the stupid algorithm questions that you will never meet during work? 
+Yes, I agree it is stupid. But it is not decided by you. Several years ago, a cse phd may easily find a job after one month preparation. But it is not the case now. Especially Chinese students are not good at showing off while In... 
+ 
+Other information that I think useful: 
+1. job website: indeed, monster, dice, linkedin, phds.org You can post your resume there and recruiters will contact you. 
+2. question collections: careercup, spellscroll (there are many interesting questions in this website without solutions) 
+3. general questions including H1B, opt, interview questions: jobhunting board at mitbbs.com. This is a Chinese website and contain many useful information. Bad thing is the contents are not well organized. The good thing is you can find answers for nearly all questions, meet new friends who are on the same boat, share job hunting information.  
+4. internal refer is more useful than submitting resume blindly. 
+5. It is better to have interview on campus. Bloomberg comes twice a year, ms at least once a year. And intern opportunity at big companies would be very helpful. 
+6. Share your interview experiences with others. Sometimes you thought you got the solution, but it may not be optimal or complete. 
+7. Try to get all the interview details of one onsite. In this way, you can figure out what the company wants. That's why I think the careercup book for google is very good. It contains all questions of several onsite interviews. 
+8. If your English is not good, do not talk too much. Try to hit the target whenever you open your mouth. 
+9. To present your ideas clearly: draw graphs, mention first what you are doing and what you are going to do and why you do it, practice with friends for some mock interviews so that you can find problems early. 
+10. Form a learning group. It always takes more time to read by yourself than listen to other's explanations.  
+11. Websites for book downloading: ebookee, and csdn. csdn is a Chinese website that contains nearlly all books you want. You can also buy books from dangdang while use your credit cards in America for payments. Note it may take 2 month for shipping.  
+12. The university has services for resume checking. Pay some attention to Indian students. They are usally good at English and you can also get some useful information from them.
+
+
+For the non technique part, I do not have much to say but refer you to some books:
+
+acing the interview
+
+cover letter magic
+
+resume magic resume for dummies
+
+101 dynamic answers to interview questions
+
+nail the job interviewer
+
+how would you move the mountain fuji
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+<http://www.doctorinterview.com/A.html>
+Algorithm Basics
+What are the different notations in algorithm world
+What do u meant by logn order of complexity? What is the base of logn complexity? Is the base constant for the entire algorithm that gives logn complexity
+Array Char & String
+Write a program to implement strstr()
+Write a program to implement printf()
+Write a program to implement strcpy()
+Write a program to implement strcmp()
+Write a program to implement substr()
+Write a program to implement toUpper() and isUpper()
+Write a program to implement strlen()
+Write a program to implement strcat()
+Reverse a string
+How will you in place reverse a string
+Permutation program
+How will you find the square root of a number
+How will you swap two variable
+How will you generate random number
+Differentiate memmove and memcopy
+How will you remove all the spaces from a string
+How will you find the factorial of a number
+Write a traditional Fibonacci number. Optimize it to work faster than traditional program.
+Write a program to implement pow(x,y)
+How will you remove the duplicate character from a string
+How will you check if a string is palindrome or not
+How will you find the maximum palindrome in a string? Differentiate maximum odd and even palindrome
+Write a program to determine if a palindrome number can be generated by rearranging the characters of a string
+There is two array stir and rem, how will you delete all the character present in the stir
+How will you find a smallest sub string that contains all the character of another string
+How will you replace all the occurrences of 'a' by xyz in a string
+Tower of Hanoi
+How will you check if a string is cyclic string of another
+How will you simulate queue using two stack
+How will you sort a Stack
+How will you find all the combination of number whose sum is n
+How will you display the powerset of a given character set
+How will you find the number occurred maximum number of time in an array
+How will you swap alternative word in a string
+How will you fill an array a[n] with a random number generator(0-N)
+How will you find the bit stream of binary data is divisible by 3 or not
+How will detect whether a loop is going to be infinite or not
+How will you rearrange an unsorted array with duplication to element followed by number of times it exist without changing the order
+How will you divide a sorted array into two parts whose sum is approximately equal
+How will you find k smallest element in an array with their original index
+How will you find a number which is repeated thrice whereas all other elements are either unique or repeated twice only
+How will you print an array into three arrays in which first array will have all the elements once, second array will have element which has a duplicate and third element will have elements which doesn't have any duplicate
+How will you find the subarray of maximum sum in an array of negative and positive numbers
+How will you find the subarray whose sum is k in an array of negative and positive numbers
+How will you find kth largest element in an array
+How will you find n element from an infinite array in which all other elements are -1
+How will you find the number of occurrence of maximum value in an array
+How will you find the pair from an sorted array whose difference is x
+How will you find the biggest sub array in an array of negative and positive number
+How will you find a window that contains the three number minimum windows among N elements
+Inversion Array problem
+How will you merge one array to another
+How will you find the median of an unsorted array
+How will you separate the array depending on the numbers greater than x and less than x from an unsorted array
+How will you find the k missing number from an array of n consecutive elements
+How will you find the element with maximum occurrence in an array
+Longest Subsequence Algorithm
+Find the numbers from an array such as a*a+b*b=c*c
+How will you find n largest pair (a[i], b[i]) from two sorted array A and B
+How will you find all the group of element whose sum is S in an array
+How will you find the number common to both the array
+How will you find if a number has non-fractional square root or not/number is perfect square or not
+Write an algorithm to print 1 to 100 without any loop
+Searching
+Linear Search
+Binary Search
+Sorting
+Bucket Sort
+Binary Sort
+Counting Sort
+Radix Sort
+External Sorting
+Quick Sort
+Insertion Sort
+Heap Sort
+Selection Sort
+Bubble Sort
+Matrix
+How will you search for an element in mxn matrix which is sorted with respect to both row and column
+How will you sort a matrix
+Given nxn boolean matrix (0's and 1's) .
+Findout whether there exist a row i and column j such that
+i)   all elemets of row i are zero's and
+ii)  all elements of column j are 1's and
+iii) (i,j)th entry of the matrix can be either 0 or 1
+
+ 
+Also Find out such a i and j exist or not
+
+In a nXn matrix given (i,j), return the product of all the elements in row i and column j excluding this number in o(n) time
+Traversing a matrix spirally
+Traverse a matrix spirally for mxn matrix
+There exits 2D array. We need to find out whether a given string ("MrBee") exits in the given matrix.The stirng can be verticalor horizontal or in snake form but not in diagonal.
+Mr…..
+...B….
+...ee...
+ 
+
+Linked List
+How will you declare structure for a linked list
+How will you insert a node into linked list
+How will you insert a node in a sorted linked list
+How will you add a node after Nth position
+How will you delete a number from a linked list
+How will you delete the whole linked list
+How will you print the entire node in a linked list
+How will you count the number of node in a linked list
+How will you declare a structure for generic linked list
+How will you declare a structure for generic linked list
+How will you compare two linked list
+How will you create a copy of linked list
+How will you search an element in linked list. Can you use binary search
+How will you find the middle of the linked list
+How will you reverse a linked list
+How will you remove duplicate in sorted linked list
+How will you find nth node of a linked list from end
+How will you display a linked list from the end
+How will you merge two sorted linked list
+How will you check if the linked list is palindrome or not
+If the head of a linked list is pointing to kth element, then how will you get the elements before kth element
+How will you divide a linked list equally
+How will you remove alternative nodes from a linked list
+How will you find the point of intersection of two linked list(Y shape)
+How will you swap the entire succesive element in a linked list
+How will you delete a node when a single pointer is given
+How will you detect a loop in a linked list
+How will you find the middle of a linked list
+How will you compare two linked list
+How will you copy a linked list
+How will you insert a data in ascending order to a linked list
+How will you delete the duplicate from a sorted linked list
+How will you read a singly linked list like a double linked list
+Tree
+How will you insert a node in a tree
+How will you search for a value in a BST
+How will you delete/search a node from BST
+How will you do preorder, inorder, postorder traversal
+How will you do tree traversal without recursion
+How will you print a tree level by level/level order traversal
+How will you write a tree to the file
+How will you find the number of elements in the tree
+How will you find the height/depth of a tree
+How will you display the mirror copy of a tree
+How will you check if a tree is BST or not
+How will you count the number of leaf/node without any children in a tree
+How will stop traversing a tree on some nth position and display the number
+How will you check if two tree are same or not
+How will you find the minimum and maximum value in a tree
+How can you redraw a tree from the traversal output
+How many possible tree can be constructed using n number of elements
+What is N ary tree. How many leaf node can a N ary tree have if number of non-leaf nodes are M
+How will you find the ancestor of two node in a tree
+Check if there is any path in a tree from root which has a sum of x
+How will you create a binary tree which should be optimal for searching only
+There is a parenthesize representation of elements. How’ll you make a tree out of it.
+How will you find the median of a BST
+How will you find if there is any loop in a Binary tree or not
+How will you insert a node into Binary tree which is not BST
+How will you find the two numbers whose sum is k in a BST
+Check if any node of a binary tree can represent as BST if detached from the tree
+How will you print all the distinct path in a binary tree
+How will you find the maximum diameter of a binary tree
+How will you do preorder traversal preorder without recursion
+What is AVL Tree. How will you define the height of the AVL tree.
+How will you verify whether a tree is symmetric or not
+How will you check if a tree is subset of another tree or not
+How will you find the maximum width of a binary tree/level with maximum number of element
+Digital Logic
+How will you compute the sign of a number
+How will you compute the absolute value of a number
+How will you compute the minimum and maximum of two integer without branching
+How will you determine if a number is power of 2
+Sign extending from a constant bit width program
+Sign extending from a variable bit-width program
+How will you conditionally set or clear bits without branching
+How will you merge bits from two values according to a mask
+Counting bits set program
+How will you reverse the bits
+Compute modulus division by 1 << s without a division operator
+Compute modulus division by (1 << s) - 1 without a division operator
+Compute modulus division by (1 << s) - 1 in parallel without a division operator
+Find the log base 2 of an integer with the MSB N set in O(N) operations
+Find the integer log base 2 of an integer
+Find integer log base 10 of an integer
+Count the consecutive zero bits (trailing) on the right
+Cocktail
+Design an algorithm for MaxHeap
+Design an algorithm for MinHeap
+Design an algorithm to find the 100 shortest distances to stars in the universe
+Design a data structure for snake game
+How to store and search 1 million customers addresses efficiently
+Algorithm to find the duplicate in an array
+How will you design random7() using random5() function
+Check whether a tree is symmetric or not
+Count number of bits in an integer (Dont forget to handle negative number)
+There are two set 100 and 10, 000 data. How will you find the set C which contains only common elements present in A and B
+There are two unsorted array. Find the intersection of both
+Serialize and de serialize a tree
+How will you find the missing number in an array containing name from 1 to n
+Algorithm to find the first non-repeating character in a given string
+Given two arrays A [1..n] and B[1..m], find the smallest window in A that contains all elements of B. That is, find a pair <l,k> such that A[l..k] contains B[1..m] For example, given A = 3,1,5,7,3,5,2 and B = 5,3 then the smallest window is [3,5]
+How will you compute the value stored in the expression tree whose leaves tree hold operands & nodes contain operator
+How to find the two numbers whose difference is minimum among the set of numbers
+How could a linked list and a hash table be combined to allow someone to run through the list from item to item while still maintaining the ability to access an individual element in O(1) time
+How will you find the union of two array
+How will you smooth the curve of stock output
+How will you merge n list of average k number of array
+How to output the number in a sorted way in which The sorting is done based on string sort
+How will you return a number which exist odd number of times from an array
+How will you find data which are common in three files
+If there are two structs, TreeNode and Tree. TreeNode contains 3 elements, data, lChild and rChile. 
+Tree contains 2 elements, int size and TreeNode *root. 
+The tree is a complete tree. So how to find a O(logN) approach to insert a new node
+Write a function that would find the one value that occurs an odd number of times in an array
+If you are given a number as a parameter, write a function that would put commas after every third digit from the right
+How will you implement wc command in UNIX implementation in C++
+Write a function that returns the longest run of a letter in a string. e.g. "cccc" in the string "abccccdef"
+Find the set bit in a number
+I want to see if all the ones in a number appear on the right side of the number and all zeros appear on the left, how can I do this most efficiently? (i.e. 00000111 is true but 100010 is false)
+Algorithms to check if binary representation of a number is palindrome or not
+How will you find the square root of a number
+You have n machines contains n integer. How will you find the median of n^2 element. Only 2n number can be loaded in the memory
+You have a file in which each line contains some word. The file has millions of words in it. Two words are assumed to be same if they consist of same characters and same number of times. E.g. ABC or ACB or CAB
+Given an array having 16000 unique integers, each lying within the range 1<x<20000, how do u sort it. U can load only 1000 numbers at a time in memory
+A sorted array is rotated any number of time. How will you do binary search on that
+Write a function that checks whether the given set of strings is the anagrams of the given input string
+Algorithm to draw a circle
+Solve it
+Given two integers a, b how to divide a/b without using /,% operator
+How will you find out a/b where a and b are integers (solution NA)
+Given an array A of n elements and an integer k (where k<n). Elements {A[0]...A[k]}and {A[k+1]...A[n]} are already sorted. Give an algorithm to sort the array A in O(n) time and O(1)space
+There is an array in which two number are non-duplicate. Find those
+You are given two set X={ x1,x2,x3.........xn} and Y={y1,y2,y3.........ym}, You have to apply a Match( X parameter, Y parameter) function on each combination of set X and Y elements and then based on Match module result you have to assign a weight between the respective elements to form a Grap
+Match(x1 , y1)
+if( x1==y1) assign weight between x1 and y1 = 1;
+else assign weiight between x1 and y1= 0
+What is the space complexity of Quick Sort
+You can take one step or two steps forward from a given step. So find the total number of ways of reaching Nth step
+You have 1 to N-1 array and 1 to N numbers, and one number is missing, you need to find the missing the number
+You have an array. Find the maximum and minimum numbers in less number of comparisons
+3 strings say A, B, C are given to you. Check whether 3rd string is interleaved from string A and B
+On an empty chessboard, a horse starts from a point (say location x, y) and it starts moving randomly, but once it moves out of board, it can’t come inside. So what is the total probability that it stays within the board after N steps
+Given 2 trees T1(very big) ,T2(small), check if T2 is a sub tree of T1 i.e. exact structure and node key values of T2 should appear as a sub tree in T1
+Given two arrays A and B. A has integers unsorted. B has the same length as A and its values are in the set {-1, 0, 1} You have to return an array C with the following processing on A.
+if B has 0 then C must have A
+if B has -1 then A must be in C within the sub-array C[0] - C[i-1] i.e. left sub array
+if B has 1 then A must be in C within the sub array C[i+1] - C[length(A)] i.e. right sub array.
+if no such solution exists then print "no solution"
+How will you find the median of five numbers just by swapping
+Given a uniform random number generator in the range [0, 1]. We need to traverse the singly linked list in a single pass and return a random node. The length of the list is not given and no preprocessing. Every time a diff linked list with different length is given.
+An extension of this is
+Do the same for an array with O(1) space. The elements keep on coming one by one and we don’t know how many will come later on. You cannot maintain (store) all the previous elements. You have to return 'm' elements instead of 1 in random
+How will you find the number repeated twice from an array of 1 to 100
+How will you find all pairs (i, j) from an array of length N such that i<j and A[i]>A[j]
+There is an array which is to be used as two stacks problem
+Given an array with some repeatin number. Like 3, 1,5,2,10,2,5. The output should be the array with a numbers like 3, 1,5,5,2,2,10. Number should appear as many times as they appear in the array but in the same order
+Write a tradition fibonacci number. Optimize it to work faster than traditional program
+You are given an array of n of positive and negative numbers. Also given another number k. U have to find whether the sum of any two of the numbers from the array is equal to k in O(n) time
+Find out how many bits is required to convert integer A to B
+How will you divide a number by 3 without using normal operator
+How will you rotate the string's last N elements to the beginning
+How do u turn off the rightmost significant bit of a number
+Write the hexadecimal form of an integer
+There are 8 characters and the probability of their occurrence is 1/2, 1/4 …1/256. How will u represent it in binary using minimum no. of bits
+int *i; for(i=0;i<MAX_RAM;i++) i=0;
+What will be the behavior of the above program             
+There is 0 to N-1 number of array with two numbers has a duplicate. Find those two
+How will you optimize binary search
+There is an array, how will you partition that into two parts so that the sum of both the sub set is minimum
+You are given a two dimensional character array of size n x n.It is filled with some characters. Now I will give you a name say "Ram”. And you have to find whether there exists any curve in the grid which when joined gives "Ram"
+To understand this question, please recall the problem of finding movie names from a grid of characters. Here the difference is that, in movie problem, the curve was supposed to be a straight line. But here it can be anything.
+Now a curve must be found by joining a character with its 'adjacent' character and so on. E.g. consider this grid
+u b c n
+f t j k
+s a m w
+d r g y
+There is an array A[n], to create another array B[n], every element in B has B=A[0]*A[1]*...*A[n-1]/A without using division how to create B[n] in O(n)
+How will you rotate A[m][n] clockwise to form a new array A’[m][n]
+You have a string say, "foobarfoo", in which "fo" and "oo" are repeated twice. You have to find all such repeated pairs in O(n) time of length 2. The string can only have alphanumeric elements
+Give an algorithm with a complexity of O(1/n)
+How will you sort an array of zero and one
+Given a string ex: "aabccdcb". Find all size palindrome of the given string
+You are given a string. Develop a function to remove duplicate characters from that string. String could be of any length. Your algorithm must be in space. If you wish you can use constant size extra space which is not dependent any how on string size. Your algorithm must be of complexity of O(n)
+There are N petrol pumps along a circular path. Every petrol pump gives some amount of fixed petrol. Need not to be unique and in no particular order means it is random. We have a car and we need to find a petrol pump which can provide so much of petrol that we can take a full round of the circle. Mileage of car is fixed
+You have got 3 sorted arrays A1 A2 and A3 having m n and p elements respectively. A gap of 3 is defined to be max distance between 3 numbers if they are put on a number line say u pick three 2 12 and 7 then the gap is 10. Now u have to find an efficient way of choosing 3 numbers from these 3 separate arrays(A1,A2,A3) such that their gap is minimum. Of course if a num say 2 occurs in all 3 then gap is 0
+How will you find the MSB and LSB of a number
+How can you get a tree back if traversal of tree output is given
+There exits 2D array. We need or find out whether a given string ("crosoft") exits in the given matrix. The string can be vertical or horizontal or in snake form but not in diagonal.
+...c.o..oft
+.....r.s
+How will you write your own sizeof operator
+You are given a very large number N of points (x,y,z) in 3D space. You have to find out the k points which are closest to the origin i.e. (0, 0, 0). You have to do it in the most efficient way. (Sorting takes O(nlgn) and apparently there is a much better solution). Distance of P=(x,y,z) from origin is D=sqrt(x*x + y*y + z*z)
+How will you prove that there is no limit of prime number
+How will you remove duplicate from an unsorted array
+Write an algorithm that deletes consecutive 1, 2, and 3 and so on recurrences of characters
+You have an abstract computer, so just forget everything you know about computers, this one only does what I’m about to tell you it does. You can use as many variables as you need, there are no negative numbers, and all numbers are integers. You do not know the size of the integers, they could be infinitely large, and so you can't count on truncating at any point. There are NO comparisons allowed, no if statements or anything like that. There are only four operations you can do on a variable.
+a) You can set a variable to 0.
+b) You can set a variable = another variable.
+c) You can increment a variable (only by 1), and its a post increment.
+d) You can loop. So, if you were to say loop(v1) and v1 = 10, your loop would execute 10 times, but the value in v1 wouldn't change so the first line in the loop can change value of v1 without changing the no of times you loop. You need to do 2 things.
+(i) Write a function that decrements by 1.
+(ii) Write a function that subtracts one variable from another.
+(iii)Write a function to divide one variable by another
+Given an expression like (a+((b+c))) where extra braces are provided on b+c, (b+c) is ok. But ((b+c)) isn’t as it contains redundant. So fr given expression u have to find whether expression contains redundant parenthesis or not
+Simulate doubly linked list using single pointer
+How will you find the kth samllest element
+Given a dart board of radius `r', and if a dart is thrown on the board which always falls inside assuming uniform distribution, find the expected distance from the center for the point where the dart lands
+input: a array of two elements having value 0 and 1
+output: make both elements 0
+specifications :
+i) it is guaranted that one element is 0 but we do not know its position.
+ii) we can't say about another element it can be 0 or 1
+iii) we can only complement the element
+iv) no other operation is allowed (and, or, multi, division.... etc.)
+
+You are given with an array of integer and the length of array. Now u have to find an index i such that a(i)=i; O(logn)sol is fine if it(index i) exits. But if there is no such index you are unnecessarily checking it in O(logn)

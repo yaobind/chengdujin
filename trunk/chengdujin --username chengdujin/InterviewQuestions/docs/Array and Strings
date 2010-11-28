@@ -1,0 +1,1390 @@
+Array and Strings
+
+- String难题总结
+<http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284348600_2.70/%D4%DCrp%D5%FB%C0%ED%C3%E6%CA%D4%CC%E2%281%29string+match%2Ctext+sea>
+
+1.
+Q: An integer array containing millions of elements with min 0 and max 1000, how to sort it?
+A: counting sort O(n + k)
+
+2.
+Q: Covert integer number to date string, for example, 20090130 -> "01/30/ 2009"
+A: 就是Integer2String函数稍微修改一下 (已建工程)
+
+3.
+Q: 一个数组,找出第一个重复的数
+A: 可以用hashmap (已建工程)
+
+4. (难点)
+Q: 两个排序数组找共同中值。递归和非递归解法。
+A: <http://geeksforgeeks.org/?p=2105>
+
+5. (第三问见20题)
+Q: 一个数组,找最大值比较次数?同时找最大值和最小值比较次数?找最大值和次最大值比较次数?
+A: 单独最大值logn 最大值和最小值(参考编程之美2.10)1.5n 最大值和次最大值N+logN-2
+
+6. (部分解决)
+Q: 实现strstr(str1, str2),如果str2是str1的子串,返回true,否则返回false.
+A: Rabin-Karp, KMP, suffix tree (SuffixTree解法可以看SuffixTree工程)
+<http://www.thecareerplus.com/?page=resources&cat=10&subCat=90&qNo=3>
+
+7.
+Q: 请书写一个程序,将整型变量x中数字左右翻转后存到另外一个整型变量y中,例 如x为12345 时,y为54321,x为‐123 时,y为‐321。其中x的个位不为0。void reverse (int x, int* y);
+A: 从低位往高位取值, 逐一放在queue中
+
+8. (没解决)
+Q: Given a sorted integer array and a number, find all the pairs that sum up to the number. What if the array is sorted by absolute value, for example {1, -2, 4, -9}, find the answer in O(N).
+A:
+
+9.
+Q: Given an array A, output another array B such that B[k]=product of all elements in A but A[k]. You are not allowed to use division.
+A: http://www.matrix67.com/blog/archives/331 从前往后扫一遍，然后从后往前再扫一遍。也就是说，线性时间构造两个新数组，P[i]=A[1]*A[2]*...*A[i]，Q[i]=A[n]*A[n-1]*...*A[i]。于是，B[i]=P[i-1]*Q[i+1]。
+
+10.
+Q: You are given a string e.g."face" and a set of mutation rules, e.g. a->@, e->3, e-E. Print all the possible strings that can be generated b y the rules, e.g. f@c3, fac3, etc.
+A: 和求Combinations类似. result list中先放入face 然后看a->@ 将result list中所有能变化的结果加入到list中. 然后再来e->3, e->E ....
+
+11. (注意代码)
+Q: Design an algorithm to find whether a given string is formed by the interleaving of two given strings or not. e.g. s1= aabccabc s2= dbbabc s3= aabdbbccababcc Given s1,s2,s3 design an efficient algorithm to find whether s3 is formed from the interleaving of s1 and s2.
+A: <http://www.careercup.com/question?id=2571> (已建工程InterleavingStrings)
+
+12.
+Q: 写一函数f(a,b)，它带有两个字符串参数并返回一串字符，该字符串只包含在两个串中都有的并按照在a中的顺序。写一个版本算法复杂度O(N^2)和一个O(N). 类似题 Write a function f(a, b) which takes two character string arguments and returns a string containing only the characters found in both strings in the order of a. Write a version which is order N-squared and one which is order N.
+A: O(N^2)：对于a中的每个字符，遍历b中的每个字符，如果相同，则拷贝到新字符串中。O(N)：首先使用b中的字符建立一个hash_map，对于a中的每个字符，检测hash_map中是否存在，如果存在则拷贝到新字符串中。 类似题的suggestive solution: 不妨假设序列是从小到大排序的。定义两个指针分别指向序列的开始。如果指向的两个元素相等，则找到一个相同的元素；如果不等，则将指向较小元素的指针向前移动。重复执行上面的步骤，直到有一个指针指向序列尾端。
+
+13.
+Q: 一个字符串,要求返回重复次数最多且最长的子字符串(假设源字符串中最长重复次 数最多的子字符串只有一个)。例如 "abcabcdfabcdf"要求返回"abcdf". 因为"abcdf"重复次数最多且最长。
+A: http://discuss.techinterview.org/default.asp?interview.11.521303.14  http://discuss.techinterview.org/default.asp?interview.11.445656.19 (已建工程SuffixTree)
+
+14.  (未解决)
+Q: Given an array, find the longest subarray which the sum of the subarray less or equal than the given MaxSum. int[] FindMaxSumArray(int[] array, int maxsum) for example, given array: {1, -2, 4, 5, -2, 6, 7} maxsum=7 the result would be: {1,-2, 4, -2, 6}
+A: 与Maximum Subarray Problem不同 (已建工程)
+
+15. (注意代码 部分解决)
+Q: 数组中两两之差绝对值最小的值 有一个整数数组，请求出两两之差"绝对值最小"的值,记住，只要得出最小值即可，不需要求出是哪两个数
+A: http://topic.csdn.net/u/20070917/19/de6931d2-18a4-4f0e-ac83-89f9e597c32d.html 以及 http://fayaa.com/tiku/view/116/ (已建工程)
+(只能解决两两之差, 并不能解决绝对值最小)设这个整数数组是a1,a2,...,an 构造数组B=(b1,b2,...,bn-1) b1 = a1-a2, b2 = a2-a3, b3 = a3-a4, ... bn-1 = an-1 - an. 那么原数组中，任意两整数之差ai-aj（1 <=i,j <=n）可以表示成 B中第i个到第j-1个元素的连续求和 例如b2+b3+b4 = (a2-a3) + (a3-a4) + (a4-a5) = a2-a5 O(n)构造出B序列后，用类似“最大子段和”算法求“最小绝对值子段和” 。但是，此处只是简单的一提这种方法，并没有区分开求最大子段和最小字段的区别。现分析如下： 最大字段是“负数会导致子段的值减少”，此处我们则根据“整数会导致子段的和增加”，则只要子段和大于0，则置零。跟最大字段和相对应的一种情况是“所有的数为正数”，则我们可以扫描一遍数组b则可得到最小的正数，此为答案
+	private static int findMinDiff(int[] input) {
+		int[] input2 = new int[input.length - 1];
+		for (int i = 0; i < input.length - 1; i++)
+			input2[i] = input[i] - input[i + 1];
+		return minSum(input2);
+	}
+
+	private static int minSum(int[] input) {
+		int current = input[0];
+		int min = Math.abs(input[0]);
+		for (int i = 1; i < input.length; i++) {
+			current = current + input[i];
+			if (current <= 0) {
+				if (current < min)
+					min = current;
+			} else
+				current = 0;
+		}
+		return min;
+	}
+
+16.
+Q: You are given with three sorted arrays (in ascending order), you are required to find a triplet (one element from each array) such that distance is minimum. Distance is defined like this: If a[i], b[j] and c[k] are three elements then distance=max(abs(a[i]-b[j]),abs(a[i]-c[k]),abs(b[j]-c[k])) Please give a solution in O(n) time complexity
+A: <http://effprog.blogspot.com/2010/08/given-3-sorted-arrays-in-ascending.html> <http://placementsindia.blogspot.com/2007/09/sorting-mergesort.html> (已建工程TripletMinDistance)
+Point to the first elements of the three arrays, namely a[0],b[0],c[0]. Find the smallest and second smallest of the three.Let us say that a[0] is the smallest and b[0] is the second smallest. Increment the pointer of a until you find a[i]>b[0]. Calculate the difference between a[i-1] and c[0] and store it as current min. Now,again find the smallest and second smallest between a[i], b[0], and c[0] and repeat the above process. If the new difference is smaller than current min,update the value of current min. Repeat the above process until one of the arrays are finished.
+
+17.
+Q: given n strings with equal length, say x. find the substring shared by all of them. For example, abcx, abdx, abea, then ab is shared by all of them.
+A: suffix tree can achieve O(k^2*n), Rabin-Karp can achieve O(k*n^2), where k = # of strings & n = length of string  一种办法就是头两个字符串先对比, 存储所有相同字符串, 再和第三个对比
+
+18. (漂亮的解法)
+Q: 找到数组中多个重复的数字 Given a read only array of size n  each of which is a number between 1 to n-1 inclusive, find any element which is present more than once in the array in linear time and constant space. E.g. 2 1 2 3 5 3. Output: 2 or 3 类似题 一摞未排序的扑克中间有重复,用最有效的方法找出并删除重复者
+A: 	static void findDupBitwise(int[] input) {
+		int checker = 0; 
+		for (int i = 0; i < input.length; ++i) {
+			int val = input[i]; 
+			if ((checker & (1 << val)) > 0) {
+				System.out.print(input[i] + " ");
+				continue;
+			}
+			checker |= (1 << val);
+		}
+	}
+
+19.
+Q: You are given a bit array (i.e each element is 0 or 1) A[1..n]. A bit array is called balanced if the number of times 01 appears is same as the number of times 10 appears. By 01 appearing we mean that A[i] = 0 and A[i+1] = 1 for some i. i.e. S1 = { i : A[i] = 0 and A[i+1] = 1} S2 = {j : A[j] = 1 and A[j+1] = 0} The array is balanced if number of elements in S1 is same as number of elements in S2. Eg: A = [1,0,1] is balanced. A = [0,0,0,0,0,0] is balanced too. Give an algorithm to determine if a bit array A[1...n] is balanced.
+A: <http://discuss.techinterview.org/default.asp?interview.11.748329.13> 
+balanced = not (xor(b[0], b[n-1]))
+
+20. (代码易写错)
+Q: N个数的数组,找出最大的和第二大的数,只用N+logN-2的比较次数 ,不需要额外空间。这个是典型的问题本身就是答案提示的题目--基于比较又有LogN, 很显然思路涉及二分法,继续下去,剩下的问题就仅仅是找一个符合要求的 Implementation了。
+A: <http://www.cis.ysu.edu/~kramer/CSCI5870/Adversary/SecondLargest.pdf> (已建工程SecondLargest)
+class Competitor {
+    int value;
+    List list;
+
+    public Competitor(int value) {
+        this.value = value;
+        this.list = new ArrayList();
+    }
+}
+
+Queue q = new LinkedList();
+
+void findLargest(int[] input) {
+    for (int i = 0; i < input.length; i++) {
+        Competitor c = new Competitor(input[i]);
+        q.push(c);
+    }
+    while (q.size() > 1) {
+        Competitor c1 = q.poll();
+        Competitor c2 = q.poll();
+        if (c1.value > c2.value) {
+            c1.list.add(c2);
+            q.push(c1);
+        } else {
+            c2.list.add(c1);
+            q.push(c2);
+        }
+    }
+    Competitor d = ((Competitor) q.poll());
+    System.out.println(d.value);
+    System.out.println(d.list);
+}
+
+21.
+Q: 判断这5个数值是否连续相邻 一个整数数列，元素取值可能是0~65535中的任意一个数，相同数值不会重复出现；0是例外，可以反复出现。请设计一个算法，当你从该数列中随意选取5个数值，判断这5个数值是否连续相邻
+A: <http://fayaa.com/tiku/view/109/>
+非0最大-非0最小<=4
+
+22.
+Q: You are given two arrays, say A: {4, 1, 6, 2, 8, 9, 5, 3, 2, 9, 8, 4, 6} B: {6, 1, 2, 9, 8}, where B contains elements which are in A in consecutive locations but may be in any order. Find their starting and ending indexes in A. (Be careful of duplicate numbers).
+A: <http://discuss.techinterview.org/default.asp?interview.11.791522.25>
+总的来说, 是按照B的长度来分解A, 一个办法是对每段和B进行Sig的Hash计算, 然后比较. 或者将A和B的部分变成4:1, 6:2的形式(4出现了1次, 6出现了两次), 然后进行比较.
+	static List list = new ArrayList();
+
+	static int findStartIndex(int[] a, int[] b) {
+		for (int i = 0; i < a.length; i++) {
+			if ((a.length - i) > b.length) {
+				int hash = a[i];
+				for (int j = 1; j < b.length; j++)
+					hash ^= a[i + j];
+				list.add(hash);
+			}
+		}
+		int bhash = b[0];
+		for (int i = 1; i < b.length; i++)
+			bhash ^= b[i];
+
+		for (int i = 0; i < list.size(); i++)
+			if (list.get(i).equals(bhash))
+				return i;
+
+		return -1;
+	}
+
+23. (类同46和47题)
+Q: How to sort an array with only {0, 1, 2} possible values in O(n) without extra space(意思就是说不能用counting sort)? Ex: an array {0, 1, 2, 2, 1, 0}
+A: 两个参数, 分别记录0和1的个数
+
+24.
+Q: given a string, how to do a string rotation without using extra memory?
+A: 编程之美 Identify the character you want to be at the front of the string after the rotation. Then divide the string into two halves such that this character is the first character in the second half. Reverse each half in place, then reverse the resulting string.
+
+25.
+Q: Find out if two inputs are Anagrams with HUGE HUGE input (like thousand of terabyte)
+A: 三种办法 Use hash. A good way to design the key is to sort the characters in the word, and then combine any duplicated chars, for example, the key to "anagram" will be: "a3g1m1n1r1".  This can be generated using a counting array(in counting sort) in O(m+n) -> m is size of counting array and n is size of anagram str. Insertion into hashtable is therefore O(m+n) and lookup is the same O(m+n) since we need to key the incoming anagram to lookup in hashtable. 第二种办法 For each word in the dictionary, sort the letters alphabetically. So "foobar" becomes "acfoor." Then when the input anagram comes in, sort its letters too, then look it up. It's as fast as a hashtable lookup! For multiple words, you could do combinations of the sorted letters, sorting as you go. Still much faster than generating all combinations. (最好)或者, s1放入hashmap中, key为字符, value为个数. s2每个字符和hashmap比较, 存在则value减一 (空则去掉这个key). 最后检查hashmap个数是否为0.
+
+26.
+Q: Given two arrays of numbers, find if each of the two arrays have the same set of integers? Suggest an algo which can run faster than NlogN without extra space?
+A: 数组1全体进行异或, 数组2全体进行异或, 两者再异或, 如果为0, 则两者相同.  http://discuss.techinterview.org/default.asp?interview.11.572362.24
+
+27. (有意思) keyword: 7 letters
+Q: 给你一本dictionary,任意给你七个letters,让你找出包含这七个字母的、最长的单词。条件:可以pre-processing,这样每次给你不同的letters时,可以very efficient
+A: 对每个单词，求一个int值，使用出现的字母来set该int对应的bit位，如‘a’，就set 第0位为1。然后将所有有同样int的单词存成pair <int, vector<string> >的形式,并将vector内string按length排序。query时，将7个字母mark出一个int值（q）。依次和每个key做&运算（相信这个速度更快），如果q==q&key，（means key里有那7个字母），则记录该pair的second项的最后一个string，和当前最长的比较。 所有pair比较完，就得到了解。这个应该是sublinear的。其实，pair的第二项可以只存该类最长的单词。如果包括大写字母，可以用long long来代替int。 或者 words[n][26] n is number of words in dictionary. Then each entry words[i][j] is 1 if words[i] contains letter[j].
+
+28. (未解决)
+Q: N台机器,每台机器有k个数 找median (2个数组找median的扩展版)
+A: k个书中找到median, N台机器都这样, 然后取这N个median的median
+
+29. (难点 见WildcarMatching)
+Q: wild card匹配+搜索:假设你有一个dictionary(原题中是URL集合),你要搜到到所 有与 *a*bc*d 这样的输入所匹配的words。这里,*是通配符,可以当成是任意个任意 字符(包括空),怎么 预处理+搜索?如果输入是 ???a???b??cde 这类呢? ‘?’代表 单个任意字符。如果输入是? *的混合呢? 类似题 Implement the function bool isRegex(char *reg, char *string); This function is passed two strings : a regular expression, consisting of the [a-z] and the * and ? characters. We had to check if the string matched the supplied regular expression. For example, if reg is a*b, and string is acbcb, we should return true. And if reg is a?b and string is accb, we return false.
+A: <http://www.drdobbs.com/architecture-and-design/210200888> 或者 <http://thecyberian.wordpress.com/microsoft-interview-questions/> 或者 <http://groups.google.com/group/algogeeks/browse_thread/thread/c65ff946db5045ee>
+
+<http://mach.debagua.com/archives/2010/0416_001117.html>
+KMP算法才是王道，不过，如果只匹配*和?，可以这样
+规定x[i]表示字符串x的第i个字符，注意，这里的下标从1开始。定义一个函数Match[i, j]，表示特征串x的长度为i的前缀与字符串的s的长度为j的前缀是否匹配。经过分析可以写出如下的递归公式： 
+Match[i,j] = Match[i-1, j-1], if x[i] = ’?’ 
+= Match[i-1, 1..j]中任何一个等于true, if x[i]=’*’ 
+= Match[i-1, j-1] and (x[i] = s[j]), if x[i]不是通配符 
+该递归公式的边界条件是 
+Match[0,0] = true, 
+Match[i,0] = Match[i-1,0], if x[i] = ’*’ 
+= false, otherwise 
+根据上面的递归公式和边界条件，很容易写出一个动态规划算法来判断正则表达式x是否匹配字符串s。这个算法的复杂度是O(mn)
+
+30.
+Q: dictionary is given. You have a word which may be misspelled. How will you check if it is misspelled?
+A: Trie
+
+31. (未解决)
+Q: Write to find the 2nd duplicate substring in a string.
+A: 后缀树
+
+32. (难点 ExternalSort)
+Q: Given N integers which are unsorted and are stored in disk. You have a computer with a very limited memory of size k. i.e You can only perform operations on k integers at a time among the N. Also k<<<<N. Now, find the median among the N integers.
+A: http://en.wikipedia.org/wiki/Selection_algorithm#Linear_general_selection_algorithm_-_Median_of_Medians_algorithm 以及 http://discuss.techinterview.org/default.asp?interview.11.794214.9
+
+33. (难点)
+Q: Given an array of n integers, such that each number in the array appears exactly twice, except for three numbers (say a, b and c) which appear exactly once. In O(n) time and O(1) space find a,b and c. The input array is read-only.
+A: http://discuss.techinterview.org/default.asp?interview.11.694323.19 (已建工程ThreeOddNumbers)
+
+34.
+Q: You have an int array of size unknown(infinite), how will you do binary search over it? The array is sorted.
+A: <http://discuss.techinterview.org/default.asp?interview.11.791047.4>
+start with number at position 1 (0-based). If it's smaller than our search, then double this position. Once we get the value greater than we're looking for, do a regular binary search in the range from currentPosition/2 to currentPosition.
+
+35. (代码容易出错 见工程IndexSorting)
+Q: Divide a list of numbers into groups of consecutive numbers but their original order should be preserved. Example: <8,2,4,7,1,0,3,6> Two groups: <2,4,1,0,3> <8,7,6>
+A: <http://discuss.techinterview.org/default.asp?interview.11.770712.8> <http://www.careercup.com/question?id=65732>
+sort the input array in some other same size list. Travel through that array to find the boundaries of consecutive groups.After a boundary is found travel through the original array and put the numbers in that range in the sorted array. 还有办法就是 Traverse through the array starting from the beginning and put the first element in one list(create new). Get second and put it in the same list if it is +/-1 from the last number inserted in any list else create a new one and put it their. Merge the lists formed into clearly demarcated lists. 令: 建立一个0~n-1的数组, 对原数组中出现的数字赋1. 对连续的数字赋值, 比如
+0 1 3 4 5 6 7 8
+1 1 1 1   2 2 2
+随后可以根据"2"建立不同的数组, 然后再过一遍原数组.
+
+还有Index sort
+It is easy. You use a technique called "index sorting", C#, Java, etc. all have overloads of the sort call which can tandem sort two arrays. So essentially you have two arrays
+int[] numbers = {5, 7, 8, 2, 9, 3} or whatever
+int[] indices = {0, 1, 2, 3, 4, 5}
+
+sort indices and numbers by the elements in numbers.
+numbers = {2, 3, 5, 7, 8, 9}
+indices = {3, 5, 0, 1, 2, 4}
+
+Then divide numbers/indices into consecutive groups, which is easy. Resort numbers/indices but sort by indices. Then just walk through numbers printing out the values.
+
+36. (难点)
+Q: This question was asked in Amazon interview. (Please do bear with my wordings) Given a set of N numbers(N being even), the task is to divide the numbers into 2 equal groups(N/2 each), such that the difference in sum between the two groups is minimal.
+A: <编程之美> <http://discuss.techinterview.org/default.asp?interview.11.751621.6> 类似 <http://www.careercup.com/question?id=295694> (已建工程SplitGroup)
+
+37. (难点)
+Q: Find all palindromes in a string
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.794341> <http://algo2006.csie.dyu.edu.tw/paper/2/A24.pdf>
+(已建工程PalindromesAllFound)
+
+38.
+Q: 给定一个字符串的集合，格式如：{aaa bbb ccc}， {bbb ddd}，{eee fff}，{ggg}，{ddd hhh}，将其中交集不为空的集合合并，要求合并完成后的集合之间无交集。例如上例应输出{aaa bbb ccc ddd hhh}, {eee fff}, {ggg}
+A: <http://fayaa.com/tiku/view/31/>
+将所有集合放入一个set/list内, 从第一个集合开始找是否有交集, 有则合并, 无则继续寻找. 第二轮开始第二个集合(即刚才未能合并的)移动到第一位, 重复刚才工作 (这样做是避免刚才第一个集合在合并了第三个集合后具有合并第二个集合的能力).
+
+39.
+Q: 找无序数组中位数和K大值的好思路
+A: http://blog.csdn.net/zdl1016/archive/2009/10/15/4676882.aspx (厉害)http://geeksforgeeks.org/?p=2392
+
+40. (难点)
+Q: Convert a Roman Numeral string to Decimal.
+A: (已建工程RomanNumeral2Decimal)
+
+41. (注意代码)
+Q: Finding intersection of two sorted arrays
+A: http://www.ihas1337code.com/2010/03/here-is-phone-screening-question-from.html
+vector<int> findIntersection(vector<int> A, vector<int> B) {
+  vector<int> intersection;
+  int n1 = A.size();
+  int n2 = B.size();
+  int i = 0, j = 0;
+  while (i < n1 && j < n2) {
+      if (A[i] > B[j]) {
+          j++;
+      } else if (B[j] > A[i]) {
+          i++;
+      } else {
+          intersection.push_back(A[i]);
+          i++;
+          j++;
+      }
+  }
+  return intersection;
+}
+
+42. (难点 已建工程PalindromMaking)
+Q: Given a string, figure out how many characters minimum are needed to make the word a palindrome. 
+A: <http://stackoverflow.com/questions/903176/how-do-i-figure-out-the-least-number-of-characters-to-create-a-palindrome>
+function isPalindrome(s):
+    i1 = 0
+    i2 = s.length() - 1
+    while i2 > i1:
+        if s.char_at(i1) not equal to s.char_at(i2):
+            return false
+        increment i1
+        decrement i2
+    return true
+Try that with the full string. If that doesn't work, save the first character on a stack then see if the remaining characters form a palindrome. If that doesn't work, save the second character as well and check again from the third character onwards.
+
+Eventually you'll end up with a series of saved characters and the remaining string which is a palindrome.
+
+Best case is if the original string was a palindrome in which case the stack will be empty. Worst case is one character left (a one-character string is automatically a palindrome) and all the others on the stack.
+
+The number of characters you need to add to the end of the original string is the number of characters on the stack.
+
+43.
+Q: Write C code to implement the strstr (Search for a substring) function. Do not use any system library such as strlen.
+A: <http://www.ihas1337code.com/2010/10/implement-strstr-to-find-substring-in.html>
+char* StrStr(const char *str, const char *target) {
+  if (!*target) return str;
+  char *p1 = (char*)str;
+  while (*p1) {
+    char *p1Begin = p1, *p2 = (char*)target;
+    while (*p1 && *p2 && *p1 == *p2) {
+      p1++;
+      p2++;
+    }
+    if (!*p2)
+      return p1Begin;
+    p1 = p1Begin + 1;
+  }
+  return NULL;
+}
+
+44.
+Q: Given a input string find the longest substring which appears more than once in the string?
+A: <http://www.careercup.com/question?id=3376669> (已建工程SuffixTree)
+build array of suffixes and then sort them.
+e.g. mayank
+mayank| ayank |yank |ank |nk| k
+sort them 
+ank| ayank| k| mayank| nk |yank|
+now two adjacent which has longest prefix is our answer
+in this example "a" from (ank and ayank).
+
+import java.util.Arrays;
+class LRS {
+
+    public static String lcp(String s, String t) {
+        int n = Math.min(s.length(), t.length());
+        for (int i = 0; i < n; i++) {
+            if (s.charAt(i) != t.charAt(i))
+                return s.substring(0, i);
+        }
+        return s.substring(0, n);
+    }
+    public static String lrs(String s) {
+
+        int N  = s.length();
+        String[] suffixes = new String[N];
+        for (int i = 0; i < N; i++) {
+            suffixes[i] = s.substring(i, N);
+        }
+
+        Arrays.sort(suffixes);
+
+        String lrs = "";
+        for (int i = 0; i < N - 1; i++) {
+            String x = lcp(suffixes[i], suffixes[i+1]);
+            if (x.length() > lrs.length())
+                lrs = x;
+        }
+        return lrs;
+    }
+    public static void main(String[] args) {
+        String s = "MaYankMaYanksasas";
+         s = s.replaceAll("\\s+", " ");
+        System.out.println("'" + lrs(s) + "'");
+    }
+}
+
+45. 
+Q: you are given 2 arrays sorted in decreasing order of size m and n respectively. Input: a number k <= m*n and >= 1 
+Output: the kth largest sum(a+b) possible. where a (any element from array 1) and b (any element from array 2) 
+A: <http://groups.google.com/group/algogeeks/browse_thread/thread/ace6ad485c5851c6> 或者 <http://www.careercup.com/question?id=2007663> 假如有
+A[] = (15,10,9,7,5,3,2,1)
+B[] = (20,17.13,8,6,4,3,0)
+现在将B[0]和A[0]分别加到A[1:n-1]和B[1:n-1]中去, 得到
+A'[] = (35,30,29,27,25,23,22,21)
+B'[] = (35,32,28,23,21,19,18,15)
+然后指针分别指向A'和B', 比较大小得到解 O(2n)
+
+46. (类同23和47题)
+Q: You are given an array of 0s and 1s in random order. Segregate 0s on left side and 1s on right side of the array. Traverse array only once. [Dutch National Flag Problem]
+A: <http://geeksforgeeks.org/?p=5234>
+方法1
+1) Count the number of 0s. Let count be C.
+2) Once we have count, we can put C 0s at the beginning and 1s at the remaining n – C positions in array.
+
+方法2
+a) Keep incrementing index left while there are 0s at it
+b) Keep decrementing index right while there are 1s at it
+c) If left < right then exchange arr[left] and arr[right]
+
+47. (难点)
+Q: Given an array A[] consisting 0s, 1s and 2s, write a function that sorts A[]. The functions should put all 0s first, then all 1s and all 2s in last. [同样是Dutch National Flag问题]
+A: <http://geeksforgeeks.org/?p=8133>
+方法1. 最简单的还是用counting sort (需要traverse array两次)
+方法2. (只需要过一次数组)
+	static void sort012(int[] a) {
+		int lo = 0;
+		int hi = a.length - 1;
+		int mid = 0;
+		while (mid <= hi) {
+			switch (a[mid]) {
+			case 0:
+				int c = lo++;
+				int d = mid++;
+				a[c] = a[c] ^ a[d];
+				a[d] = a[c] ^ a[d];
+				a[c] = a[c] ^ a[d];
+				break;
+			case 1:
+				mid++;
+				break;
+			case 2:
+				int e = hi--;
+				a[mid] = a[mid] ^ a[e];
+				a[e] = a[mid] ^ a[e];
+				a[mid] = a[mid] ^ a[e];
+				break;
+			}
+		}
+	}
+Time Complexity: O(n)
+
+48.
+Q: Given 2 sorted arrays A and B each of size N,find the combined median of A and B?
+A: <http://geeksforgeeks.org/?p=2105>
+1) Calculate the medians m1 and m2 of the input arrays ar1[] and ar2[] respectively.
+2) If m1 and m2 both are equal then we are done. return m1 (or m2)
+3) If m1 is greater than m2, then median is present in one of the below two subarrays.
+    a)  From first element of ar1 to m1 (ar1[0...|_n/2_|])
+    b)  From m2 to last element of ar2  (ar2[|_n/2_|...n-1])
+4) If m2 is greater than m1, then median is present in one of the below two subarrays.
+   a)  From m1 to last element of ar1  (ar1[|_n/2_|...n-1])
+   b)  From first element of ar2 to m2 (ar2[0...|_n/2_|])
+4) Repeat the above process until size of both the subarrays becomes 2.
+5) If size of the two arrays is 2 then use below formula to get the median.
+    Median = (max(ar1[0], ar2[0]) + min(ar1[1], ar2[1]))/2
+
+49.
+Q: Describe an efficient algorithm based on Quicksort that will find the element of a set that would be at position k if the elements were sorted. (http://placementsindia.blogspot.com/2007/10/quick-sort-routine-to-find-kth-smallest.html)
+A: QuickSelect(Array A, n, k)
+pivot = A [Random(1, n)]
+X={x | x belongs to A and x <=pivot}
+Y={x | x belongs to A and x >=pivot}
+if size(X) = k
+return pivot;
+else if size(X) < k
+return QuickSelect(Y,n-size(X)-1,k-size(X)-1);
+else
+return QuickSelect(X,size(X),k); 
+
+50.
+Q: Determine the running time of QuickSort for
+a.Sorted input
+b.reverse -ordered input
+c.random input
+d. When all the elements are equal
+A: <http://placementsindia.blogspot.com/2007/11/interview-questions-on-sorting-quick.html>
+
+51.
+Q: The largest rectangle under a histogram. Given: An integer array represents a histogram. Goal: Find the largest rectangle under the histogram. Complexity O(N) where N is the size of the given array.
+A: <http://mach.debagua.com/archives/2010/0416_001117.html#>
+输入为一个整数数组h[i]. 对于图中的某个面积最大的矩形，必然有一个最低的高度h[k]，即矩形的高等于 h[k]，以第k块矩形的高度，最左边可以到达这个矩形的左边，最右边可以到达这个矩形的右边。所以，可以以每块矩形进行扩展，求出最左边和最右边（即两边的高度都大于等于这块的高度），得出面积s[i]，这样就可求出最大的s[i]了。
+const int MAX = 100005; 
+__int64 h[MAX]; 
+__int64 left[MAX], right[MAX];        //left[i] = j表示第i个矩形以它的高度到达最左边的下标 
+
+void Solve () { 
+    int i; 
+    __int64 temp, max; 
+    for (i=1; i<=n; i++) 
+        left[i] = right[i] = i; 
+    for (i=1; i<=n; i++) 
+        while ( h[left[i]-1] >= h[i] ) 
+            left[i] = left[left[i]-1]; 
+    for (i=n; i>0; i--) 
+        while ( h[right[i]+1] >= h[i] ) 
+            right[i] = right[right[i]+1]; 
+
+    max = 0; 
+    for (i=1; i<=n; i++) { 
+        temp = h[i] * (right[i] - left[i] + 1); 
+        if ( temp > max ) 
+            max = temp; 
+    } 
+    printf("%I64d\n", max); 
+}
+
+52. (未解决)
+Q: Given a string of lowercase characters, reorder them such that the same characters are at least distance d from each other. Input: { a, b, b }, distance = 2 Output: { b, a, b }
+A: <http://www.ihas1337code.com/2010/05/here-is-another-google-phone-interview.html>
+The solution below involves a greedy strategy, that is: The character that has the most duplicates has the highest priority of being chosen to put in the new list. If that character cannot be chosen (due to the distance constraint), we go for the character that has the next highest priority. We also use some tables to improve the efficiency. (i.e., keeping track of # of duplicates of each character.)
+int find_max(int freq[], bool excep[]) {
+    int max_i = -1;
+    int max = -1;
+    for (char c = 'a'; c <= 'z'; c++) {
+        if (!excep[c] && freq[c] > 0 && freq[c] > max) {
+            max = freq[c];
+            max_i = c;
+        }
+    }
+    return max_i;
+}
+ 
+void create(char* str, int d, char ans[]) {
+    int n = strlen(str);
+    int freq[256] = {0};
+    for (int i = 0; i < n; i++)
+        freq[str[i]]++;
+ 
+    int used[256] = {0};
+    for (int i = 0; i < n; i++) {
+        bool excep[256] = {false};
+        bool done = false;
+        while (!done) {
+            int j = find_max(freq, excep);
+            if (j == -1) {
+                cout << "Error!\n";
+                return;
+            }
+            excep[j] = true;
+            if (used[j] <= 0) {
+                ans[i] = j;
+                freq[j]--;
+                used[j] = d;
+                done = true;
+            } 
+        }
+        for (int i = 0; i < 256; i++)
+            used[i]--;
+    }
+    ans[n] = '\0';
+}
+
+53.
+Q: Given an integer, print the closest number to it that is a palindrome - eg, the number "1224" would return "1221".
+A: <http://www.careercup.com/question?id=237693>
+- Convert the number into string. (1224, 39999)
+- take half of the string. ( "12", "399" )
+- copy first half to second half in reverse order (take care of no of chars)
+  ( "12" -> "1221", "399" -> "39993" )
+- convert to number and measure the abs. difference with original number - diff1
+  ( |1221 - 1224| = 3, |39993-39999| = 6)
+- add 1 to half string and now copy first half to second half in reverse order
+  ( 12+1 = 13, 399 + 1 = 400, 13-> 1331, 400->40004)
+- convert to number and measure the abs. difference with original number - diff2
+  ( |1331-1224| = 107, |40004-39999| = 5 )
+- if diff1<diff2 return first number else return second number
+  ( 1221, 40004)
+
+54. (同76题)
+Q: Suppose a sorted array is rotated at some pivot unknown to you beforehand. (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2). How do you find an element in the rotated array efficiently? 同问题 binary search circular array.
+A: <http://www.ihas1337code.com/2010/04/searching-element-in-rotated-array.html>
+First, we know that it is a sorted array that's been rotated. Although we do not know where the rotation pivot is, there is a property we can take advantage of. Here, we make an observation that a rotated array can be classified as two sub-array that is sorted (i.e., 4 5 6 7 0 1 2 consists of two sub-arrays 4 5 6 7 and 0 1 2.
+
+Do not jump to conclusion that we need to first find the location of the pivot and then do binary search on both sub-arrays. Although this can be done in O(lg n) time, this is not necessary and is more complicated.
+
+We don't care where the pivot is, we just know it is somewhere. Look at the middle element of the array. It is the element 7. Compare it with the left most and right most element. 7 is greater than 4, and is also greater than 2. From this information, we can deduce if the pivot is located in the lower or upper half.
+
+Since 7 (middle element) is greater than 4 (left element), the pivot must not located between the left index and the middle index. (i.e., the pivot must be in the upper half). Therefore, from left element to middle element, the series must be in the increasing order, and if the key we are looking for is between those two elements, we look in the lower half. If not, we look in the upper half.
+
+So when does it stops? Luckily, it is the same as binary search; that is, when left index is greater than right index.
+int rotated_binary_search(int key, int A[], int L, int R) {
+    if (L > R) return -1;
+    // Avoid overflow, same as M=(L+R)/2
+    int M = L + ((R - L) / 2);
+    if (A[M] == key) return M;
+ 
+    if (A[M] >= A[L]) {
+        if (key < A[M] && key >= A[L])
+            R = M - 1;
+        else
+            L = M + 1;
+    } else {
+        if (key > A[M] && key <= A[R])
+            L = M + 1;
+        else
+            R = M - 1;
+    }
+    return rotated_binary_search(key, A, L, R);
+}
+
+对于循环数组可以：
+<http://hi.baidu.com/mianshiti/blog/item/4a477f819adf94ae0cf4d28f.html>
+首先比较a[0]和a[N/2]，如果a[0] < a[N/2]，则说明a[0,1,...,N/2]为递增子序列，否则另一部分是递增子序列。
+然后判断要找的整数是否在递增子序列范围内。如果在，则使用普通的二分查找方法继续查找；如果不在，则重复上面的查找过程，直到找到或者失败为止。
+
+55. (可以过一遍)
+Q: Rotating an array in place. Rotate a one-dimensional array of n elements to the right by k steps. For instance, with n=7 and k=3, the array {a, b, c, d, e, f, g} is rotated to {e, f, g, a, b, c, d}. keyword: rotate string
+A: <http://www.ihas1337code.com/2010/04/rotating-array-in-place.html>
+void reverse_string(char* str, int left, int right) {
+    char* p1 = str + left;
+    char* p2 = str + right;
+    while (p1 < p2) {
+        char temp = *p1;
+        *p1 = *p2;
+        *p2 = temp;
+        p1++;
+        p2--;
+    }
+}
+ 
+void rotate(char* str, int k) {
+    int n = strlen(str);
+    reverse_string(str, 0, n-1);
+    reverse_string(str, 0, k-1);
+    reverse_string(str, k, n-1);
+}
+
+58.
+Q: Given two strings A and B, how would you find out if the characters in B were a subset of the characters in A? 
+A: <http://www.thecareerplus.com/?page=resources&cat=10&subCat=90&qNo=61>
+int isSubset(char *a, char *b) {
+ int letterPresent[256];
+ int i;
+
+ for(i=0; i<256; i++)
+    letterPresent[i]=0;
+
+ for(i=0; a[i]!='\0'; i++)
+    letterPresent[a[i]]++;
+
+ for(i=0; b[i]!='\0'; i++)
+    if(!letterPresent[b[i]])
+       return(1);
+
+ return(0);
+}
+
+58.
+Q: Write code to remove duplicates in a sorted array.
+A: <http://www.thecareerplus.com/?page=resources&cat=10&subCat=90&qNo=33>
+
+59. (难点)
+Q: {Maximum Value Contiguous Subsequence Problem} Given a sequence of n real numbers A(1) ... A(n), determine a contiguous subsequence A(i) ... A(j) for which the sum of elements in the subsequence is maximized.
+A: <http://www.codeproject.com/KB/recipes/Max_Subssequence.aspx>
+
+60. (难点)
+Q: Write a function to check if two strings are anagrams. Write a function to find all possible anagrams of a given string. You are given a method isWord() to check if the string is a valid word in a dictionary. Assuming that preprocessing can be done what preprocessing will u do in order to speed up the process of finding anagrams.
+A: <http://www.careercup.com/question?id=183823>
+For finding all possible anagrams: I'd preprocess the dictionary by sorting letters in each word. Such a sorted word would be a key in a map where the value is the list of original words being anagrams of the key. Finding all anagrams of a word consists of sorting the word, making a lookup and retrieving the list.
+
+61.
+Q: [PIE.115] Binary search, recursive and iterative versions.
+A: int binarySearch (int[] array, int lower, int upper, int target) {
+    // recurisive
+    if (lower > upper)
+        return -1;
+    int middle = (upper - lower) / 2 + lower;
+    if (array[middle] == target)
+        return middle;
+    else if (array[middle] > target)
+        return binarySearch(array, lower, middle - 1; target);
+    else
+        return binarySearch(array, middle + 1; upper, target);
+}
+
+int binarySearch (int[] array, int lower, int upper, int target) {
+    // iterative
+    if (lower > upper)
+        return -1;
+    while (lower < upper) {
+        int middle = (upper - lower) / 2 + lower;
+        if (array[middle] == target)
+            return array[middle];
+        else if (array[middle] > target)
+            upper = middle - 1;
+        else
+            lower = middle + 1;
+    }
+}
+
+62.
+Q: [PIE.123] Telephone Number Problem
+A: static final int PHONE_NUMBER_LENGTH = 7;
+
+void printTelephoneWords(int[] phoneNum) {
+    char[] result = new char[PHONE_NUMBER_LENGTH];
+    doPrintTelephoneWords(phoneNum, 0, result);
+}
+
+void doPrintTelephoneWords(int[] phoneNum, int curDigit, char[] result) {
+    if (curDigit == PHONE_NUM_LENGTH) {
+        System.out.println(Arrays.toString(result));
+        return;
+    }
+    for (int i = 1; i <= 3; i++) {
+        result[curDigit] = getCharKey(phoneNum[curDigit], i);
+        doPrintTelephoneWords(phoneNum, curDigit+1, result);
+        if (phoneNum[curDigit] == 0 || phoneNum[curDigit] == 1)
+            return;
+    }
+}
+
+63.
+Q: [PIE.96] Write an efficient function to find the first non-repeated character in a string. For instance, the first non-repeated character in “total” is ‘o’ and the first non-repeated character in “teeter” is ‘r’. Discuss the efficiency of your algorithm.
+A: char firstNonRepeated(String str){
+    char[] ctr = str.toCharArray();
+    LinkedHashMap map = new LinkedHashMap();
+    for (int i = 0; i < ctr.length; i ++) {
+        if (map.get(ctr[i]) != null) {
+            map.put(ctr[i], map.get(ctr[i]) + 1);
+        } else
+            map.put(ctr[i], 1);
+    }
+    for (int i = 0; i < map.size(); i++) {
+        if (map.get(ctr[i]) == 1)
+            return ctr[i];
+    }
+    return null;
+}
+
+64.
+Q: [PIE.99] Write an efficient function in C# that deletes characters from a string. 
+A: String removeChars(String str, String remove) {
+    boolean[] escape = new boolean[256];
+    for (int i = 0; i < remove.length(); i++)
+        escape[remove.charAt(i)] = true;
+    StringBuilder result = new StringBuilder();
+    while (int i = 0; i < str.length(); i++)
+        if (!escape[str.charAt(i)])
+            result.append(str.charAt(i));
+    return escape.toString();
+}
+
+65. (代码易写错)
+Q: [PIE.102] Write a function that reverses the order of the words in a string. For example, your function should transform the string “Do or do not, there is no try.” to “try. no is there not, do or Do”. Assume that all words are space delimited and treat punctuation the same as letters.
+A: boolean reverseWords(String input) {
+    char[] str = input.toCharArray();
+    reverseString(str, 0, str.length-1);
+    int start = 0;
+    int end = 0;
+    int length = str.length;
+    while (end < length) {
+        if (str[end] != ' ') {
+            start = end;
+            while (end < length && str[end] != ' ')
+                end++;
+            end--;
+            reverseString(str, start, end);
+        }
+        end++;
+    }
+}
+
+void reverseString(char[] str, int start, int end) {
+    char temp;
+    while (end > start) {
+        temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+        end--;
+        start++;
+    }
+}
+
+66. (注意2问)
+Q: [4.1.1] Implement an algorithm to determine if a string has all unique characters What if you can not use additional data structures?
+A: boolean isUniqueChars(String str) {
+    int checker = 0;
+    for (int i = 0; i < str.length(); i++) {
+        int value = str.charAt(i) - 'a';
+        if (checker & (1 << value) == 1)
+            return false;
+        checker |= (1 << value);
+    }
+    return true;
+}
+
+67.
+Q: [4.1.4] Write a method to decide if two strings are anagrams or not.
+A: boolean anagram(String s, String t) {
+    HashMap map = new HashMap();
+    for (int i = 0; i < s.length(); i++) {
+        if (map.get(s.charAt(i)) != null)
+            map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
+        else
+            map.put(s.charAt(i), 1);
+    }
+    for (int i = 0; i < t.length(); i++) {
+        if (map.get(t.charAt(i)) != null) {
+            if (map.get(t.charAt(i) == 1)
+                map.remove(t.charAt(i));
+            else
+                map.put(s.charAt(i), map.get(s.charAt(i)) - 1);
+        } else
+            return false;
+    }
+    return true;
+}
+
+68.
+Q: [4.1.5] Write a method to replace all spaces in a string with ‘%20’.
+A: void ReplaceFun(char[] str, int length) {
+    int spaceCount = 0, newLength, i = 0;
+    for (i = 0; i < length; i++)
+        if (str[i] == ' ')
+            spaceCount++;
+    newLength = length + spaceCount*2;
+    str[newLength] = '\0';
+    for (i = length-1; i >= 0; i--) {
+        if (str[i] == ' ') {
+            str[newLength-1] = '0';
+            str[newLength-2] = '2';
+            str[newLength-3] = '%';
+            newLength -= 3;
+        } else {
+            str[newLength-1] = str[i];
+            newLength --;
+        }
+    }
+}
+
+69.
+Q: LIS
+A: int[] LIS(int[] seq) {
+    int size = seq.length;
+    int[][] a = new int[size][size];
+    int[] b = new int[size];
+    int end = 0;
+    
+    for (int i = 0; i < size; i++) {
+        int index = binarySearchNear(b, end, seq[i]);
+        a[index][index] = seq[i];
+        for (int j = 0; j < index; j++)
+            a[index][j] = a[index-1][j];
+        b[index] = seq[i];
+        for (int j = 0; j < index; j++)
+            b[j] = a[j];
+        if (index > end)
+            end++;
+    }
+}
+
+int binarySearchNear(int[] arr, int end, int value) {
+    int low = 0; high = end;
+    if (value > arr[high])
+        return end + 1;
+    if (value < arr[low])
+        return 0;
+    while(low <= high) {
+        int middle = (high-low)/2 + low;
+        if (low = high)
+            return low;
+        else {
+            if (arr[middle] == value)
+                return middle
+            if (arr[middle] > value)
+                high = middle;
+            else 
+            	low = middle + 1;
+        }
+    }
+    return -1;
+}
+
+70.
+Q: [4.8.5] Implement an algorithm to print all valid (e g , properly opened and closed) combinations of n-pairs of parentheses.
+A: void printPar(int left, int right, char[] str, int count) {
+    if (left < 0 || right < left)
+        return;
+    if (left == 0 && right == 0)
+        System.out.println(Arrays.(str));
+    else {
+        if (left > 0) {
+            str[count] = '[';
+            printPar(left-1, right, str, count+1);
+        } else if (right > left) {
+            str[count] = ']';
+            printPar(left, right-1; str. count+1);
+        }
+    }
+}
+
+71.
+Q: [4.8.7] Coin Change Problem. Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways of representing n cents.
+A: int[] changes = { 10, 5, 3, 2 };
+ArrayList<Integer> results = new ArrayList<Integer>();
+    
+void makeChange(int index, int sum) {
+    if (sum == 0) {
+        System.out.println(results.toString());
+        return;
+    }
+    for (int i = index; i < changes.length; i++) {
+        if (sum >= changes[i]) {
+            results.add(changes[i]);
+            makeChange(i, sum-changes[i]);
+            results.remove(results.size() - 1);
+        }
+    }   
+}
+
+72. (代码易写错)
+Q: Edit Distance/Levenshtein Distance.
+A: int levenshtein(String str1, String str2) {
+    int[][] distance = new int[str1.length()+1][str2.length()+1];
+    for (int i = 0; i < str1.length(); i++)
+        distance[i][0] = i;
+    for (int i = 0; i < str2.length(); i++)
+        distance[0][i] = i;
+    for (int i = 1; i <= str1.length(); i++)
+        for (int j = 1; j <= str2.length(); j++) {
+            distance[i][j] = Math.min(Math.min(distance[i-1][j] + 1, 
+                distance[i][j-1] + 1), distance[i-1][j-1] + 
+                str1.charAt(i-1)==str2.charAt(j-1)?0:1);
+        }
+    return distance[str1.length()][str2.length()];
+}
+
+73. (代码易写错)
+Q: Longest Common Subsequence
+A: String lcs(String a, String b) {
+		int[][] lengths = new int[a.length() + 1][b.length() + 1];
+
+		// row 0 and column 0 are initialized to 0 already
+		for (int i = 0; i < a.length(); i++)
+			for (int j = 0; j < b.length(); j++)
+				if (a.charAt(i) == b.charAt(j))
+					lengths[i + 1][j + 1] = lengths[i][j] + 1;
+				else
+					lengths[i + 1][j + 1] = Math.max(lengths[i + 1][j],
+							lengths[i][j + 1]);
+
+		// read the substring out from the matrix
+		StringBuffer sb = new StringBuffer();
+		for (int x = a.length(), y = b.length(); x != 0 && y != 0;) {
+			if (lengths[x][y] == lengths[x - 1][y])
+				x--;
+			else if (lengths[x][y] == lengths[x][y - 1])
+				y--;
+			else {
+				sb.append(a.charAt(x - 1));
+				x--;
+				y--;
+			}
+		}
+
+		return sb.reverse().toString();
+	}
+
+74. (难点)
+Q: Longest Common Substring
+A: List longestSubstr(String a, String b) {
+    char[] ca = a.toCharArray();
+    char[] cb = b.toCharArray();
+    char[][] matrix = new char[ca.length][cb.lenth];
+    int maxLen = 0;
+    List maxs = new ArrayList();
+    
+    for (int i = 0; i < ca.length; i++)
+        for (int j = 0; j < cb.length; j++) {
+           if (ca[i] == cb[j]) {
+               if (i == 0 || b == 0)
+                   matrix[i][j] = 1;
+               else
+                   matrix[i][j] = matrix[i-1][j-1] + 1;
+               if (matrix[i][j] >= maxLen) {
+                   if (matrix[i][j] > maxLen)
+                       maxs.clear();
+                   maxLen = matrix[i][j];
+                   maxs.add(i);
+               }
+           } else
+               matrix[i][j] = 0;
+        }
+    for (int i = 0; i < maxs.size(); i++) {
+        StringBuffer sb = new StringBuffer();
+        int len = maxLen;
+        int t = maxs.get(i);
+        while (len > 0) {
+            sb.append(a.charAt(t));
+            len--;
+            t--;
+        }
+        System.out.println(sb.toString());
+    }
+}
+
+75.
+Q: [4.9.1] You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B. Write a method to merge B into A in sorted order.
+A: void merge(int[] a, int[] b, int n, int m) {
+    int asize = n - 1;
+    int bsize = m - 1;
+    int nsize = n + m -1;
+    while (asize >= 0 && bsize >= 0) {
+        if (a[asize] > b[bsize]) {
+            a[nsize] = a[asize];
+            asize--;
+            nsize--;    
+        } else {
+            a[nsize] = b[bsize];
+            bsize--;
+            nsize--; 
+        }
+    }
+    while (bsize >= 0) {
+        a[nsize] = b[bsize];
+        nsize--;
+        bsize--;
+    }
+}
+
+76. (注意检查细节)
+Q: [4.9.3] Given a sorted array of n integers that has been rotated an unknown number of times,give an O(logn) algorithm that finds an element in the array You may assume that the array was originally sorted in increasing order.
+A: int rotatedBinarySearch(int value, int a[], int left, int rite) {
+    if (left > rite)
+        return -1;
+    int middle = (rite - left)/2 + left;
+    if (a[middle] == value)
+        return middle;
+    if (a[middle] > a[left]) {
+        if (value < a[middle] && value > a[left])
+            rite = middle - 1;
+        else
+            left = middle + 1;
+    } else {
+        if (value > a[middle] && value < a[rite])
+            left = middle + 1;
+        else
+            rite = middle - 1;
+    }
+    return rotatedBinarySearch(value, a, left, rite);
+}
+
+77. (难点)
+Q: [4.20.10] Given two words of equal length that are in a dictionary, write a method to transform one word into another word by changing only one letter at a time. The new word you get in each step must be in the dictionary.
+A: 	static LinkedList<String> transform(String start, String end,
+			Set<String> dict) {
+		start = start.toUpperCase();
+		end = end.toUpperCase();
+
+		Queue<String> queue = new LinkedList<String>();
+		Set<String> visited = new HashSet<String>();
+		Map<String, String> backtrack = new TreeMap<String, String>();
+		
+		queue.add(start);
+		visited.add(start);
+
+		while (!queue.isEmpty()) {
+			String w = queue.poll();
+			
+			for (String v : getOneEditWords(w)) {
+				if (v.equals(end)) {
+					LinkedList<String> result = new LinkedList<String>();
+					result.add(v);
+					while (w != null) {
+						result.add(0, w);
+						w = backtrack.get(w);
+					}
+					return result;
+				}
+
+//				if (dict.contains(v)) {
+					if (!visited.contains(v)) {
+						queue.add(v);
+						visited.add(v);
+						backtrack.put(v, w);
+					}
+//				}
+			}
+		}
+
+		return null;
+	}
+
+	static Set<String> getOneEditWords(String word) {
+		Set<String> words = new TreeSet<String>();
+
+		for (int i = 0; i < word.length(); i++) {
+			char[] wordArray = word.toCharArray();
+			for (char c = 'A'; c < 'Z'; c++) {
+				if (c != wordArray[i]) {
+					wordArray[i] = c;
+					words.add(new String(wordArray));
+				}
+			}
+		}
+
+		return words;
+	}
+
+78.
+Q: [4.19.11] Design an algorithm to find all pairs of integers within an array which sum to a specified value.
+A: void printPairSums(int[] array, int sum) {
+    Arrays.sort(array);
+    int i = 0;
+    int j = array.length - 1;
+    while (i < j) {
+        int k = array[i] + array[j];
+        if (k == sum) {
+            System.out.println(i + "+" + j + "=" + sum);
+            i++;
+            j--;
+        } else {
+            if (k < sum)
+                i++;
+            else
+                j--;
+        }
+    }
+}
+
+79.
+Q: [2.2.1] Suppose we have an array a1, a2, ..., an, b1, b2, ..., bn. Implement an algorithm to change this array to a1, b1, a2, b2, ..., an, bn.
+A: 	private static void rightRotate(int[] seq, int start, int window) {
+		int temp = seq[start + window];
+		for (int i = (start + window - 1); i > (start - 1); i--)
+			seq[i + 1] = seq[i];
+		seq[start] = temp;
+	}
+
+	public static void main(String[] args) {
+		int[] input = { 1, 2, 3, 4, 5, 10, 20, 30, 40, 50 };
+		for (int i = 1, j = (input.length / 2 - 1); j > 0; i += 2, j--)
+			rightRotate(input, i, j);
+		System.out.println(Arrays.toString(input));
+	}
+
+80.
+Q: Find longest prefix common to all strings.
+A: String commonPrefix(String[] ss) {
+		if (ss.length < 1)
+			return null;
+		if (ss.length == 1)
+			return ss[0];
+		int prefixLength = 0;
+		for (char c : ss[0].toCharArray()) {
+			for (int i = 1; i < ss.length; i++)
+				if (ss[i].length() <= prefixLength
+						|| ss[i].charAt(prefixLength) != c)
+					return ss[0].substring(0, prefixLength);
+			prefixLength++;
+		}
+		return ss[0];
+	}
+
+81.
+Q: A majority element in an array A[] of size n is an element that appears more than n/2 times (and hence there is at most one such element). Write a function which takes an array and emits the majority element (if it exists), otherwise prints NONE.
+A: <http://geeksforgeeks.org/?p=503> (已建工程MajorityElement)
+
+82.
+Q: [4.20.5] You have a large text file containing words Given any two words, find the shortest distance (in terms of number of words) between them in the file. Can you make the searching operation in O(1) time? What about the space complexity for your solution?
+A: 已建工程ShortestWords
+int shortest(String[] words, String w1, String w2) {
+		int min = Integer.MAX_VALUE / 2;
+		int pos1 = -min;
+		int pos2 = -min;
+		for (int i = 0; i < words.length; i++) {
+			String current = words[i];
+			if (current.equals(w1)) {
+				pos1 = i;
+				int distance = pos1 - pos2;
+				if (min > distance)
+					min = distance;
+			} else if (current.equals(w2)) {
+				pos2 = i;
+				int distance = pos2 - pos1;
+				if (min > distance)
+					min = distance;
+			}
+		}
+		return min;
+	}
+
+83.
+Q: [4.20.7] Write a program to find the longest word made of other words in a list of words.
+A: (已建工程LongestCombinedWord)
+
+84.
+Q: [4.20.8] Given a string s and an array of smaller strings T, design a method to search s for each small string in T.
+A: (已建工程SuffixTreeBuilding)
+
+85.
+Q: Given a string and print the words which have the same exact letters. Space is the only separator. For example, abc bbe bca derwe eeb, it will print abc bca. abc bbe abcd derwe eeb will print nothing.
+A: <http://www.careercup.com/question?id=65675>
+Basically, this question is to find all anagrams in a given sentence.
+I'll present only the idea here:
+(1) for each word generate a key- for eg., for eeb, the key is "bee", i.e., sorted. The sorting takes o(n) time, where n is the length of the word. This can be achieved by using a count array of size 26 (assuming only a-z), where each slot gives how many times an alphabet occurs.
+
+(2) After computing the key, add it to a hash map, where the key is the above key, and value is the list of words (or a pointer to it). Add the word to the value list for this key.
+
+(3) After repeating (2) for each word in the sentence, iterate the hash map, and for each key such that the value list has more than 1 element, print the list.
+
+SPACE: O(len) where len is the number of characters. Basically this space is needed for the hash map. But typically hash maps from library preallocate space, so the actual space used depends on the library characteristics.
+
+TIME: O(len). this is because keys are generated on the fly while traversing the sentency from left to right. The count array is reset at the start of the next word, which is after a space.
+
+86.
+Q: Design an algorithm to find whether a given string is formed by the interleaving of two given strings or not.
+s1= aabccabc
+s2= dbbabc
+s3= aabdbbccababcc
+Given s1,s2,s3 design an efficient algorithm to find whether s3 is formed from the interleaving of s1 and s2.
+A: <http://www.careercup.com/question?id=2571>
+Here is the idea behind getting an algorithm in O(m+n), where m and n are the lengths of the two strings s1 and s2, such that s1+s2+s3, where + represents this strange concatenation.
+
+Imagine a matrix with m columns and n rows. each column is labeled by a symbol in string s1, and each row is labeled by a character in string s2. If you draw it, look at where the vertical lines intersect the horizontal lines, and call these points. These intersections are the points of interest. The question becomes: if you start in the upper left point and you can only go right and down, can you reach the lower right corner? A move is valid only if the segment corresponding to the current character is the character in s3. If you start labeling the points with true if you can reach that point and with false otherwise (exploring false points is not interesting). First, label all the top points, then all the left points. Now start labeling the second row of points (left to right), then the next row, and so on.
+
+If you can label the lower right point with true, them s1+s2=s3. Note that to actually find the correct interleaving, you need an auxiliary structure with back pointers.
+
+87. (参考Matrix67的博文)
+Q: 就是什么时候用O(n^2)的算法而不是用O(nlgn)的算法,比如用在数目少的时候会用insertion sort,而不是用merge sort之类的?
+A: merge sort空间开销大。而且insertion sort对于基本有序的数组排列是很快的，比如quicksort最后一步就是用insertion sort
+
+Q: 问merge sort 和 quick sort 分别在什么情况下用？如果n = 10000, 用哪个？如果n 超大，用那个？
+A: n大的话用merge sort，几台机器分别sort，然后再merge
+
+88.
+Q: write a function that take a large string (i.e. abdacfd), and a small string (i.e. ad), find the smallest substring of the large string such that it contains all characters in the small string(answer is da here). what is the complexity of algorithm?
+A: <http://stackoverflow.com/questions/2459653/how-to-find-smallest-substring-which-contains-all-characters-from-a-given-string> <http://www.careercup.com/question?id=302703>
+
+89.
+Q: Given a set S of n distinct numbers and a positive integer k <= n. Determine the k numbers in S that are closest to the median of S. Find an O(n) algorithm.
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284390663_2.S0/%D2%BB%B5%C0%D0%A1%CC%E2>
+找到median后，对于每个数，算一个新的数组b[i] = abs(a[i]-median) 然后在b[i]中找k-th元素，然后再遍历一遍就可以找到k个最小的了。这样保证是O(n). linear selection(partial quicksort 平均情况下看作linear)可以在 O(n)中找到k-th大的数字
+static int quickSelect(int[] a,int p,int r, int i) {
+		if(p==r) return p;
+		int q=randomizedPartition(a, p, r);
+		int k=q-p+1;
+		if(i==k) return q;
+		else if(i<k) return quickSelect(a, p, q-1, i);
+		else return quickSelect(a, q+1, r, i-k);
+}
+
+90.
+Q: n 级的楼梯，一次可以走1级，或者两级。打印出所有可能的走法。
+A: 问题同Coin Change Problem.
+
+91.
+Q: Print out the grade-school multiplication table up to n
+A: (已建工程Table99)
+
+92.
+Q: Given a set of coin denominators, find the minimum number of coins to make a certain amount of change.
+	<http://www.algorithmist.com/index.php/Coin_Change> (Frobenous numbers)
+	<http://en.wikipedia.org/wiki/Coin_problem#Frobenius_numbers_for_small_n>
+	<http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html>
+A: (见工程CoinProblem)
+
+93.
+Q: 4组整数数组,前三组每组取出一个数相加,如果sum在第四个数组里面返回结果
+A: <http://mitbbs.com/article_t/JobHunting/31733877.html>
+假设有四个数组ABCD, 要找的是A+B+C = D的。
+1， A B 两两相加，保存在O(n^2)的数组M中。O(n^2)
+2,  D C 两两相减，保存在Hash Table中。O(n^2)
+3， 每一个M中的数字，在Hash中查找，找到了就输出。O(n^2)
+
+94.
+Q: Stock prices are given to you at various time intervals. p1, p2, p3,... you are allowed to buy and sell only once each. So write a program to find the index where you would buy and where you would sell to maximize profit.
+A: <http://www.careercup.com/question?id=3229685> (已建工程StockProfitMax)
+
+95.
+Q: 把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个排好序的数组的一个旋转，输出旋转数组的最小元素。例如数组{3, 4, 5, 1, 2}为{1, 2, 3, 4, 5}的一个旋转，该数组的最小值为1。
+A: <http://zhedahht.blog.163.com/blog/static/25411174200952765120546/> (已建工程RotatedArrayMin)
+
+96.
+Q: Circular array, elements are +/-, find subsequence of max sum/ find the subvector with max sum in a circular array
+A: <http://yang-algorithm.blogspot.com/2009/11/find-subvector-with-max-sum-in-circular.html>
+1. take any element as the leader and break the circle into one dimensional array a[1:n]. use the classical method to get the maxsum subvector
+2. we did not consider the case that the maxsum subvector in the circle passes a[1]. in the next step we will figure out the maxsum subvector that passes a[1], suppose it is a[n - i:j].
+3. claim: a[j+1:n-i-1] is the minsum subvector of a[1:n]. because sum of a[j+1:n-i-1] + sum of a[j+1:n-i-1] is fixed, one takes max means the other gets min.
+
+97.
+Q: find n largest pair (a[i], b[i]) from two sorted array A and B.
+A: <http://www.doctorinterview.com/A/2A/2A59.html>
+void findNLargestpair(int array1[], int array2[], int length, int n)
+{
+         cout<<"\nPairs are=";
+         for(int i=1,j=1,k=0;k<n;k++)
+         {
+             cout<<array1[i]<<" and "<<array2[j]<<" , ";
+       
+             //Check the relative sum of the array before taking
+             //it forward 
+             if( (array1[i]+array2[j+1]) > (array1[i+1]+array2[j]))
+               j++;
+             else
+               i++; 
+         }
+         cout<<"\n";
+}
+
+98.
+Q: Array, elements are +/-, find longest sub-array sum of which is less or equal to K / How will you find the subarray whose sum is k in an array of negative and positive numbers.
+A: 见工程sLongestArrayEqual2K
+
+99.
+Q: Implement the unix command WordCount (wc) using language of your choice. The method takes a string and returns the number of words in the string, number of chars and the number of lines.
+A: 见工程WordCount
+
+100.
+Q: Boggle puzzle. Given a puzzle of letters/ characters e.g.
+a e r o p s
+b h a r l s
+w r i s l o 
+a s n k t q
+Write a function to which this puzzle and a word will be passed to test whether that word exists in the puzzle or not. 
+e.g. rain and slow will return true. rain is present in the second column and slow in the third row wrapped around.
+A: <http://www.careercup.com/question?id=60349> (已建工程BogglePuzzle)
+
+101.
+Q: Replace all occurrence of the given pattern to 'X'. For example, given that the pattern="abc", replace "abcdeffdfegabcabc" with "XdeffdfegX". Note that multiple occurrences of abc's that are contiguous will be replaced with only one 'X'.
+A: <http://www.ihas1337code.com/2010/11/microsoft-string-replacement-problem.html> (已建工程ReplaceMultiplePatternWithX)
+
+102.
+Q: Given an array of numbers. Calculate a permutation when the concatenated number is the smallest. For instance, [55, 31, 312, 33] is 312313355.
+A: <http://effprog.blogspot.com/2010/08/given-array-of-numbers-calculate.html> (见工程ConcatenatedSmallest)
+
+103.
+Q: Given an array a[], create another array ar_low[] such that ar_low[i] = number of elements less than or equal to ar[i] in ar[i+1:n-1]
+A: <http://effprog.blogspot.com/2010/10/given-array-create-another-array-arlow.html> (已建工程ArrayAccumulatingSmallers)
+
+104.
+Q: Given sorted array and an integer C, find 2 elements a[i] and a[j] such that their difference is C. -- O(m). // Find two numbers in a sorted array whose difference is some contant K. Has to be done in O(n) time.
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.574886> (已建工程DifferenceEqual2KSortedArray)
+
+106.
+Q: Selecting median of three sorted array. keyword: median 3 sorted
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1286899619_2.60/Selecting+median+of+three+sorted+array>
+
+107.
+Q: Given an array of size n, design an algorithm to find for each entry of the array the first number to the right which is less than it. That is, for each entry A. This has to be done in O(n) time.
+A: (已建工程NextLess)
+
+108.
+Q: If you are given a number as a parameter, write a function that would put commas after every third digit from the right.
+A: (已建工程CommaInsertion)
+
+109 (未解决)
+Q: Given an array of "n" random integers and an integer k<=n. Find the k numbers such that the minimum difference of all the possible pairs of k numbers is maximized (maximum among other minimum differences for various possible selections of k numbers).
+A: <http://mach.debagua.com/archives/2010/0416_001117.html>
+首先两头的点是必须找的，中间还需要k-2个点。 
+令1~n闭区间内k个数的最大最小差为f(1, n, k)，假设第二个点位于i处 
+f(1, n, k) = max(2<=i<=n+2-k) min{f(1, i, 2), f(i, n, k-1)} 
+f(x, y, 2) = a[y]-a[x]
+
+110. (未解决)
+Q: max-mindist: 一个数组有n个元素全是正数，把这个数组分成非空的k段，每段都连续。求最每段元素和的最大值的最小值。 // Cut an array into N segments, minimize the max of sums of each segment (D.P.) (linear partition problem)
+A: <http://mach.debagua.com/archives/2010/0416_001117.html> <http://inder-gnu.blogspot.com/2010/04/partition-array-in-k-ranges-to-minimize.html> <http://websrv.cs.umt.edu/classes/cs531/index.php/The_linear_partition_problem_3/6_and_3/9> <http://www8.cs.umu.se/kurser/TDBA77/VT06/algorithms/BOOK/BOOK2/NODE45.HTM>
+令1~n闭区间分成n段的最小最大和为f(1, n, k)，假设第一段为1~i 
+f(1, n, k) = min(1<=i<=n+1-k) max{f(1, i, 1), f(i+1, n, k-1)} 
+f(x, y, 1) = a[x]+a[x+1]+...+a[y]
+f(k,head,end) = max_{for i in head+1, end-k}min{dis(head,i), f(k-1,i,end)}
+
+111.
+Q: You are given a set of n types of rectangular 3-D boxes, where the i^th box has height h(i), width w(i) and depth d(i) (all real numbers). You want to create a stack of boxes which is as tall as possible, but you can only stack a box on top of another box if the dimensions of the 2-D base of the lower box are each strictly larger than those of the 2-D base of the higher box. Of course, you can rotate a box so that any side functions as its base. It is also allowable to use multiple instances of the same type of box. 
+A: <http://people.csail.mit.edu/bdean/6.046/dp/>
+
+112.
+Q: Resume中找到电子邮件，或者一个字符串中提取链接地址
+A: <http://hi.baidu.com/mianshiti/blog/item/5b4d97366601d585a71e12e4.html> (已建工程Regex)
+
+113.
+Q: The question is to arrange the numbers in the array in decreasing order of their frequency, preserving the order of their occurrence. If there is a tie, like in this example between 13 and 6, then the number occurring first in the input array would come first in the output array. keyword: rearrange decreasing frequency
+Input : {5, 13, 6, 5, 13, 7, 8, 6, 5}
+Output : {5, 5, 5, 13, 13, 6, 6, 7, 8}
+A: <http://inder-gnu.blogspot.com/2010/03/arrange-numbers-in-decreasing-order-of.html> (已建工程RearrangeInDecreasingFrequency)
+
+114.
+Q: You have a matrix with 0 & 1 with rows being in sorted order. Find the row with minimum number of 1’s. keyword: row min 0
+0 0 0 1 1
+0 0 1 1 1
+0 1 1 1 1
+0 0 1 1 1
+A: <http://inder-gnu.blogspot.com/2010/03/find-row-with-minumum-0s.html> (已建工程RowWithMin0s)

@@ -1,0 +1,145 @@
+Facebook实际题目
+1. 把一个binary tree变成double linked list。 也是写一个recursive in-order traversal, update pointer 的时候稍微有点tricky.
+2. 第二题是经典的计算 x/y 不用 division operator. 我说用 log 和 exp, 他说可以。又问这些也不能用怎么办。 提示了一下 x, y 都是正整数的话，从 x减去y 一直减到0,看要减多少次，很obvious是bisection 了。
+1。merge sort的变种。给一个数组，如果有A[i]<A[N+i]性质，请对数组排序。第一个问题，具体说就是给定一个数组A:A[0],A[1],A[2],...和一个常数N。这个数组的元素有这个特性：A[i]<A[N+i] (i = 0, 1, 2, ....) 问如何对该数组进行排序。其实就是N-way归并算法的变体。
+2。给一字符串比如“I like FaceBook”，计算单词数目。
+3。写quicksort算法
+1. 一个rotated的排序整数数组，比如A=[6，8，1，2，4，5]，写code找一个给定元素，并分析复杂度。其实就是binary search的变体，但是需要考虑两种A[m]中值的情况加以判断。
+2. 他谈到facebook的log，如果每个log文件有10 billion行，每行包括timestamp, 
+user_id, visited page三个field。如果高效的统计一个月内用户访问量最多的十个网
+页。假设文件已经按照timestamp排好序了。不用写code，谈想法就成。我的解法是，
+如果内存足够，建立一个<网页,访问数>的hash表，每读入一条记录，该网页key对应的
+项加一。但是加入内存不够大，可能需要map reduce方法。面试官马上说，内存根本不
+是问题，用个4G或者8G内存来算这个月访问量很值得，不要省内存。然后我说，那hash
+表就好了。面试官表示赞许，接着提出引申问题：
+3.假设我们已经算了一个月的，如果这个滑动窗口要往前移动一个delta量，就是说，
+已经算好timestamp=[t_1..t_x]区间的访问量，要计算timestamp=[t_2..t_x+1]的访问
+量，提出高效算法。当然，最brute force的方法就是针对[t_2..t_x+1]再建一个hash
+表，显然这不是面试官想要的。我提出来，可以建个multi-level hash表，外层为网页
+，内层为timestamp，但是仔细想想也不算好。
+1. find 5th smallest element in a binary search tree。地球人都知道，我就不说了。
+3。然后问我给定一个FaceBook log file，100 billion行，每一行记录含“timestamp
+user_id visited_page”，找到top 10 最长出现的三连串访问模式。比如user先后访
+问了页面a,b,a，那么就形成一个模式a->b->a。但是记录没有按照timestamp排好序！
+我的答案是，1）brute force：对整个文件先对timestamp再对user id排序，然后建
+hash表，读入log文件，对每一个模式计数。 2）map-reduce：将每一个user id对应的
+记录读到单独的机器上--map，接着对timestamp排序建hash表，这样效率高些，然后--
+reduce，将intermediate结果对每个模式key累加，计算最后结果。然后因为只需要top
+10，可以用一个10个元素的min heap维护当前top 10。哥哥满意。
+1. 如何在一个无限长的stream里面找到前1000大的，因为是非常常见的题目，就和他说了一下用min heap，分析了一下复杂度，很快就进入coding了
+2. simple regular expression match，可以match的符号只有3种：a-z: match a-z .: match any *: repeat 0 - arbitrary times
+1. 先找出所有permutaion，coding之，然后find permutation by index
+比方说给定一组permutation（a，b，c）是：0. abc 1. acb 2. bac 3. bca 4. cab 5. cba given index 3，you should retun bca.
+1. 二进制加法
+2. 分层遍历二叉树
+1. reverse linked list
+1. how to implement adding two integers without using arithmetic operators. (bit-wise operations)
+2. how to implement a writer-reader-lock while you can only use mutex.
+1. atoi, write exact code
+2. 电话键盘上每个数字对应一系列字母，给任意长度电话号码，打印所有可能字母组合。基本就是PIE上的原题
+1. Two sorted array, find their intersection, write exact code
+2. Part of a sorted array is shifted, like: 1 2 3 4 5 6--> 6 5 1 2 3 4. but we don't know how many digits are shifted. Write a efficient method to find the position of a given value in the array.
+1. 按逆顺序打印一个single linked list。用stack, 直接reverse 链表：分别code然后他提到不改变原有的链表也不用额外的空间.. n^2的方法。
+1. 如何判断一个system stack的direction？
+1. atoi
+2. sqrt()
+1. 一个是inplace reverse linklist
+2. 另一个是strcmp的implementation。
+1. If a hashtable is bounded, how do you modify the table so that,the item being added earliest ( now in the full table ) would be removed when trying to adding to the full hashtable. interviewer当然没有能够把问题formulate好，举了个例子来说明。中间我来回让他重复了好多次。他的意思是 如果hashtable里面已经按次序加了 (1,2,3,4,5）而且满了，那么加6的时候，1就应该被删除； 再加7， 2就应该被删除。要求普通hash操作还是O(1)
+2. Implement Merge Sort. 这个没什么好说
+3. SQL 一个table， 一个employee 在不同的timestamp下会有不同的salary. Employee  Salary TimeStamp. Find Employee A's salary with largest time stamp
+1. 一个数组，positive / negative integer, find consecutive numbers that have maximized sum . And code it. [-5,5,5，-5,5,5,-10,]就应该是 5,5，-5,5,5
+2. A number of events for a day,  starting time and end time find a solution that maximizes the number of events one can finish in the day. Events may over lap with each other.
+1.implement strstr()
+2.如果很多次strstr query，但是base的string不变的话，用什么structure，如果base string大到内存放不下，那用什么structure。suffix tree， Btree
+1.二叉树分层打印，每层打印完后换行
+2.两个sorted的array，第一个有足够大的剩余空间装下第二个，merge两个array到第一个array中
+1. 给一些单词，找出由相同字母组成的单词并分别打印出来 比如 给一个string 的array "act", "cat", "star", "arts" ,"delegate" 输出结果应该是：act， cat star，arts delegate
+2.  按如下规则产生字符串：给一个参数n，写函数返回第n个字符串 初始字符串 为 "1" ,因为这个字符串中从开始扫描有一个1，所以第二个字符窜为 "11" , 第二个字符串“11”从头开始扫描有两个1 所以第三个字符串为“21” 然后第三个字 符串从头开始扫描有一个2 一个1，所以第四个字符串为“1211”，第四个字符串从头开始扫描是一个1一个2两个1 所以第5个字符串是“111221”.... 题目就是给一个参数n，找出第n个字符串应该是什么
+     1 
+     11
+     21
+     1211
+     111221
+     ...
+1. 怎么判断两个linkedlist meet
+1. 有个矩阵，里面都是0和1，找最大的cluster
+1. 打印整数的byte
+1. 经典最长子序列问题(LIS)
+1.1. 反转单链表
+1.2. 广度优先遍历一颗树
+2.1. 实现一个strstr函数
+2.2. 输入: phone # 输出: 所有对应的string. eg. 输入: 23, 输出:[ad, ae, af, bd, be, bf, cd, ce, cf]
+1. 给一个binary tree，按照BFS的方式打印出来。
+2. 一道是strstr，
+3. 还有一道是实现sqrt。
+1. 求集合a b的 Intersection. a = {1, 2, 99, 101} b = {-1, 0, 2, 100}
+1. given two integer numbers n and k, print all combinations of k numbers out of 1 ... n. e.g. if k = 2, n = 4, print 
+1 2
+1 3
+1 4
+2 3
+2 4
+3 4
+2. if you have a grid
+a b c e
+d f a h
+i j k l
+and a dictionary with more than 10K words print out all words in dictionary that can be obtained by visiting grid. restriction: if a word is c1, c2, ..., cn, then c_(i+1) should be one of the eight neighbors of c_i in the grid
+1. 一个是给定两个linkedlist, 判断一个是不是另一个的prefix.
+2. 实现一个hashtable
+1. 给定 X[1..n] and Y[1..m] 两个 arrays，已经sort好了. 如何找到X <Union> Y的median？我说用merge sort，要O(m+n/2)时间。面试官明显不满意。这个已经 lineal了？难道还有更快的？
+1. How to use stacks to simulate queue. (do not use online tool, just write and tell him. Use two stacks).
+2. How to find the lowest common ancestor of a binary tree, node do NOT have parent pointers. (Recursion, additional check for the case when nodes are not in the tree, or only one node is in the tree.)
+3. Given a linked list, say A->B->C, print it in reversed order. Time & space analysis. What if I want the original list not changed?
+1. 怎样de-dup一个sorted array？
+2. 如果有一个big single file, many servers, how to use these servers to compute this problem? 要求尽量balance load. 我有点晕，这个听上去有点太简单了，不知道有什么trick...但是还是老老实实说每个server 读一部分file，分别计算，最后用个很简单的merge就可以了。还可能让第一个CPU先算一部分，用它的data来估计大概有多少duplication，如果很多，而且有相应的optimized algorithm，后面的server可以一次多算点
+3. 怎样check circular in a linked list
+4. merge two sorted array的问题，如果array A有足够空间，如何in-place merge A and B (both sorted)
+1. 第一道二叉树分层打印，他告诉我20分钟完成就好了，我只用了15分钟就完全写好，我敢保证绝对正确。随后，他问算法的复杂度是多少，我说是O(N）
+2. 第二题，题目很新，但是可以马上转化为一个在有大量重复整数的有序数组，找到第一个出现的某个整数。
+1.1 LIS的变种。Give an array, find the minimum of elements to delete so that the remaining array is sorted.
+2.1. How to find the middle node of a binary search tree?
+2.2. implement char *remove_badchars(char string[], char bad_chars[]) in place。分析time complexity and how to improve (binary search on bad_chars)
+2.3. implement siftup (siftdown) for heap
+3.1. traverse a binary tree level by level
+3.2. implement adding two unsigned numbers without using "+"
+o.1. implement sqrt
+o.2. implement reader/writer lock
+o.3. classic question: print phone numbers
+o.4. How to sort an array of only three possible values。面试官说有一个只scan array once的算法（类似quick sort的partition algorithm from two ends)
+
+
+
+
+
+Tree & Linkedlist
+1. Given a binary tree with the following constraints: a) A node has either both a left and right child OR no children b) The right child of a node is either a leaf or NULL. write code to invert this tree.
+2. DSW
+
+Arrays & String
+1. Given two sequences of items, find the items whose absolute number increases or decreases the most when comparing one sequence with the other by reading the sequence only once.
+
+Other
+1. Given n points in the form (x1, y1, z1)…..(xn, yn, zn), find the k closest points to the origin. Given the same points as above, find the K closest points to each other. <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284264604_2.v0/yahoo%C3%E6%CA%D4%CC%E2>
+2. Convex Hull
+3. Closest Pair
+4. Vertex Cover: find min number of nodes that cover all edges. (backtracking)
+5. K coloring (backtracking)
+6. K closest pairs
+7. Given a repository of 10 billion pages and each page has an average of 10 links, how will find its neighbors and neighbors of neighbors? 
+8. Design an algorithm to find the 100 shortest distances to stars in the universe. (KD tree?)
+
+Maths
+1. LCA & RMQ
+2. Implement a calculator
+
+
+Questions in the Placement
+1. Unsorted array - Find i, j such that a[i] + a[j] is max. Find solution better than O(nlgn).
+2. Partitioning a given integer n into unique partitions of size m, like if n = 10, m = 4, 7111 is one such partition. Give all such partitions.
+3. Given 2 arrays of arbitrary sizes N and M each. Write a program for finding mutual exclusion of these two arrays. (Copy the non-common elements into another array).
+4. Find a saddle point in matrix. (smallest in its row and largest in its column)
+5. Given sorted array and an integer C, find 2 elements a[i] and a[j] such that their difference is C. O(n)
+6. A matrix, print it from top-left anti-clockwise
+7. Given 4 points write a program for finding whether the points form a square or not. -- Angles, Sides, diagonal three aspects of looking at it.
