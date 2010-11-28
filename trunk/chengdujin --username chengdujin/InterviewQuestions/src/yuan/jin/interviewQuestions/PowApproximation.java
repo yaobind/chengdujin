@@ -21,7 +21,7 @@ public class PowApproximation {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(pow(3, 2.77));
+		System.out.println(pow(81, 0.33333333));
 	}
 
 }
