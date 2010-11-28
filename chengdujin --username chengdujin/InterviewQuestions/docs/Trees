@@ -1,0 +1,1023 @@
+Trees
+
+1.
+Q: Write a C program to find the depth or height of a binary tree.
+A:
+Recursive 
+<http://placementsindia.blogspot.com/2007/11/c-code-to-find-height-of-binary-search.html>
+int height(TreeNode root) {
+    if (root == null)
+        return 0;
+    int hleft = height(root.left);
+    int hright = height(root.right);
+    return 1 + Math.max(hleft, hright);
+}
+
+Iterative 
+<http://www.ihas1337code.com/2010/04/maximum-height-of-binary-tree.html>
+int maxDepthIterative(BinaryTree *root) {
+  int maxDepth = 0;
+  int depth = 1;
+  stack<binarytree*> s;
+  BinaryTree *current = root;
+  bool done = false;
+  while (!done) {
+    if (current) {
+      current->depth = depth++;
+      s.push(current);
+      current = current->left;
+    } else {
+    	if (!s.empty()) {
+        	current = s.top();
+        	if (current->depth > maxDepth)
+        		maxDepth = current->depth;
+        	depth = current->depth + 1;
+        	s.pop();
+        	current = current->right;
+      	} else
+        	done = true;
+    }
+  }
+  return maxDepth;
+}
+
+2.
+Q: Write a C program to determine the number of elements (or size) in a binary tree.
+A: http://placementsindia.blogspot.com/2007/11/c-program-to-determine-number-of-nodes.html
+int treeSize(TreeNode root) {
+    if (root == null)
+        return 0;
+    return 1+ treeSize(root.left) + treeSize(root.right);
+}
+
+3.
+Q: Write a C program to count the number of leaves in a tree
+A: <http://placementsindia.blogspot.com/2007/12/c-program-to-count-leaves-in-tree.html>
+int countLeaves(TreeNode root) {
+    if (root == null)
+        return 0;
+    if (root.left == null && root.right == null)
+        return 1;
+    return countLeaves(root.left) + countLeaves(root.right);
+}
+
+4.
+Q: Given a binary tree, print all root-to-leaf paths
+A: <Cracking the Coding Interview 4.8> 令可参考 <http://geeksforgeeks.org/?p=6719>
+void printPaths(TreeNode node, ArrayList<Integer> buffer) {
+    if (node == null)
+        return;
+    buffer.add(node);
+    if (node.left == null && node.right == null)
+        print(buffer);
+    ArrayList cleft = buffer.clone();
+    ArrayList cright = buffer.clone();
+    printPaths(node.left, cleft);
+    printPaths(node.right, cright);
+}
+
+5.
+Q: Write a C program to create a copy of a tree
+A: <http://placementsindia.blogspot.com/2007/12/c-program-to-make-copy-of-tree.html>
+TreeNode copy(TreeNode root) {
+    if (root == null)
+        return null;
+    TreeNode p = new TreeNode;
+    p.data = root.data;
+    p.left = copy(root.left);
+    p.right = copy(root.right);
+    return p;
+}
+
+6.
+Q: Write a C program to create a mirror copy of a tree (left nodes become right and right nodes become left)
+A: <http://placementsindia.blogspot.com/2007/11/c-program-to-create-mirror-copy-of-tree.html>
+TreeNode mirrorCopy(TreeNode root) {
+    if (root == null)
+        return null;
+    TreeNode p = root.data;
+    p.left = mirrorCopy(root.right);
+    p.right = mirrorCopy(root.left);
+    return p;
+}
+
+7. (代码易写错)
+Q: Write a function isBST(BinaryTree *node) to verify if a given binary tree is a Binary Search Tree (BST) or not.
+A: <http://www.ihas1337code.com/search/label/binary%20tree>
+boolean isLeftTreeLessThan(TreeNode root) {
+    if (root == null)
+        return true;
+    if (root.data > root.left.data)
+        return isLeftTreeLessThan(root.left) &&
+            isLeftTreeLessThan(root.right);
+}
+
+boolean isRightTreeGreaterThan(TreeNode root) {
+    if (root == null)
+        return true;
+    if (root.data < root.right.data)
+        return isRightTreeGreaterThan(root.left) &&
+            isRightTreeGreaterThan(root.right);
+}
+
+boolean isBST(TreeNode root) {
+    if (root == null)
+        return true;
+    return isLeftTreeLessThan(root) && isRightTreeGreaterThan(root) 
+        && isBST(root.left) && isBST(root.right);
+}
+
+还有方法
+<http://geeksforgeeks.org/?p=3042>
+(Using In-Order Traversal)
+Thanks to LJW489 for suggesting this method.
+1) Do In-Order Traversal of the given tree and store the result in a temp array.
+3) Check if the temp array is sorted in ascending order, if it is, then the tree is BST.
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+8.
+Q: Populating next right pointers in each node
+A: <http://www.ihas1337code.com/2010/03/first-on-site-technical-interview.html>
+public static void connect(TreeNode p) {
+    if (p == null)
+        return;
+    if (p.left != null)
+        p.left.nextRight = p.right;
+    if (p.right != null)
+        p.right.nextRight = (p.nextRight != null?)p.nextRight.left: null;
+    connect(p.left);
+    connect(p.right);
+}
+
+9.
+Q: Given a binary tree, print out the tree in level order (i.e., from left to right, level by level). Output a newline after the end of each level.
+A: 令可参考 <http://www.ihas1337code.com/2010/09/printing-binary-tree-in-level-order.html>
+void printLevelOrder(TreeNode root) {
+    if (root == null)
+        return;
+    Queue q1 = new LinkedList();
+    Queue q2 = new LinkedList();
+    q1.push(root);
+    while (!q1.isEmpty()) {
+        TreeNode n = q.pop();
+        if (n != null) {
+        	System.out.print(n + " ");
+        	q2.push(n.left);
+        	q2.push(n.right);
+        }
+        if (q1.isEmpty()) {
+            q1.addAll(q2);
+            q2.clear();
+            System.out.println();
+        }
+    }
+}
+
+10.
+Q: Given a binary tree, print out the tree in zig zag level order (i.e., from left to right, then right to left for the next level and alternate between). Output a newline after the end of each level.
+A: <http://www.ihas1337code.com/2010/09/printing-binary-tree-in-zig-zag-level_18.html>
+void printLevelOrderZigZag(TreeNode root) {
+    if (root == null)
+        return;
+    Stack s = new Stack();
+    Stack t = new Stack();
+    s.push(root);
+    boolean left2rite = true;
+    while (!s.isEmpty()) {
+        TreeNode n = s.pop();
+        if (n != null) {
+        	System.out.print(n + " ");
+        	if (left2rite) {
+            	t.push(n.left);
+            	t.push(n.right);
+        	} else {
+            	t.push(n.right);
+            	t.push(n.left);
+        	}
+        }
+        if (s.isEmpty()) {
+            left2rite = !left2rite;
+            s.addAll(t);
+            t.clear();
+            System.out.println();
+        }
+    }
+}
+
+11. (难点)
+Q: Given a binary tree, print out the tree in level order (i.e., from left to right, level by level). Output a newline after the end of each level. Breadth First Search (BFS) is not allowed.
+A: <http://www.ihas1337code.com/2010/09/binary-tree-level-order-traversal-using_17.html>
+void printLevelOrder(TreeNode root) {
+    if (root == null)
+        return;
+    int hite = height(root);
+    for (int i = 1; i <= hite; i++) {
+        printLevel(root, level);
+        System.out.println();
+    }
+}
+
+void printLevel(TreeNode root, int level) {
+    if (root == null)
+        return;
+    if (level == 1)
+        System.out.print(root.data + " ");
+    printLevel(root.left, level - 1);
+    printLevel(root.right, level - 1);
+}
+
+12.
+Q: Find the diameter/width of a binary tree. Definition: The diameter of a tree (sometimes called the width) is the number of nodes on the longest path between two leaves in the tree. (同找longest path in a tree)
+A: <http://tech-queries.blogspot.com/2010/09/diameter-of-tree-in-on.html> 或者 <http://crackinterviewtoday.wordpress.com/2010/03/11/diameter-of-a-binary-tree/>
+int diameter(TreeNode t) {
+   if (t == null) 
+      return 0;
+   int dileft  = diameter(t.left);
+   int diright = diameter(t.right);
+   int diroot = 1 + height(t.left) + height(t.right);
+   return Math.max(diroot, Math.max(dileft, diright));
+}
+
+
+13.
+Q: a binary tree print the last row in reverse order.
+A: <http://www.careercup.com/question?id=251706>
+用stack来存储叶子, 但是同时要计数, 如果叶子所在的层次小于最深的层数, 那么就不加入到stack中.
+static Stack s = new Stack();
+static int hite = 0;
+
+void print(TreeNode root) {
+    if (root == null)
+        return;
+    hite = height(root);
+    printLastRow(root, 0, hite);
+}
+
+void printLastRow(TreeNode root, int level) {
+    if (root == null)
+        return;
+    if (root.left == null && root.right == null && level == hite)
+        s.push(root);
+    printLastRow(root.left, level+1);
+    printLastRow(root.right, level+1);
+}
+
+14. (未解决)
+Q: 一个binary tree,逆序打印BFS序列。不能同时用两段存储空间(不同时用queue和stack)
+A: 解法,用一个vector(array)模拟queue+stack。queue的push操作即vector的push_ back, 等效于q.pop()+stack.push()的操作则是, vector的index往前走一步! 最后把vector从尾到头打印一遍即可。 方法2. 单个Queue也行, 只要记录每层有多少个节点, 然后打印时候Queue取出前面层的节点打印即可.
+
+15. (代码易写错)
+Q: Find/Reconstruct the binary tree from its pre-order and in-order traversal.
+A: <http://www.careercup.com/question?id=3439672>
+一颗树能通过Inorder and Preorder, 或者Inorder and Postorder, 或者Inorder and Level-order复原.
+TreeNode buildTree(char[] preorder, char[] inorder, int predex, int inleft, int inrite) {
+    if (inleft > inrite)
+        return null;
+    int head = preorder[predex];
+    TreeNode node = new Node(head);
+    predex ++;
+    int inmid = -1;
+    for (int i = inleft; i <= inrite; i++) {
+        if (inorder[i] == head) {
+            inmid = i;
+            break;
+        }
+    }
+    if (inmid < 0)
+        throw new Exception("Error!");
+    node.left = buildTree(preorder, inorder, predex, inleft, inmid-1);
+    node.right = buildTree(preorder, inorder, predex, inmid+1, inrite);
+    return node;
+}
+
+41.
+Q: 判断整数序列是不是二元查找树的后序遍历结果 其实就是从post-order复原BST
+A: <http://zhedahht.blog.163.com/blog/static/25411174200725319627/> (见工程PostorderArray2BST)
+	static PNode reconstruct (int[] arr, int low, int high) {
+		if (low > high)
+			return null;
+		PNode node = new PNode(arr[high]);
+		int i = 0;
+		for (i = low; i < high; i++)
+			if (arr[i] > arr[high])
+				break;
+		node.left = reconstruct(arr, low, i-1);
+		node.right = reconstruct(arr, i, high-1);
+		return node;
+	}
+
+16. (难点)
+Q: Print all edge nodes of a complete binary tree anti-clockwise. That is all the left most nodes starting at root, then the leaves left to right and finally all the rightmost nodes. In other words, print the boundary of the tree. Variant: Print the same for a tree that is not complete.
+A: <http://www.ihas1337code.com/2010/10/print-edge-nodes-boundary-of-binary.html>
+void print(TreeNode root) {
+    if (root == null)
+        return;
+    System.out.print(root.data + " ");
+    printLeft(root.left, true);
+    printRight(root.right, true);
+}
+
+void printLeft(TreeNode root, boolean print) {
+    if (root == null)
+        return;
+    if (print || root.left == null && root.right == null)
+        System.out.print(root.data + " ");
+    printLeft(root.left, print);
+    printLeft(root.right, false);
+}
+
+void printRight(TreeNode root, boolean print) {
+    if (root == null)
+        return;
+    printLeft(root.left, false);
+    printLeft(root.right, print);
+    if (print || root.left == null && root.right == null)
+        System.out.print(root.data + " ");
+}
+
+17.
+Q: Write a C program to find the minimum value in a binary search tree.
+A: <http://placementsindia.blogspot.com/2007/11/minimum-value-of-binary-search-tree.html> 或者 <http://geeksforgeeks.org/?p=1333>
+TreeNode min(TreeNode root) {
+    if (root == null)
+        return null;
+    if(root.left == null)
+        return root;
+    return min(root.left);
+}
+
+18. (不难, 值得一看)
+Q: How do you find out the fifth maximum element in an Binary Search Tree in efficient manner. Note: You should not use use any extra space. i.e., sorting Binary Search Tree and storing the results in an array and listing out the fifth element. keyword: reverse in-order, kth, k-th, fifth
+A: <http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html>
+int num=0; // 其实就是逆序的中序遍历
+void inorderReverse(TreeNode root) {
+    if(root == null)
+        return;
+    inorderReverse(root.right);
+    num++;
+    if(num == 5)
+        System.out.println(root.data);
+    inorderReverse(root.left);
+}
+
+19. (难点)
+Q: Describe an algorithm to save a Binary Search Tree (BST) to a file in terms of run-time and disk space complexity. You must be able to restore to the exact original BST using the saved format.
+A: <http://www.ihas1337code.com/2010/09/saving-binary-search-tree-to-file.html>
+void readBST(TreeNode root, Reader in) {
+  int input;
+  in.nextInt(input);
+  readBSTHelper(root, input, Integer.MIN, Integer.MAX, in);
+}
+
+void readBSTHelper(TreeNode root, int input, int left, int rite, Reader in) {
+    if (input > left && input < rite) {
+        root = new TreeNode(input);
+        int ninput = -1;
+        ninput = in.nextInt();
+        if (ninput < input)
+            readBSTHelper(root.left, ninput, left, input, in);
+        else
+            readBSTHelper(root.right, ninput, input, rite, in);
+    }
+}
+
+20. (难点)
+Q: Design an algorithm and write code to serialize and deserialize a binary tree. Writing the tree to a file is called 'serialization' and reading back from the file to reconstruct the exact same binary tree is 'deserialization'.
+A: <http://www.ihas1337code.com/2010/09/serializationdeserialization-of-binary.html>
+The pre-order traversal code below does all the job to serialize a binary tree
+void writeBinaryTree(TreeNode root, stream out) {
+    if (root == null)
+        out.write("#");
+    else {
+        out.write(root.data + " ");
+        writeBinaryTree(root.left, out);
+        writeBinaryTree(root.right, out);
+    }
+}
+
+Reading the binary tree from the file is similar. We read tokens one at a time using pre-order traversal. If the token is a sentinel, we ignore it. If the token is a number, we insert it to the current node, and traverse to its left child, then its right child.
+void readBinaryTree(TreeNode root, stream in) {
+    String input = in.next();
+    if (input.equals("#"))
+        return;
+    else {
+        root = new TreeNode(Integer.parse(input));
+        readBinaryTree(root.left, in);
+        readBinaryTree(root.right, in);
+    }
+}
+
+21. (难点)
+Q: How to merge two binary search trees into a single BST in place?
+A: <http://www.careercup.com/question?id=3887563>
+TreeNode merge (TreeNode head1, TreeNode head2) {
+    if (head1 == null)
+        return head2;
+    if (head2 == null)
+        return head1;
+    if (head1.data == head2.data) {
+        head1.left = merge(head1.left, head2.left);
+        head1.right = merge(head1.right, head2.right);
+    } else if (head1.data > head2.data) {
+        TreeNode temp = head2.right;
+        head2.right = null;
+        head1.left = merge(head1.left, head2);
+        head1 = merge(head1, temp);
+    } else if (head1.data < head2.data) {
+        TreeNode temp = head2.left;
+        head2.left = null;
+        head1.right = merge(head1.right, head2);
+        head1 = merge(head1, temp);
+    }
+    return head1;
+}
+
+22. 
+Q: How do you put a Binary Search Tree in an array in a efficient manner. Hint:: If the node is stored at the ith position and its children are at 2i and 2i+1(I mean level order wise)Its not the most efficient way.
+A: The solution is maintain inorder and one of the other 2 traversals of the tree.These 2 are sufficient to construct back the tree.So the space requirement now is 2N i.e O(N) 对于BST来说Pre-order足矣
+
+23. (难题)
+Q: 动态生成中值 Dynamically input numbers, return the median Eg: 2,4,1,5,6 return 4. Enter another two numbers 7,8 return 5. The interviewer is looking for a (1) look up solution using BST.
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.736715>
+void main() {
+    int value = -1;
+    while (in.hasNext()) {
+        value = in.nextInt();
+        insert(root, value);
+        System.out.println(median(root));
+    }
+}
+
+void insert(TreeNode root, int value) {
+    if (root == null)
+        return;
+    while (root != null) {
+        root.size++;
+        if (root.data > value)
+            root = root.left;
+        else
+            root = root.right;
+    }
+    root = new TreeNode(value);
+    root.size = 1;
+    root.left = root.right = null;
+}
+
+int median(TreeNode root) {
+    if (root == null)
+        return -1;
+    int m = (root.size-1)/2;
+    int size = 0;
+    while (true) {
+        size = root.left != null?root.left.size: 0;
+        if (size == m)
+            break;
+        else if (size > m)
+            root = root.left;
+        else {
+            root = root.right;
+            m -= size + 1;
+        }
+    }
+    return root.data;
+}
+	
+24. (不懂)
+Q: Given a BST and sum,find minimum node from root to leaf till u get the sum of node values equal to that sum.
+A: <http://www.careercup.com/question?id=304859>
+1. Use BFS traversal (use queue)
+2. at each node currentSum = sum obtained from parent + current value
+3. if the currentSum is the required sum and node is leaf node, you have got solution
+4. else if currentSum > required sum, do not add child
+5. else 
+5.a Add left child to the queue;
+5.b add right child to queue only if (requiredSum-currentSum<=currentSum)
+
+
+
+// CareerCups
+25.
+Q: [4.4.1] Implement a function to check if a tree is balanced For the purposes of this question, a balanced tree is defined to be a tree such that no two leaf nodes differ in distance from the root by more than one.
+A: int max(LinkedListNode root) {
+    if (root == null)
+        return 0;
+    return 1 + Math.max(max(root.left), max(root.right));
+}
+
+int min(LinkedListNode root) {
+    if (root == null)
+        return 0;
+    return 1 + Math.min(min(root.left), min(root.right));
+}
+
+boolean checkBalance(LinkedListNode root) {
+    int max = max(root);
+    int min = min(root);
+    if ((max - min < 2))
+        return true;
+    else
+        return false;
+}
+
+26. (代码易写错)
+Q: [4.4.2] Given a directed graph, design an algorithm to find out whether there is a route between two nodes. Keyword: DFS
+A: public enum State {
+    Unvisited, Visited, Visiting;
+}
+
+public static boolean search(Graph g, Node start, Node end) {
+    for (Node u: g.getNodes())
+        u.State = State.Unvisited;
+    
+    Queue path = new LinkedList();
+    path.push(start);
+    start.State = Visiting;
+    
+    while(!path.isEmpty()) {
+        Node n = path.pop();
+        if (n != null) {
+            for (Node a: n.getAdjacent()) {
+                if (a.State == State.Unvisited) {
+                    if (a == end)
+                        return true;
+                    else {
+                        path.push(a);
+                        a.State = State.Visiting;
+                    }
+                }
+            }
+            n.State = State.Visited;
+        }
+    }
+    return false;
+}
+
+27.
+Q: [4.4.3] Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.
+A: public static TreeNode addToTree(int[] arr, int start, int end){
+    if (end < start)
+        return null;
+    int mid = (start + end)/2;
+    TreeNode root = new TreeNode(arr[mid]);
+    root.left = addToTree(arr, start, mid-1);
+    root.right = addToTree(arr, midd+1, end);
+    return root;
+}
+
+public static TreeNode createMinimalBST(int[] array) {
+    return addToTreee(array, 0, array.length-1);
+}
+
+28. (代码易出错)
+Q: [4.4.4] Given a binary search tree, design an algorithm which creates a linked list of all the nodes at each depth (e.g., if you have a tree with depth D, you’ll have D linked lists).
+A: 
+	static void convert(PNode root) {
+		int level = 0;
+		Queue<PNode> q = new LinkedList<PNode>();
+		q.add(root);
+		ArrayList<Queue<PNode>> list = new ArrayList<Queue<PNode>>();
+		list.add(level, q);
+		while (true) {
+			q = new LinkedList<PNode>();
+			for (int i = 0; i < ((LinkedList<PNode>) list.get(level)).size(); i++) {
+				PNode m = (PNode) ((LinkedList<PNode>) list.get(level)).get(i);
+				if (m != null) {
+					if (m.left != null)
+						q.add(m.left);
+					if (m.right != null)
+						q.add(m.right);
+				}
+			}
+			if (q.size() > 0) {
+				level++;
+				list.add(level, q);
+			} else
+				break;
+		}
+		// print
+		for (int i = 0; i < list.size(); i++) {
+			LinkedList<PNode> ll = (LinkedList<PNode>) list.get(i);
+			System.out.println(ll.toString());
+		}
+	}
+
+29. (代码易出错)
+Q: [4.4.5] Write an algorithm to find the 'next' node (e g , in-order successor) of a given node in a binary search tree where each node has a link to its parent.
+A: public static TreeNode inorderSucc(TreeNode root) {
+    if (root = null)
+        return null;
+    TreeNode p;
+    if (root.parent == null || root.right != null)
+        p = leftMostChild(root);
+    else {
+        while(root.parent.left != root)
+            root = root.parent;
+        p = root.parent;
+    }
+    return p;
+}
+
+public static TreeNode leftMostChild(TreeNode root) {
+    if (root == null)
+        return null;
+    while(root != null) root = root.left;
+    return root;
+}
+
+30. (代码易出错)
+Q: [4.4.6] Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree Avoid storing additional nodes in a data structure	NOTE: This is not necessarily a binary search tree.
+Q: public TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null) return null;
+    if (covers(root.left, p) && covers(root.left, q))
+        return commonAncestor(root.left, p, q);
+    if (covers(root.right, p) && covers(root.right, q))
+        return commonAncestor(root.right, p, q);
+    return root;
+}
+
+public boolean covers(TreeNode root, TreeNode p) {
+    if (root == null) return false;
+    if (root == p) return true;
+    return covers(root.left, p) || covers(root.right, p);
+}
+
+31.
+Q: [PIE.87] Given the value of two nodes in a binary search tree, find the lowest (nearest) common ancestor. You may assume that both values already exist in the tree.
+A: public TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    if (root == null)
+        return null;
+    if (root.data > p.data && root.data > q.data)
+        commonAncestor(root.left, p, q);
+    if (root.data < p.data && root.data < q.data)
+        commonAncestor(root.right, p, q);
+    return root;
+}
+
+32. (代码易写错)
+Q: [4.4.7] You have two very large binary trees: T1, with millions of nodes, and T2, with hundreds of nodes	Create an algorithm to decide if T2 is a subtree of T1. (part of the code also applies to the question - same tree or same structure?)
+A: boolean containsTree(TreeNode t1, TreeNode t2) {
+    if (t1 == null)
+        return false;
+    TreeNode p = matchTree(t1, t2);
+    return isSameTree(p, t2);
+}
+
+TreeNode matchTree(TreeNode t1, TreeNode t2) {
+    if (t1 == null)
+        return null;
+    if (t1.data == t2.data)
+        return t1;
+    TreeNode p;
+    p = matchTree(t1.left, t2);
+    if (p == null)
+        p = matchTree(t1.right, t2);
+    if (p == null)
+        return null;
+    return p;
+}
+
+boolean isSameTree(TreeNode t1, TreeNode t2) {
+    if (t1 == null && t2 == null)
+        return true;
+    if (t1 == null || t2 == null)
+        return false;
+    if (t1.data == t2.data) {
+        return isSameTree(t1.left, t2.left) && 
+            isSameTree(t1.right, t2.right);
+    }
+}
+
+33. (难题)
+Q: [4.4.8] You are given a binary tree in which each node contains a value.	Design an algorithm to print all paths which sum up to that value. Note that it can be any path in the tree - it does not have to start at the root.
+A: void findSum(TreeNode root, int sum, int level, ArrayList buffer) {
+    if (root == null)
+        return;
+    buffer.add(root.data);
+    int temp = sum;
+    for (int i = level; i >= 0; i--) {
+        temp -= buffer.get(i);
+        if (temp == 0) print(buffer, i, level);
+    }
+    ArrayList cleft = buffer.clone();
+    ArrayList cRight = buffer.clone();
+    findSum(root.left, sum, level+1, cLeft);
+    findSum(root.right, sum, level+1, cRight);
+}
+
+void print(ArrayList buffer, int start, int end) {
+    for (int i = start; i < end; i++)
+        System.out.print(buffer.get(i) + " ");
+    System.out.println();
+}
+
+34.
+Q: [PIE.85] Perform a preorder traversal of a binary search tree, printing the value of each node, but this time you may not use recursion. keyword: pre-order iterative, pre-order traversal
+A: void preorder(TreeNode root) {
+    if (root == null) return;
+    Stack s = new Stack();
+    s.push(root);
+    while (!s.isEmpty()) {
+        TreeNode n = s.pop();
+        // if (n == null) break;
+        System.out.print(n + " ");
+        if (n.right != null)
+            s.push(n.right);
+        if (n.left != null)
+            s.push(n.left);
+    }
+}
+
+35. (难点)
+Q: (问题1) Given a binary search tree, print the elements in-order iteratively without using recursion. (问题2) In-order Tree Traversal without recursion and without stack! (Morris Traversal) keyword: in-order traversal
+A: 
+问题1.
+<http://www.ihas1337code.com/2010/04/binary-search-tree-in-order-traversal.html>
+void inorderTraversal(TreeNode root) {
+    if (root == null)
+        return;
+    Stack s = new Stack();
+    TreeNode current = root;
+    boolean done = false;
+    while (!done)) {
+        if (current != null) {
+            s.push(current);
+            current = current.left;
+        } else {
+            if (s.isEmpty())
+                done = true;
+            else {
+                current = s.pop();
+                System.out.print(current + " ");
+                current = current.right;
+            }
+        }
+    }
+}
+
+问题2.
+<http://geeksforgeeks.org/?p=6358>
+结合<Cracking the Coding Interviews 4.5>来遍历, 即, 先用4.5的方法把一颗关联好的树造出来, 然后再用in-order traversal过一遍即可.
+void inorderSansRecursionEtStack(TreeNode root) {
+	while (root != null) {
+		root = getInorderSuccessor(root);
+		System.out.println(root.data);
+	}
+}
+
+TreeNode getInorderSuccessor(TreeNode root) {
+	if (root == null)
+		return null;
+	else {
+		TreeNode p;
+		if (root.parent == null || root.right != null)
+			p = findLeftMost(root);
+		else
+			while (p.left != root)
+				p = root.parent;
+		return p;
+	}
+	return null;		
+}
+
+TreeNode findLeftMost(TreeNode root) {
+	if (root == null)
+		return null;
+	while (root.left != null)
+		root = root.left;
+	return root;
+}
+
+36.
+Q: Given a binary tree, print the elements in post-order iteratively without using recursion. keyword: post-order iterative, post-order traversal
+A: <http://www.ihas1337code.com/2010/10/binary-tree-post-order-traversal.html>
+方法1
+void postOrderTraversalIterative(BinaryTree *root) {
+  if (!root) return;
+  stack<BinaryTree*> s;
+  s.push(root);
+  BinaryTree *prev = NULL;
+  while (!s.empty()) {
+    BinaryTree *curr = s.top();
+    if (!prev || prev->left == curr || prev->right == curr) {
+      if (curr->left)
+        s.push(curr->left);
+      else if (curr->right)
+        s.push(curr->right);
+    } else if (curr->left == prev) {
+      if (curr->right)
+        s.push(curr->right);
+    } else {
+      cout << curr->data << " ";
+      s.pop();
+    }
+    prev = curr;
+  }
+}
+方法2
+void postOrderTraversalIterativeTwoStacks(BinaryTree *root) {
+  if (!root) return;
+  stack<BinaryTree*> s;
+  stack<BinaryTree*> output;
+  s.push(root);
+  while (!s.empty()) {
+    BinaryTree *curr = s.top();
+    output.push(curr);
+    s.pop();
+    if (curr->left)
+      s.push(curr->left);
+    if (curr->right)
+      s.push(curr->right);
+  }
+  while (!output.empty()) {
+    cout << output.top()->data << " ";
+    output.pop();
+  }
+}
+The two-stack solution takes up more space compared to the first solution using one stack. In fact, the first solution has a space complexity of O(h), where h is the maximum height of the tree. The two-stack solution however, has a space complexity of O(n), where n is the total number of nodes.
+
+37.
+Q: Print the binary tree by level (BFS) in reverse order.
+A: 
+方法1. (BFS)
+void printLevelOrder(TreeNode root) {
+    if (root == null)
+        return;
+    Queue q1 = new LinkedList();
+    Queue q2 = new LinkedList();
+    Stack s = new Stack();
+    q1.push(root);
+    s.push(root);
+    while (!q1.isEmpty()) {
+        TreeNode n = q.pop();
+        if (n == null)
+            break;
+        q2.push(n.left);
+        s.push(n.left);
+        q2.push(n.right);
+        s.push(n.right);
+        if (q1.isEmpty()) {
+            q1.addAll(q2);
+            q2.clear();
+            // sentinel for different levels
+            s.push(null);
+            System.out.println();
+        }
+    }
+}
+
+方法2.
+void printLevelOrder(TreeNode root) {
+    if (root == null)
+        return;
+    int hite = height(root);
+    for (int i = hite; i >= 1; i--) {
+        printLevel(root, i);
+        System.out.println();
+    }
+}
+
+void printLevel(TreeNode root, int level) {
+    if (root == null)
+        return;
+    if (level == 1)
+        System.out.print(root.data + " ");
+    printLevel(root.left, level - 1);
+    printLevel(root.right, level - 1);
+}
+
+38.
+Q: Vertex Cover（NPC问题），图G中找一个顶点的最小子集，覆盖图的所有边。
+A: <http://www.mitbbssg.com/article/JobHunting/31502231_3.html>
+int current_k = N; //global
+
+void VC(int k, int start_v){
+    if(all_edge_covered(G) && k<current_k){
+        current_k = k;
+        return;
+    }
+    if(k == current_k - 1) return; //剪枝
+    for(; start_v<=N; start_v++){
+        if(!edge_list[start_v].empty()){ //剪枝
+            list<int> temp_edge_list = edge_list[start_v];
+            clear_edge(start_v,G);
+            VC(k+1, start_v+1);
+            if(curent_k == k+1) return; //剪枝
+            reset_edge(start_v,temp_edge_list,G);
+        }//endif
+    }//endfor
+}//endVC
+
+想了想，其中的for循环其实是不必的，对于解空间树是子集树的问题，只需要考虑《
+当前顶点“选”“不选”》两个情况
+
+改进后的算法是：
+
+void VC2(int k, int start_v){
+    if(k<current_k && all_edge_covered(G)){
+        current_k = k;
+        return;
+    }
+
+    if(k >= current_k - 1) return; //剪枝
+    if(start_v == N) return;    //没有下一个顶点了
+
+    if(!edge_list[start_v].empty()){ //如果
+        list<int> temp_edge_list = edge_list[start_v];
+        clear_edge(start_v,G);
+        VC2(k+1, start_v+1);
+        if(curent_k == k+1) return; //剪枝
+        reset_edge(start_v,temp_edge_list,G);
+    }//endif
+    VC2(k, start_v+1);    //不选start_v这个顶点
+}//endVC 
+
+39.
+Q: Find median of a BST, with out any extra memory and with out using any gloabal or static variables.
+A: <http://www.careercup.com/question?id=381643> <http://discuss.joelonsoftware.com/default.asp?interview.11.780597.8>
+1.使用recursion 中序遍历, 一个从头, 一个从尾开始, 当两个计数器相等的时候, 就找到中数了.
+2.The actual solution to the problem is in using morris inorder<http://geeksforgeeks.org/?p=6358> - a traversal algorithm which does the tree traversal without recursion or stacks. It does it through a temporary transformation of tree so that we can traverse it in ascending order (in case of BST) by just following the right pointers to a node. The transformed tree is such that for every node left child has already been visited. So, a simple algo for median in BST would be:
+1) Use any algo to count the number of nodes in the BST.Let it be n.
+2) Use morris inorder(no recursion/no stacks-all constraint met ) to traverse the tree. For each node visited increment the counter. 
+a) If n is even then return avg(n/2,n/2+1)(counter == n/2)
+b) If n is odd return when counter == (n+1)/2(1-based indexing)
+
+40.
+Q: Write a function which will accept a Binary Search Tree and convert it to a sorted doubly linked List.
+A: <http://www.rawkam.com/?p=1139>
+Time Complexity: O(n). Because each node is visited only once.
+// iterative recursive (见工程Tree2List)
+
+41.
+Q: Given a binary tree, find the largest subtree which is a Binary Search Tree (BST), where largest means subtree with largest number of nodes in it.
+A: <http://www.ihas1337code.com/2010/11/largest-binary-search-tree-bst-in.html>
+O(n)
+// Find the largest BST subtree in a binary tree.
+// If the subtree is a BST, return total number of nodes.
+// If the subtree is not a BST, -1 is returned.
+int findLargestBST(BinaryTree *p, int &min, int &max, 
+                   int &maxNodes, BinaryTree *& largestBST) {
+  if (!p) return 0;
+  int currMin, currMax;
+  bool isBST = true;
+  int leftNodes = findLargestBST(p->left, min, max, maxNodes, largestBST);
+  currMin = (leftNodes == 0) ? p->data : min;
+  if (leftNodes == -1 || 
+     (leftNodes != 0 && p->data <= max))
+    isBST = false;
+  int rightNodes = findLargestBST(p->right, min, max, maxNodes, largestBST);
+  currMax = (rightNodes == 0) ? p->data : max;
+  if (rightNodes == -1 || 
+     (rightNodes != 0 && p->data >= min))
+    isBST = false;
+  if (isBST) {
+    min = currMin;
+    max = currMax;
+    int totalNodes = leftNodes + rightNodes + 1;
+    if (totalNodes > maxNodes) {
+      maxNodes = totalNodes;
+      largestBST = p;
+    }
+    return totalNodes;
+  } else {
+    return -1;   // This subtree is not a BST
+  }
+}
+ 
+BinaryTree* findLargestBST(BinaryTree *root) {
+  BinaryTree *largestBST = NULL;
+  int min, max;
+  int maxNodes = INT_MIN;
+  findLargestBST(root, min, max, maxNodes, largestBST);
+  return largestBST;
+}
+
+42.
+Q: Find if a tree is a mirror of itself. You can consider the tree to be a binary tree.
+A: <http://inder-gnu.blogspot.com/2010/11/find-if-tree-is-mirror-of-itself.html>
+use a variant of sameTree Function()
+boolean isSymmetricTrees(Node a, Node b) {
+	if ( a == null && b == null)
+		return true;
+	return isSymmetricTree(a.left, b.right) && isSymmetricTree(a.right, b.left)
+	return true;
+}
+
+43.
+Q: Convert sorted list to balanced BST
+A: <http://www.ihas1337code.com/2010/11/convert-sorted-list-to-balanced-binary.html>
+BinaryTree* sortedListToBST(ListNode *& list, int start, int end) {
+  if (start > end) return NULL;
+  // same as (start+end)/2, avoids overflow
+  int mid = start + (end - start) / 2;
+  BinaryTree *leftChild = sortedListToBST(list, start, mid-1);
+  BinaryTree *parent = new BinaryTree(list->data);
+  parent->left = leftChild;
+  list = list->next;
+  parent->right = sortedListToBST(list, mid+1, end);
+  return parent;
+}
+ 
+BinaryTree* sortedListToBST(ListNode *head, int n) {
+  return sortedListToBST(head, 0, n-1);
+}

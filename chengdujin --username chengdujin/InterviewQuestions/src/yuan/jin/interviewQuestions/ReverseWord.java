@@ -12,28 +12,41 @@ package yuan.jin.interviewQuestions;
 public class ReverseWord {
 
 	static void reverse(char[] str, int low, int high) {
-	    int i = low;
-	    int j = high;
-	    while (i < j) {
-	        char c = str[j];
-	        str[j] = str[i];
-	        str[i] = c;
-	        i++;
-	        j--;
-	    }
+		int i = low;
+		int j = high;
+		while (i < j) {
+			char c = str[j];
+			str[j] = str[i];
+			str[i] = c;
+			i++;
+			j--;
+		}
+	}
+
+	// without storage
+	static void reverse2(char[] x, int low, int high) {
+		int i = low;
+		int j = high;
+		while (i < j) {
+			x[j] ^= x[i];
+			x[i] ^= x[j];
+			x[j] ^= x[i];
+			i++;
+			j--;
+		}
 	}
 
 	static String reverseWord(String string) {
 		char[] str = string.toCharArray();
-	    reverse(str, 0, str.length-1);
-	    int start = 0;
-	    for (int i = 0; i < str.length; i++)
-	        if (str[i] == ' ') {
-	            reverse(str, start, i-1);
-	            start = i+1;
-	        }
-	    reverse(str, start, str.length-1);
-	    return new String(str); 
+		reverse2(str, 0, str.length - 1);
+		int start = 0;
+		for (int i = 0; i < str.length; i++)
+			if (str[i] == ' ') {
+				reverse2(str, start, i - 1);
+				start = i + 1;
+			}
+		reverse2(str, start, str.length - 1);
+		return new String(str);
 	}
 
 	public static void main(String[] args) {

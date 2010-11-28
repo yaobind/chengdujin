@@ -1,0 +1,587 @@
+Numbers
+
+1. (注意代码)
+Q: Find the first non-zero digit from the right in 100! (Factorial of hundred). Can an int store hundred factorial. What size of array should be sufficient to solve the above problem. Write a code for the same.
+A: <http://n1b-algo.blogspot.com/2009/01/finding-first-non-zero-element-of-n.html> 或者 <http://placementsindia.blogspot.com/2007/10/last-non-zero-digit-of-factorial.html> 也有比较好的解答 <http://comeoncodeon.wordpress.com/2009/06/20/lastnon-zero-digit-of-factorial/> (已建工程NonZeroDigitOfFactorial)
+int last_digit_factorial(int N) {
+    int a2 = 0, a5 = 0, an = 1;
+    for (int i = 1; i <= N; i++) {
+        int j = i;
+        while (j%2 == 0) {
+            a2++;
+            a2 /= 2;
+        }
+        while (j%5 == 0) {
+            a5++;
+            a5 /= 5;
+        }
+        an = (an*j)%10;
+    }
+    a2 = a2-a5;
+    for (int i = 0; i < a2; i++)
+        an = (an*2)%10;
+    return an;
+}
+
+2. (难题)
+Q: Given a set of points (x,y) , find all pairs of points whose distance is less than a given number, say, K.
+A: <http://www.careercup.com/question?id=66873> 和 <编程之美 2.11(解法三)>
+
+3. (难题)
+Q: Given n points in the form (x1, y1, z1).....(xn, yn, zn), find the k closest points to the origin. Given the same points as above, find the K closest points to each other.
+A: 
+
+4. (难点)
+Q: Given a set S of n integers, are there elements a, b, c in S such that a + b + c = 0? Find all unique triplets in the set which gives the sum of zero.
+A: <http://www.ihas1337code.com/2010/04/finding-all-unique-triplets-that-sums.html> (已建工程TripletsSum2Zero)
+static void findTriplets(int[] arr) {
+		Arrays.sort(arr);
+		int n = arr.length;
+		for (int i = 0; i < n; i++) {
+			int j = i + 1;
+			int k = n - 1;
+			while (j < k) {
+				int sum = arr[i] + arr[j] + arr[k];
+				if (sum < 0)
+					j++;
+				else if (sum > 0)
+					k--;
+				else {
+					System.out.println(arr[i] + "+" + arr[j] + "+" + arr[k]	+ "=0");
+					j++;
+					k--;
+				}
+			}
+		}
+	}
+
+5. (注意想法)
+Q: how to find out whether a number N is perfect square or not. 类似 判断一个自然数是否是某个数的平方。当然不能使用开方运算
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.733396> 或者 <http://hi.baidu.com/mianshiti/blog/item/6b27b2edd1734b252df5348b.html>
+boolean squareOrNot(int n) {
+    int low = 0;
+    int high = n;
+    while (low < high) {
+        int mid = (high - low)/2 + low;
+        if (mid * mid == n)
+            return mid;
+        else if (mid*mid < n)
+            low += 1;
+        else
+            high -= 1;
+    }
+    return -1;
+}
+    
+6. (注意想法)
+Q: how to calculate sqrt(N) without using sqrt function.
+A: <http://www.matrix67.com/blog/archives/361> (牛顿迭代) <http://www.cnblogs.com/pkuoliver/archive/2010/10/06/sotry-about-sqrt.html> (比牛顿迭代更快)
+这个也叫Newton-Raphson algorithm, 或者Newton's iteration, Newton's method.
+	static double computeSquareRoot(int value) {
+		double estimated = value / 2;
+		do {
+			estimated = (estimated + value / estimated) / 2;
+		} while (estimated * estimated - value > 0.00001);
+		return estimated;
+	}
+
+7. (注意想法)
+Q: Count the number of numbers up to n which are both square and cube. e.g., for 1 < n < 1000 answer is 2 (64, 729)
+A: <http://discuss.techinterview.org/default.asp?interview.11.788945.7>
+int i = 2;
+int n = 10000;
+while (true) {
+	int j = (int) Math.pow(i++, 6);
+	if (j <= n)
+		System.out.println(i + ": " + j);
+	else
+		break;
+}
+
+8.
+Q: You have a random 5 function. Generate a random 7 function using this random 5 function with equal probability
+A: <http://www.careercup.com/question?id=2490>
+	static int random5() {
+		Random gen = new Random();
+		int random5 = 1 + gen.nextInt(5);
+		return random5;
+	}
+	
+	static int random7() {
+		int random7 = 0;
+		do {
+			random7 = random5() ^ random5();
+		} while (random7 == 0);
+		return random7;
+	}
+ 
+9.
+Q: 编程实现两个正整数的除法，当然不能用除法操作符。
+A: static int divide(int a, int b) {
+		int counter = 0;
+		while ((a-b) >= 0) {
+			a = a - b;
+			counter++;
+		}		
+		return counter;
+	}
+
+10. (难点)
+Q: Test if the n-th bit is set.
+A: 
+if (x & (1<<n))
+	n-th bit is setelse	n-th bit is not set
+
+Q: Set the n-th bit
+A: y = x | (1<<n)
+
+Q: Unset the n-th bit
+A: y = x & ~(1<<n)
+
+Q: Toggle the n-th bit (将某位数字取反)
+A: y = x ^ (1<<n)
+
+Q: Isolate the rightmost 1-bt (取得最右边1的位置)
+A: y = x & (-x) 和 x & ~(x-1) 一样
+
+Q: Isolate the rightmost 0-bit (取得最右边0的位置)
+A: y = ~x & (x+1)
+
+Q: 求反, 比如101100
+A: 与同位数的全1进行异或
+
+Q: Set the highest significant bit of an unsigned integer (4 byte) to zero
+A: 取得最高位1所在的位, 然后int x = (1<<n -1); 将x和原数据进行&计算
+
+Q: Tell me how to test whether the high-order bit is set in a byte.
+A: x = ~(1 << 7) y = byte & x, 为1则set, 为0则unset
+
+11. (代码漂亮)
+Q: How do you quickly count the number of set bits in a 32-bit integer in linear time (with respect to the number of set bits)? keyword: integer 1
+A: <http://everything2.com/title/counting+1+bits>
+线性时间
+for(n=0; b; b >>= 1)
+    if (b & 1) n++;
+更优美的代码
+for(n=0; b; n++)
+    b &= b-1;
+
+12. (代码容易写错)
+Q: 找1-N的素数
+A: <Prime Numbers, Factorization and Euler Function.pdf:Sieve of Eratosthenes>
+primes[i] if i is prime, true, else false;
+boolean[] genPrimes(int a) {
+		boolean[] b = new boolean[a];
+		for (int i = 0; i < b.length; i++)
+			b[i] = true;
+		for (int i = 2; i < Math.sqrt(a); i++)
+			if (b[i])
+				for (int j = i; j * i < a; j++)
+					b[j * i] = false;
+		System.out.println(Arrays.toString(b));
+		return b;
+	}
+
+13.
+Q: 判断是否是素数 Primality test - how to determine if a positive integer is a prime number
+A: <http://www.cnitblog.com/jackrain/archive/2005/09/25/2879.aspx> 和 <http://www.algolist.net/Algorithms/Number_theoretic/Primality_test_naive>
+最简单的从2～sqrt(N)的方法（N>=2）
+for(i=2; i<=sqrt(n); i++ ) {
+  if(n%i==0) {
+    printf("not prime");
+    break;
+  }
+}
+
+14. (值得看看)
+Q: Find first prime number greater than number given in input
+A: void firstPrime(int m) {
+    int n = m + 1;
+    for (int i = 2; i < Math.sqrt(n); i++)
+        if (m%i == 0) {
+            m += 1;
+            i = 2;
+        }
+    System.out.println(n);
+}
+
+15.
+Q: 找到一个值所有的素数因子 Find all the prime factors of a number entered
+A: <http://careercup.com/question?id=61864>
+	static void primeFactors(int N) {
+		for (int i = 2; i <= Math.sqrt(N); i++) {
+			if (N % i == 0) {
+				System.out.println(i);
+				primeFactors(N / i);
+				return;
+			}
+		}
+		System.out.println(N);
+	}
+
+16. (注意代码)
+Q: Write code to evaluate polymonial.
+A: <http://knol.google.com/k/using-horner-to-evaluate-polynomial-functions?pli=1#>
+int evaluate(x) {
+    int result = 0;
+    for (int i = a.length-1; i >= 0; i--)
+        result = result*x + a[i];
+    return result;
+}
+
+17.
+Q: Write a routine to reverse digit of an integer without using an array (e.g. 1234 to 4321).
+A: int i = 5723;
+int j = 0;
+while (i != 0) {
+	j = j *10 + (i%10);
+	i /= 10;
+}
+return j;
+
+// CareerCups
+18. (代码容易写错)
+Q: [4.10.4] Write a method to implement *, - , / operations You should use only the + operator. keyword: arithmetic operators
+A: int negate(int i) {
+    int result = 0;
+    int n = i > 0?-1:1;
+    while (a != 0) {
+        result += n;
+        a += n;
+    }
+    return result;
+}
+
+int abs(int i) {
+    if (i < 0)
+        i = negate(i);
+    return i;
+}
+
+boolean diffSigns(int a, int b) {
+    return ((a < 0 && b > 0) || (a > 0 && b < 0))?true:false;
+}
+
+int minus(int a, int b) {
+    int nb = negate(b);
+    return a + nb;
+}
+
+int multiply(int a, int b) {
+    int product = 0;
+    for (int i = 0; i < abs(b); i++)
+        product += a;
+    if (b < 0)
+        product = negate(product);
+    return product;
+}
+
+int divide(int a, int b) {
+    if (b == 0)
+        throw new Exception();
+    int nb = negate(abs(b));
+    int quotient = 0;
+    while (abs(a) >= abs(b)) {
+        quotient++; 
+        a += nb;
+    }
+    if (diffSigns(a, b))
+        quotient = negate(quotient);
+    return quotient;
+}
+
+19. (注意代码)
+Q: [4.10.7] Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7. 类似的题目：我们把只包含因子 2、3和5的数称作丑数（Ugly Number）。例如6、8都是丑数，但14不是，因为它包含因子7。习惯上我们把1当做是第一个丑数。求按从小到大的顺序的第1500个丑数。
+A: int getKthMagicNumber(int k) {
+		if (k <= 0)
+			return 0;
+		int val = 1;
+		Queue<Integer> Q3 = new LinkedList<Integer>();
+		Queue<Integer> Q5 = new LinkedList<Integer>();
+		Queue<Integer> Q7 = new LinkedList<Integer>();
+		Q3.add(3);
+		Q5.add(5);
+		Q7.add(7);
+
+		for (k--; k > 0; k--) {
+			val = Math.min(Q3.peek(), Math.min(Q5.peek(), Q7.peek()));
+			if (val == Q7.peek())
+				Q7.remove();
+			else {
+				if (val == Q5.peek())
+					Q5.remove();
+				else {
+					Q3.remove();
+					Q3.add(val * 3);
+				}
+				Q5.add(val * 5);
+			}
+			Q7.add(val * 7);
+		}
+		return val;
+	}
+
+20.
+Q: [4.8.1] Write a method to generate the nth Fibonacci number.
+A: int fibonacci(int n) {
+    if (n < 0)
+        return -1;
+    else {
+        if (n == 0)
+            return 0;
+        else if (n == 1)
+            return 1;
+        else
+            return fibonacci(n-1) + fibonacci(n-2);
+    }
+}
+
+int fibonacci(int n) {
+    if (n < 0)
+        return -1;
+    if (n == 0)
+        return 0;
+    int a = 1, b = 1;
+    for (int i = 3; i <= n; i++) {
+        int c = a + b;
+        a = b;
+        b = c;
+    }
+    return b;
+}
+
+21.
+Q: [4.19.3] Write an algorithm which computes the number of trailing zeros in n factorial.
+A: int zeros(int n) {
+    int result = 0;
+    if (n < 0)
+        return -1;
+    while (int i = 5; n/i > 0; i *= 5)
+        result += n/i;
+    return result;
+}
+
+22.
+Q: [4.19.4] Write a method which finds the maximum of two numbers. You should not use if- else or any other comparison operator.
+A:  int max(int a, int b) {
+    	int c = Math.abs(a - b);
+    	int k = (c >> 31) & 1;
+    	return a - k*c;
+	}
+	static int min(int a, int b) {
+		return a + b - max(a, b);
+	}
+
+23.
+Q: [4.20.1] Write a function that adds two numbers You should not use + or any arithmetic operators.
+A: 
+// Recursive
+int addBitwise(int a, int b) {
+    if (b == 0) return a;
+    int sum = a ^ b;
+    int carry = (a & b) << 1;
+    return addBitwise(sum, carry);
+}
+// Iterative
+int addOne(int x) {
+	int m = 1;
+	/* Flip all the set bits until we find a 0 */
+	while( (x & m) > 0) {
+		x = x^m;
+		m <<= 1;
+	}
+	/* flip the rightmost 0 bit */
+	return x^m;
+}
+
+24.
+Q: [4.20.2] Write a method to shuffle a deck of cards. It must be a perfect shuffle - in other words, each 52! permutations of the deck has to be equally likely. Assume that you are given a random number generator which is perfect.
+A: int[] result = new int[52];
+	    Random gen = new Random();
+	    for (int i = 0; i < cards.length; i++) {
+	        int value = gen.nextInt(cards.length - i) + i;
+	        int temp = cards[value];
+	        cards[value] = cards[i];
+	        cards[i] = temp;
+	    }
+
+25. (注意代码)
+Q: [4.20.3] Write a method to randomly generate a set of m integers from an array of size n. Each element must have equal probability of being chosen. // Reservoir Algorithm
+A: int[] pickMRandomly(int[] array, int m) {
+		Random gen = new Random();
+		int[] subset = new int[m];
+		for (int j = 0; j < m; ++j) {
+			int index = gen.nextInt(array.length - 1 - j) + j;
+			subset[j] = array[index];
+			array[index] = array[j];
+		}
+		return subset;
+	}
+
+26. (难点)
+Q: [2.1.10] Given a two dimensional graph with 6000 points on it, find a line which passes the most number of points.
+A: (已建工程LinesOf2DPlane)
+
+27. (难点)
+Q: [2.17.3] Numbers are randomly generated and stored in an array. Write a program to find and maintain the median value as new values are generated.
+A: (已建工程MedianBSTDynamicGeneration)
+
+28.
+Q: [4.5.5] Write a function int BitSwapReqd(int A, int B) to determine the number of bits required to convert integer A to integer B.
+A: int bitSwapRequired(int a, int b) {
+	int count = 0;
+	for (int c = a ^ b; c != 0; c = c >> 1) {
+		count += c & 1;
+	}
+	return count;
+}
+
+29.
+Q: [4.5.6] If you were to write a program to swap odd and even bits in integer, what is the minimum number of instructions required? (e.g., bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc).
+A: return ( ((x & 0xaaaaaaaa) >> 1) | ((x & 0x55555555) << 1) );
+
+30.
+Q: [4.5.1] You are given two 32-bit numbers, N and M, and two bit positions, i and j Write a method to set all bits between i and j in N equal to M (e.g., M becomes a substring of N located at i and starting at j).
+A: int setBits(int m, int n, int i, int j) {
+    int max = ~0;
+    int leftMask = max - ((1<<j) - 1);
+    int riteMask = (1<<i) - 1;
+    int mask = leftMask | riteMask;
+    m = m & mask;
+    n = n << i;
+    return m | n;
+}
+
+31. (难点)
+Q: [3.3.7] Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.
+A: <http://www.matrix67.com/blog/archives/813> 以及 <http://fayaa.com/tiku/view/47/>
+	static boolean getBit(int n, int index) {
+		return (n & (1<< index)) > 0;
+	}
+	
+	static int setBit(int n, int index, boolean on) {
+		if (on)
+			return n | (1 << index);
+		else
+			return n & ~(1 << index);
+	}
+	
+	static int getNext(int n) {
+		int index = 0;
+		// find first 1
+		while (!getBit(n, index)) 
+			index++;
+		int count = 0;
+		// count number of consecutive 1s
+		while (getBit(n, index)) {
+			count++;
+			index++;
+		}
+		// set the 0 after consecutive 1s to 1
+		n = setBit(n, index, true);
+		// set the previous 1 to 0
+		n = setBit(n, --index, false);
+		// count is number of consecutive 1s
+		count--;
+		// set all count 1s to 0
+		for (int i = index - 1; i >= count; i--)
+			n = setBit(n, i, false);
+		// rebuild 1s from the beginning
+		for (int i = count - 1; i >= 0; i--)
+			n = setBit(n, i, true);
+
+32.
+Q: Time complexity of Recursive Fibonacci?
+A: <http://stackoverflow.com/questions/360748/computational-complexity-of-fibonacci-sequence>
+O(2^n)
+
+33.
+Q: Write an Efficient Method to Check if a Number is Multiple of 3
+A; <http://geeksforgeeks.org/?p=511>
+
+34.
+Q: how to reverse the bits of an integer?
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284994518_2.g0/how+to+reverse+the+bits+of+an+integer>
+// from Bit Twiddling Hacks
+unsigned int s = sizeof(v) * CHAR_BIT; // bit size; must be power of 2 
+unsigned int mask = ~0;         
+while ((s >>= 1) > 0) 
+{
+  mask ^= (mask << s);
+  v = ((v >> s) & mask) | ((v << s) & ~mask);
+}
+
+35.
+Q: Given a number determine whether the number is sum of consecutive positive integers, if it is not return false else return true. Consecutive integers can be from 2 to n。
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284782598_2.w0/%BC%B8%B5%C0%C3%E6%CA%D4%CC%E2>
+
+36.
+Q: Given a function for a fair coin, write a function for a biased coin that returns heads 1/n times (n is a param).
+A: <http://www.glassdoor.com/Interview/Given-a-function-for-a-fair-coin-write-a-function-for-a-biased-coin-that-returns-heads-1-n-times-n-is-a-param-QTN_26402.htm>
+biasedCoin(int n){
+int new = Math.Random()*n;
+if(new==1)
+  return true
+}
+return false
+}
+
+37.
+Q: Describe a function that takes an int value, and returns true if the bit pattern of that int value is the same if you reverse it (i.e. it's a palindrome); i.e. boolean isPalindrome(int x)
+A: (已建工程PalindromeBit)
+
+38.
+Q: Given 4*10^9 integers represented by 32 bits, find a missing one
+A: 同4.11.3
+
+39.
+Q: 三连击
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1285450953_2.H0/amazon%B0%E6%C9%CF%C3%E6%CA%D4%CE%CA%CC%E2%C7%EB%BD%CC>
+两次hash,第一次hash 人名， 然后chain pages. 第二次，每个chain，依次取三个，再hash <page1, page2, page 3>. 在第二个hash table 里面返回最大值。
+
+40.
+Q: Hash分配数据到新数据中心
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1284320459_2.C0/%D2%BB%B5%C0%BF%B4%CB%C6%B2%BB%C4%D1%B5%AB%C4%D1%B5%C4%CC%E2>
+分两种情况：
+1. 新数据插入: hash%7 + 8 到新server上
+2. 数据查询：同时送到hash%7 和 hash%7 + 8两台server, 有数据的那台server最终
+回答。
+
+41.
+Q: m进制转换为n进制-任意进制转换算法
+A: <http://blog.redfox66.com/post/convert-m-number-to-n-number.aspx> (已建工程BaseConversion)
+
+42.
+Q: Many overlapping rectangles - want to return which (doesn't matter which one, if it's over several) rectangle the mouse is over.
+A: <http://www.careercup.com/question?id=1457>
+
+43.
+Q: Given a biased coin, with probability of Heads equal to x. How to do unbiased coin tossing?
+A: <http://n1b-algo.blogspot.com/2008/04/unbiased-coin-tossing.html> 或者 <http://rxwen.wordpress.com/2009/12/02/ex5-1-2-of-introduction-to-algorithms/> (已建工程RandomBiased2Unbiased)
+Lets define an event, E as tossing the biased coin twice. The possible outcomes with probabilities is as follows
+P(h,h) = x^2
+P(h,t) = x(1-x)
+P(t,h) = x(1-x)
+P(t,t) = (1-x)^2
+The event h,t or t,h are equal likely, without any bias we can call that if Event h,t occurs it means head, t,h means tails but if h,h or t,t occurs we repeat the experiment.
+
+44.
+Q: Figure out if a number/integer is even or odd without using the division operator.
+A: <http://inder-gnu.blogspot.com/2008/02/number-is-even-or-odd.html>
+LSB of odd number is always 1 and 0 for even.
+
+45.
+Q: Find number of digits in a factorial of number. Without calculating factorial of a number is there a way to number how many digits will be there in the result.
+A: <http://inder-gnu.blogspot.com/2009/08/find-number-of-digits-in-factorial-of.html> (已建工程FactorialDigit)
+
+46.
+Q: RANDOM(a.b) is a random number generator that generates integers between a and b (inclusive), all equally likely. Assuming we have an implementation of RANDOM(0.1), how can we implement RANDOM(a.b) - i.e. given we have a function that returns 0 OR 1 both with a probability of 1/2, how can we implement a function that returns integers from a to b (b > a), all with a probability of 1/n, where n = (b-a+1)
+A: <http://rxwen.wordpress.com/category/algorithm/> (已建工程RandomAbFrom01)
+
+47.
+Q: Given a function which generates a pure, unbiased random integer between two given integers. Using this function write a function which will return 1 or 2 randomly with a probability of 60% and 40% respectively. 
+A: <http://www.rawkam.com/?p=1362> (已建工程RandomUnbiased2Biased)
+
+48.
+Q: How does one find out if a number is a Fibonacci or not?
+A: N is a Fibonacci number if and only if (5*N*N + 4) pr (5*N*N - 4) is a perfect square.

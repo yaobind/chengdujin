@@ -1,0 +1,822 @@
+Linklist and Stack
+
+1.
+Q: Implement a stack using a singly linked list L. The run time of PUSH and POP should be O(1). 
+A: <http://placementsindia.blogspot.com/2007/10/stacksqueues-and-linked-lists.html>
+LinkedListNode pointer;
+
+void push(LinkedListNode node) {
+    if (node == null) return;
+    if (pointer == null) {
+        node.next = null;
+        pointer = node;
+    } else {
+        node.next = pointer;
+        pointer = node;
+    }
+}
+
+LinkedListNode pop() {
+    if (pointer == null)
+        return null;
+    if (pointer.next == null)
+        return pointer;
+    LinkedListNode result = pointer;
+    pointer = pointer.next;
+    result.next = null;
+    return result;
+}
+
+2.
+Q: Implement a queue using a singly linked list L. The run time of ENQUEUE and DEQUEUE should be O(1). 
+A: <http://placementsindia.blogspot.com/2007/10/stacksqueues-and-linked-lists.html>
+LinkedListNode head, tail;
+
+void enqueue(LinkedListNode node) {
+    if (node == null) return;
+    if (head == null) {
+        head = node;
+        tail = head;
+    } else {
+        tail.next = node;
+        tail = node;
+    }
+    tail.next = null;
+}
+
+LinkedListNode dequeue() {
+    if (head == null)
+        return null;
+    LinkedListNode result = head;
+    head = head.next;
+    result.next = null;
+    return result;
+}
+
+3.
+Q: Explain how to implement a stack using two queues. Analyze the running time of the stack operations.
+A: <http://stackoverflow.com/questions/688276/implement-stack-using-two-queues> (已建工程StackByQueues)
+	static Queue q1 = new LinkedList();
+	static Queue q2 = new LinkedList();
+	
+	void push(int value) {
+		q1.add(value);
+	}
+	
+	int pop() {
+		while (q1.size() > 1)
+			q2.add(q1.poll());
+		int result = (Integer) q1.poll();
+		q1.addAll(q2);
+		q2.clear();
+		return result;
+	}
+	
+	boolean isEmpty() {
+		return q1.isEmpty();
+	}
+
+4.
+Q: Implement Queue using stacks. What's the time complexity of various queue operations for this implementation?
+A: <http://www.careercup.com/question?id=4399683> (已建工程QueueByStacks)
+	static Stack<Integer> s1 = new Stack<Integer>();
+	static Stack<Integer> s2 = new Stack<Integer>();
+
+	void push(int value) {
+	    s1.push(value);
+	}
+
+	int pop() {
+	    while (!s1.isEmpty())
+	        s2.push(s1.pop());
+	    int result = s2.pop();
+	    while(!s2.isEmpty())
+	        s1.push(s2.pop());
+	    return result;
+	}
+
+5.
+Q: Given a list, split it into two sublists — one for the front half, and one for the back half. If the number of elements is odd, the extra element should go in the front list. So FrontBackSplit() on the list {2, 3, 5, 7, 11} should yield the two lists {2, 3, 5} and {7, 11}.
+A: <http://www.ihas1337code.com/2010/09/splitting-linked-list.html>
+void FrontBackSplit(LinkedListNode root, LinkedListNode front, LinkedListNode back) {
+    if(root == null) return;
+    
+    LinkedListNode fast = root;
+    LinkedListNode slow = root;
+    LinkedListNode prev;
+    
+    while (fast != null) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next?fast.next.next:null;
+    }
+    
+    prev.next = null;
+    front = root;
+    back = slow;
+}
+
+6. (代码易写错)
+Q: Reversing linked list iteratively and recursively
+A: <http://www.ihas1337code.com/2010/04/reversing-linked-list-iteratively-and.html> LinkedListProblems.pdf解释的很清楚(17 & 18题)
+Iterative
+void reverse(LinkedListNode root) {
+    if (root == null) return;
+    LinkedListNode node = root;
+    LinkedListNode prev = null;
+    
+    while (node != null) {
+        LinkedList next = node.next;
+        node.next = prev;
+        prev = node;
+        node = next;
+    }
+    head = prev;
+}
+
+Recursive
+void reverse(LinkedListNode root) {
+    if (root == null) return;
+    LinkedListNode node = root;
+    LinkedList next = node.next;
+    if (next == null) return;
+    reverse(next);
+    node.next.next = node;
+    node.next = null;
+    node = next;
+}
+
+7. 
+Q: There is linked list of millions of node and you do not know the length of it. Write a function which will return a random number from the list. 类似题 how to randomly find an element with equal probability? Given the head pointer to a loop-less singly linked list, and you are allowed to scan from the head to the end of the list only once.
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.309868.14>
+Read the 1st element, store it. Read 2nd element, keep either it or the first one, 50% chance for each. Read 3rd element, keep either it or the other kept one, 1/3 chance for new one. Read 4th element, keep either it or the other kept one, 1/4 chance for new one. Keep going.
+
+8.
+Q: There is a linked list of numbers of length N. N is very large and you don’t know N. You have to write a function that will return k random numbers from the list. Numbers should be completely random.
+A: <http://placementsindia.blogspot.com/2007/12/solutions-to-few-google-top-interview.html>
+Traverse the list, generating a new random number for each entry. Keep a ‘top k’ chart of the highest random numbers, and their associated entries. When we hit the end of the list, the numbers in the chart are the required random numbers. This random number generated for each element can be defined as a function f=absolute(irand()-rand()),which is random enough. 或者 <http://www.matrix67.com/blog/archives/331> 遍历链表，给每个元素赋一个0到1之间的随机数作为权重（像Treap一样），最后取出权重最大的k个元素。你可以用一个堆来维护当前最大的k个数。 (已建工程RandomKNumbersLinkedList)
+
+9. (代码易写错)
+Q: 复制linked list。已知每个节点有两个pointer,一个指向后一个节点,另一个指向 其他任意一节点。O(n)时间内,无附加内存,复制该linked list。(存储不连续) 类似题 Given a linked list with two pointers in node structure where one points to the next node and the other pointer points to some random node in the linked list. Write a program to create a copy of this linked list keyword: random pointer
+A: <http://www.careercup.com/question?id=191677>
+由于要记录原链表每个节点的两个不同指针，而且是O(n)时间，无附加内存，所以要用原链表节点的顺序指针指向复制链表的对应节点，然后把复制链表节点的非顺序指针用于用于记录原链表对应节点的下一节点
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node *rand;
+};
+
+void CopyLinkedList(Node *pSrc, Node **ppDst) {
+	// daisy chain link
+	for(Node *pCur = pSrc; pCur; ) {
+		Node *pTmp = new Node();
+		pTmp->data = pCur->data;
+		pTmp->next = pCur->next;
+		pCur->next = pTmp;
+		pCur=pCur->next->next;
+	}
+
+	// store the head of the new link
+	*ppDst = pSrc->next;
+
+	// update the rand pointers of dst
+	for(Node *pCur = pSrc; pCur; ) {
+		pCur->next->rand = (pCur->rand)?pCur->rand->next:null;
+		pCur = pCur->next->next;
+	}
+
+	// un-daisy chain links
+	for(Node *pCur = pSrc; pCur; ) {
+		Node *pNextSrc = pCur->next->next;
+		pCur->next->next = (pNextSrc)?pNextSrc->next:null;
+		pCur->next = pNextSrc;
+		pCur = pNextSrc;
+	}
+}
+
+10. (难点)
+Q: 有两个有序链表，各自内部是有序的，但是两个链表之间是无序的 Merge.
+A: <http://fayaa.com/tiku/view/17/> 或者 <http://geeksforgeeks.org/?p=3622>
+Iterative
+typedef struct node {
+    int data;
+    struct node * next;
+}* List;
+
+List mergeSortedLinkList(List list1, List list2) {
+    List pList1,pList2,mergedList,pCurNode;
+
+    if (list1 == NULL)
+        return list2;
+
+    if (list2 == NULL)
+        return list1;
+
+    pList1 = list1;
+    pList2 = list2;
+    mergedList = NULL;
+    
+    if (pList1==pList2) {       
+        mergedList = pList1;
+        pList1 = pList1->next;
+        pList2 = pList2->next;
+    } else {
+        if (pList1->data <= pList2->data) {
+            mergedList = pList1;
+            pList1 = pList1->next;
+        } else {
+            mergedList = pList2;
+            pList2 = pList2->next;
+        }
+    }
+    
+    pCurNode = mergedList;
+    while(pList1 && pList2) {
+        if (pList1==pList2) {
+            pCurNode->next = pList1;
+            pCurNode = pList1;
+            pList1 = pList1->next;
+            pList2 = pList2->next;
+        } else {
+            if (pList1->data <= pList2->data) {
+                pCurNode->next = pList1;
+                pCurNode = pList1;
+                pList1 = pList1->next;
+            } else {
+                pCurNode->next = pList2;
+                pCurNode = pList2;
+                pList2 = pList2->next;
+            }
+        }
+    }
+    pCurNode->next =pList1?pList1:pList2;
+    return mergedList;
+}
+
+Recursive
+struct node* SortedMerge(struct node* a, struct node* b) {
+  result = (struct node*)(malloc(sizeof(struct node));
+
+  if ((a == NULL)&&(b==NULL)) {
+     free(result);
+     return NULL;
+  }
+
+  if (((a!=NULL)&&(b!=NULL)&&(a->data<b->data))||(b==NULL)) {
+     result->data = a->data;
+     result->next = SortedMerge(a->next, b);
+  } else if(((a!=NULL)&&(b!=NULL)&&(a->data>b->data))||(a==NULL)) {
+     result->data = b->data;
+     result->next = SortedMerge(a, b->next);
+  }
+
+  return(result);
+}
+
+11.
+Q: 对于两个有序无环单链表，求这两个链表的交集 比如：1>2>3>4>NULL 交 2>4>5>NULL => 2>4>NULL 类似题 How to make a single linked list of common integers out of two sorted linked lists of integers? 或者 Given two lists sorted in increasing order, create and return a new list representing the intersection of the two lists.
+A: <http://fayaa.com/tiku/view/57/>
+方法1.
+struct node {
+	int data;
+	node* next;
+};
+typedef node* List;
+
+List mergeSortedLinkList(List &list1, List &list2) {
+	if (list1 == NULL)
+    	return list2;
+    		
+	if (list2 == NULL)
+    	return list1;
+
+	List pList1 = list1;
+	List pList2 = list2;
+	List mergedList = new node; //使用一个头节点，只是来指向合并好的链表，不存储数据
+	List pCurNode = mergedList;
+
+	while(pList1 && pList2) {
+    	if (pList1->data < pList2->data)
+        	pList1 = pList1->next; 
+        else if (pList1->data > pList2->data)
+            pList2 = pList2->next;
+        else {
+        	pCurNode->next = pList1;
+        	pCurNode = pList1;
+        	pList1 = pList1->next;
+            	pList2 = pList2->next;
+       		} 
+	}
+	return mergedList;
+}
+
+12.
+Q: we are given two linked list. we have to tell whether these lists are Y - shaped or not. Only one traversal of both the list is allowed. (最好解答见编程之美)
+A: <http://discuss.techinterview.org/default.asp?interview.11.773312.10>
+For finite lists, traverse one till the end. Then the other. If both end at the same node it's a Y. If not, not. 
+
+If you have an infinite computer in which infinite lists can be stored, then in finite time it is only possible to detect the case that it is a Y: Advance the first pointer by 1, then the second by 2, then the first by 4, then the second by 8, etc. If they ever hit each other it's a Y, and if it's a Y they are guaranteed to hit each other some time. (The point is that the total distance traversed by the current pointer minus the total distance traversed by the other pointer keeps increasing, so if the lists form a Y, one will eventually overcome the other, regardless of the disparity in the lengths of the Y's arms. (And once this happens, they will keep crossing each other at every iteration.) 
+
+This effect can be achieved in many ways. For example, you could get it directly by maintaining a running total for the distance traversed by each pointer. At iteration i, let d1(i) and d2(i) be the total distances traversed by the pointers, and suppose without loss of generality that d1(i)<d2(i). Advance the first pointer by 2*(d2(i) - d(1)) + 1.  Then d1(i+1) - d2(i+1) = (d1(i)+2*(d2(i)-d1(i))+1) - d2(i) = d2(i) - d1(i) + 1. So the difference between the totals keeps increasing.
+
+13.
+Q: Write a function to get the intersection point of two Linked Lists.
+A: <http://geeksforgeeks.org/?p=2405>
+1) Get count of the nodes in first list, let count be c1.
+2) Get count of the nodes in second list, let count be c2.
+3) Get the difference of counts d = abs(c1 – c2)
+4) Now traverse the bigger list from the first node till d nodes so that from here onwards both the lists have equal no of nodes.
+5) Then we can traverse both the lists in parallel till we come across a common node. (Note that getting a common node is done by comparing the address of the nodes)
+
+14.
+Q: 给定一个排好序的linked list,删除其中所有的重复元素。比如给定1->2->3->3->4->4->5,返回1->2->5。给定1->1->1->2->3,返回2->3。或者 Write a RemoveDuplicates() function which takes a list sorted in increasing order and deletes any duplicate nodes from the list. Ideally, the list should only be traversed once.
+A: 两个指针A和B A留在3除, B到达4后让A取得4的值, 然后指向B的下一个值. 或者
+void RemoveDuplicates(struct node* head) {	struct node* current = head;
+	if (current == NULL) return;
+	while(current->next!=NULL) {		if (current->data == current->next->data) { 
+			struct node* nextNext = current->next->next;
+			free(current->next); 
+		 	current->next = nextNext;		} else			current = current->next;
+	}
+}
+
+15.
+Q: 用链表模拟大整数加法运算, 例如：9>9>9>NULL + 1>NULL =>  1>0>0>0>NULL
+A: <http://www.cnblogs.com/Jax/archive/2009/12/11/1621504.html> 
+方法1.
+可以用两个stack来存放两个链表, 然后计算. 每次的进位存储起来加到后面pop()的一组数中.
+
+方法2.
+public static int Add(Link head1, Link head2, ref Link newHead, int M, int N) {
+    // goto the end
+    if (head1 == null)
+        return 0;
+    int temp = 0;
+    int result = 0;
+    newHead = new Link(null, 0);
+    if (M > N) {
+        result = Add(head1.Next, head2, ref newHead.Next, M - 1, N);
+        temp = head1.Data + result;
+        newHead.Data = temp % 10;
+        return temp >= 10 ? 1 : 0;
+    } else { // M == N
+        result = Add(head1.Next, head2.Next, ref newHead.Next, M - 1, N - 1);
+        temp = head1.Data + head2.Data + +result;
+        newHead.Data = temp % 10;
+        return temp >= 10 ? 1 : 0;
+    }
+}
+
+16.
+Q: Suppose that you have a set of nodes with no null pointers (each node points to itself or to some other node in the set), given a pointer to a node, how to find the number of different nodes that it ultimately reached by following links from that node, without modifying any nodes. DO NOT use more than a constant amount of extra memory space
+A: 需要找到环, 然后计算环的大小 (加上从出发点到换入口的距离)
+
+17.
+Q: How to implement doubly linked list using only one pointer?? 就是说实现ptr能向前/向后的功能, 但是只持有一个next pointer.
+A: <http://discuss.techinterview.org/default.asp?interview.11.779248.4>
+Store the XOR of next and previous pointers at each node as a value. If the singly list goes forward (each node contains a pointer to the next one), then XOR the stored value with the next pointer, which gives the previous pointer. In simple notation: link := (next XOR previous) link XOR next = previous.
+
+实现代码 <http://www.rawkam.com/?p=703>
+
+
+/////// CareerCups
+19.
+Q: [4.2.1] Write code to remove duplicates from an unsorted linked list.
+A: 可以用额外空间
+public static void dedup(LinkedListNode n) {
+    HashSet nodes = new HashSet();
+    while (n != null) {
+        if (nodes.contains(n.data)) {
+            n.data = n.next.data;
+            n.next = n.next.next;
+        } else
+            nodes.add(n.data);
+        n = n.next;
+    }
+}
+不能用额外空间
+public static void dedup(LinkedListNode n) {
+    if (n == null) return;
+    while (n != null) {
+        LinkedListNode n2 = n.next;
+        while (n2 != null) {
+            if (n.data == n2.data) {
+                n2.data = n2.next.data;
+                n2.next = n2.next.next;
+            }
+            n2 = n2.next;
+        }
+        n = n.next;
+    }
+}
+
+20.
+Q: [4.2.2] Implement an algorithm to find the nth to last element of a singly linked list.
+A: public static void nToLast(LinkedListNode node, int n) {
+    if (node == null) return;
+    if (n < 1) return;
+    LinkedListNode fast = node;
+    while (n > 0) {
+        fast = fast.next;
+        n--;
+    }
+    while (fast != null) {
+        fast = fast.next;
+        node = node.next;
+    }
+}
+
+21.
+Q: [4.2.3] Implement an algorithm to delete a node in the middle of a single linked list, given only access to that node.
+A: public static boolean deleteNode(LinkedListNode n) {
+    if (n == null)
+        return false;
+    if (n.next == null)
+        return false;
+        
+    n.data = n.next.data;
+    n.next = n.next.next;
+    return true;
+}
+
+22.
+Q: [4.2.4] You have two numbers represented by a linked list, where each node contains a single digit. The digits are stored in reverse order, such that the 1’s digit is at the head of the list. Write a function that adds the two numbers and returns the sum as a linked list.
+A: LinkedListNode addLists(LinkedListNode l1, LinkedListNode l2, int carry) {
+    if (l1 == null && l2 == null)
+        return;
+    
+    int sum = carry;
+    if (l1 != null)
+        sum += l1.data;
+    if (l2 != null)
+        sum += l2.data;
+        
+    LinkedListNode result = new LinkedListNode();
+    if (sum / 10 > 0) {
+        carry = sum / 10;
+        sum = sum % 10;
+    }
+    result.data = sum;
+    result.next = addLists(l1==null?null:l1.next, l2==null?null:l2.next, carry);
+    return result;
+}
+
+23.
+Q: [4.2.5] Given a circular linked list, implement an algorithm which returns node at the beginning of the loop. keyword: cycle
+A: LinkedListNode FindBeginning(LinkedListNode head) {
+    if (head == null) return;
+    LinkedListNode slow = head;
+    LinkedListNode fast = head;
+    
+    while (fast != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast)
+            break;
+    }
+    
+    fast = head;
+    while (fast != slow) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    
+    return slow;
+}
+
+24.
+Q: [2.12.4] Imagine you have an unbalanced binary search tree. Design an algorithm which creates a linked list of all the nodes at each depth (e.g., if you have a tree with depth D, you’ll have D linked lists).
+A: HashSet lists = new HashSet();
+Stack current = new Stack();
+Stack next = new Stack();
+HashSet traverse(LinkedListNode root) {
+    if (root == null) return null;
+    lists.add(root);
+    current.push(root);
+    
+    LinkedListNode start = current.pop();
+    while (!current.isEmpty()) {
+        LinkedListNode node = current.pop();
+        if (node.left != null)
+            next.push(node.left);
+        if (node.right != null)
+            next.push(node.right);
+        if (start == null)
+            start = node;
+        else {
+            start.next = node;
+            start = node;
+        }
+        
+        if (current.isEmpty()) {
+            lists.add(start);
+            current = next;
+            next.clear();
+            start = current.pop();    
+        }
+    }
+}
+
+25.
+Q: [4.3.1] Describe how you could use a single array to implement three stacks. keyword: 3 stacks
+A: 	static int stackSize = 300;
+	static int[] buffer = new int[stackSize * 3];
+	static int[] stackPointer = { 0, 0, 0 };
+	
+	void push(int stackNum, int value) {
+		int start = stackNum * stackSize;
+		int index = stackPointer[stackNum];
+		
+		if (index + 1 < stackSize) {
+			buffer[start + index + 1] = value;
+			stackPointer[stackNum] ++;
+		}
+	}
+	
+	int pop(int stackNum) {
+		int index = stackPointer[stackNum];
+		int start = stackNum * stackSize;
+		int result = -1;
+		if (index - 1 >= 0) {
+			result = buffer[start + index - 1];
+			stackPointer[stackNum] --;
+		}
+		return result;
+	}
+	
+26.
+Q: [4.3.2] How would you design a stack which, in addition to push and pop, also has a function min which returns the minimum element? Push, pop and min should all operate in O(1) time.
+A: 	static Stack normal = new Stack();
+	static Stack mins = new Stack();
+	
+	void push(int value) {
+		normal.push(value);
+		if (!mins.isEmpty()) {
+			if ((Integer)mins.peek() < value)
+				mins.push(value);
+		}
+	}
+	
+	int pop() {
+		int result = -1;
+		if (!normal.isEmpty()) {
+			result = (Integer) normal.pop();
+			if (!mins.isEmpty() && ((Integer)mins.peek() == result))
+				mins.pop();
+		}
+		return result;
+	}
+	
+	int min() {
+		int result = -1;
+		if (!mins.isEmpty())
+			result = (Integer) mins.peek();
+		return result;
+	}
+
+27.
+Q: [4.3.6] Write a program to sort a stack in ascending order You should not make any assumptions about how the stack is implemented The following are the only functions that should be used to write this program: push | pop | peek | isEmpty. keyword: stack sort
+A: 	static Stack s1 = new Stack();
+	static Stack s2 = new Stack();
+	static void sort() {
+		while (!s1.isEmpty()) {
+			int vs1 = (Integer) s1.pop();
+			while (!s2.isEmpty() && (Integer)s2.peek() > vs1)
+				s1.push(s2.pop());
+			s2.push(vs1);
+		}
+	}
+
+28.
+Q: Merge two sorted linked lists.
+A: <http://geeksforgeeks.org/?p=3622>
+LinkedListNode sortedMerge(LinkedListNode a, LinkedListNode b) {
+	LinkedListNode result = NULL;
+  	if (a == null)
+     	return b;
+  	else if (b == null)
+     	return a;
+  	if (a->data <= b->data) {
+    	result = a;
+     	result.next = sortedMerge(a.next, b);
+    } else {
+     result = b;
+     result.next = sortedMerge(a, b.next);
+  	}
+  	return result;
+}
+
+29.
+Q: Intersection of two Sorted Linked Lists
+A: <http://geeksforgeeks.org/?p=7488>
+Time Complexity: O(n) where n is the number of nodes in the smaller list.
+Space Complexity: If function call stack size is considered, then O(n), otherwise O(1).
+
+LinkedListNode sortedIntersect(LinkedListNode a, LinkedListNode b, LinkedListNode result) {
+  if(a == NULL || b == NULL)
+    return NULL;
+  if(a.data < b.data)
+    return sortedIntersect(a.next, b, result);
+  else if(a.data > b.data)
+    return sortedIntersect(a, b.next, result);
+  else if(a.data == b.data) {
+    LinkedListNode temp = new LinkedListNode();
+    temp.data = a.data;
+    if(result == NULL)
+      result = temp;
+    else {
+      result.next = temp;
+      result = temp;
+    }
+    result.next = sortedIntersect(a.next, b.next, result);
+  }
+  return result;
+}
+
+30.
+Q: Function to check if a singly linked list is palindrome.
+A: <http://geeksforgeeks.org/?p=1072>
+Time Complexity: O(n)
+Space Complexity: O(n) if Function Call Stack size is considered, otherwise O(1).
+boolean isPalindrome(LinkedListNode left, LinkedListNode right) {
+   if (!right)
+      return true;
+   boolean isp = isPalindrome(left, right.next);
+   if (isp == false)
+      return false;
+   boolean isp1 = (right.data == left.data);
+   left = left.next;
+   return isp1;
+}
+
+31.
+Q: Split a circular linkedlist into 2 halves.
+A: <http://geeksforgeeks.org/?p=6056>
+void splitList(LinkedListNode head, LinkedListNode head1, LinkedListNode head2) {
+  	LinkedListNode slow = head;
+  	LinkedListNode fast = head;
+  	if(head == null)
+    		return;
+  	while(fast.next != head && fast.next.next != head) {
+     		fast = fast.next.next;
+     		slow = slow.next;
+  	} 
+  	if(fast.next.next == head)
+    		fast = fast.next;
+  	head1 = head;
+  	if(head.next != head)
+    		head2 = slow.next;
+  	fast.next = slow.next;
+  	slow.next = head;
+}
+
+32.
+Q: Write a function AlternatingSplit() that takes one list and divides up its nodes to make two smaller lists ‘a’ and ‘b’. The sublists should be made from alternating elements in the original list. So if the original list is 0->1->0->1->0->1 then one sublist should be 0->0->0 and the other should be 1->1->1.
+A: <http://geeksforgeeks.org/?p=7621>
+void AlternatingSplit(struct node* source, struct node** aRef,
+                            struct node** bRef)
+{
+  /* split the nodes of source to these 'a' and 'b' lists */
+  struct node* a = NULL;
+  struct node* b = NULL;
+ 
+  struct node* current = source;
+  while (current != NULL)
+  {
+    MoveNode(&a, &current); /* Move a node to list 'a' */
+    if (current != NULL)
+    {
+       MoveNode(&b, &current); /* Move a node to list 'b' */
+    }
+  }
+  *aRef = a;
+  *bRef = b;
+}
+ 
+/* Take the node from the front of the source, and move it to the front of the dest.
+   It is an error to call this with the source list empty.
+ 
+   Before calling MoveNode():
+   source == {1, 2, 3}
+   dest == {1, 2, 3}
+ 
+   Affter calling MoveNode():
+   source == {2, 3}
+   dest == {1, 1, 2, 3}
+*/
+void MoveNode(struct node** destRef, struct node** sourceRef)
+{
+  /* the front source node  */
+  struct node* newNode = *sourceRef;
+  assert(newNode != NULL);
+ 
+  /* Advance the source pointer */
+  *sourceRef = newNode->next;
+ 
+  /* Link the old dest off the new node */
+  newNode->next = *destRef;
+ 
+  /* Move dest to point to the new node */
+  *destRef = newNode;
+}
+
+33.
+Q: Print singly linkedlist in reverse order.
+A: 	static void printReverse(BNode head) {
+		if (head == null)
+			return ;
+		else {
+			printReverse(head.next);
+			System.out.print(head.data + " ");
+		}
+	}
+
+34.
+Q: 用递归颠倒一个栈。例如输入栈{1, 2, 3, 4, 5}，1在栈顶。颠倒之后的栈为{5, 4, 3, 2, 1}，5处在栈顶。
+A: <http://zhedahht.blog.163.com/blog/static/2541117420094279426862/> (见工程ReverseStack)
+
+35.
+Q: Reverse doubly Linkedlist
+A: </题目/Technical Interview Questions>
+iterative
+node * rev(node* n) {
+	while(n) {
+		node* t = n->next;
+		n->next = n->prev;
+		n->prev = t;
+		if (!t) break;
+		n = t;
+	}
+	return n;
+}
+
+recursive
+node* rev(node* n) {
+	if (n) {
+		node* t = n->next;
+		n->next = n->prev;
+		n->prev = t;
+		if (!t) return n;
+		return rev(t);
+	}
+}
+
+36.
+Q: Merge sort 2 sorted linkedlist, one is in ascending order, the other is descending.
+A: <http://www.careercup.com/question?id=2394668>
+// iterative
+node * merge (node * l1, node * l2)
+{
+    node Head={0};
+    node *t = &Head;
+    while (l1 && l2)
+    {
+        if (l1->v > l2->v)
+        {    t->next = l2; l2 = l2->next; }
+        else
+        {    t->next = l1; l1 = l1->next; }
+        t = t->next;
+    }
+    if (l1)
+        t->next = l1;
+    else
+        t->next = l2;
+    return Head.next;
+}
+
+// recurisve
+Node mergeRecursive(Node a, Node b) {
+	Node result = null;
+	if (a == null)
+		return b;
+	if (n == null)
+		return a;
+	if (a.data < b.data) {
+		result = a;
+		result.next = mergeRecursive(a.next, b);
+	} else {
+		result = b;
+		result.next = mergeRecursive(a, b.next);
+	}
+	return result;
+}
+
+37.
+Q: You are given a list of numbers. When you reach the end of the list you will come back to the beginning of the list (a circular list). Write the most efficient algorithm to find the minimum # in this list. Find any given # in the list. The numbers in the list are always increasing but you don’t know where the circular list begins, i.e..: 38, 40, 55, 89, 6, 13, 20, 23, 36.
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.579097.21>
+One trivial way is to do with jumping pointers where a pointer jumps by 2/4/8 nodes etc. nodes and then check for the value of the node. If it's less then the smallest  value must be between the two nodes...it will take O(n) whatever distance you set for the jumps.
+
+38.
+Q: Calculate length of the linked list that contains loop
+A: <http://crackinterviewtoday.wordpress.com/2010/03/17/calculate-length-of-the-linked-list-that-contains-loop/>
+1. Use the standard fast and slow pointer algorithm discussed in previous post to find the loop detection point
+2. Take two pointers P1 and P2 at loop detection point. Place pointer P1 at the same place and move P2 forward one step at a time. Repeat until both the pointers meet together. Keep a count variable incremented for every iteration which gives length of the loop. Let say the length is L1
+3. Again take two pointers P1 and P2. P1 at the head of the linked list and P2 at the loop detection point. Forward both the pointers one step at a time. Repeat until both the pointers meet together. This procedure is equivalent to the one we use to calculate node that causes loop in a linked list. Keep a count variable incremented for every iteration which gives the length of the list until the merging point. Let say the length is L2
+4. Now the length of the list that contains loop is L1+ L2
+
+39.
+Q: Find k-th node from the end of circular LL.
+A: <http://crackinterviewtoday.wordpress.com/2010/03/23/find-kth-node-from-the-end-of-linked-list-that-contains-loop/>
+1. From previous post we know the loop detection node, merging point node, loop length and length of the list
+2. If loop length >= k, we need to traverse loop length – k nodes from the merging point node
+3. If loop length < k, we need to traverse length of list – k nodes from the head of linked list

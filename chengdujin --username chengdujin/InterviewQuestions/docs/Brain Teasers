@@ -1,0 +1,232 @@
+Mathematics, Brain teasers and Trees
+
+1.
+Q: 100层楼梯下楼,可以一步也可以两步,多少种下法?递归和非递归。类似题 n级台阶,一次可以上1级或2级,有多少种上发 老题目了,fibonacci number
+A: 设上k阶有f(k)种走法 f(k)=1, k=1, 那么f(k)= 2, k=2 --> f(k)+f(k-1) k> 2 这正好是Fibonacci数列的第k+1项 因此f(20)得到Fibonacci数列21项,10946种走法 //他上20阶楼梯的走法数等于他上19阶的再加上他上18阶的走法数，依次递推，其实就是斐波那契数列 
+
+2.
+Q: 多少人在一起,生日可能出现重复概率大于0.5?
+A: <http://en.wikipedia.org/wiki/Birthday_problem>
+生日問題是指，如果一个房间裡有23个或23个以上的人，那么至少有两个人的生日相同的概率要大于50%。我们可以把生日悖论理解成一个盲射打靶的问题。对于一个23人的房间，先考虑问题的补集：23人生日两两不同的概率是多少？为此，我们可以让23个人依次进入，那么每个人生日都与其他人不同的概率依次是1, 364/365, 363/365, 362/365, 361/365, 等等。先进入房间的这些人生日两两不同的概率是很大的，比如说前面5个是1×364/365×363/365×362/365×361/365=97.3%。而对于最后进入房间的几个人情况就完全不同。最后几个人进入房间并且找不到同生日者的概率是... 345/365, 344/365, 343/365。我们可以把这种概率看成对一张靶的盲射：靶上有365个小格，其中有17个左右是黑格，其余是白格。假设每枪必中靶并且分布符合几何概型的话，那么连续射12枪左右任何一发都没有击中黑格的概率（投射于房间里的人生日都两两不同）是多少呢？想必大家立即会感觉到这个概率并非微小。
+
+3.
+Q: 给你三根棍子,每根都需要一个小时才烧完,但每根燃烧的速度都不一样,也不均 匀。问只有这三根棍子和火柴,如何精确的得到1小时45分钟的计时?
+A:
+
+4.
+Q: 在一个party上,每个人可能认识别人,也可能不认识。现在其中有一个人是名人, 定义就是所有的人都认识他,但他不认识其余的任何人。现在要求你去找出这个名人来 。但你只可以通过一个方法,就是问A是不是认识B,回答是表示A认识B,不是表示A不 认识B。你可以任意去问这样的问题,问最少需要多少次能找出这个名人?思路有了之 后要求写代码实现,可以调用knows(A, B),代表上面的那个问题
+A:
+
+5.
+Q: 20 Cows finish off grazing this piece of land in 96 days.30 Cows finish off grazing this piece of land in 60 days. How long will it take for 70 cows to finish grazing the same piece of land? 类似题 A grass, 3 cow can eat 3 days. 2 cow can eat 6 days. How long can one cow finish the grass?
+A: http://brainden.com/forum/index.php?/topic/7249-cows-and-grass-consumption-puzzle/  或者 http://discuss.joelonsoftware.com/default.asp?interview.11.482156.6
+let grass increases at a speed of t/day. Say initial grass amount =g, so 20*96=g+96t & 30*60=g+60t. solving 36t=120=>t=10/3; Solving for g=1600. let it'll take p days for 70 cows 2 finish then equation is 70*p=g+p*t, putting values of t and g we have =>p(70-10/3)=1600 =>p*200=4800 =>p=2
+
+6.
+Q: 有9间酒窖排成一排，一个酒鬼躲在其中一间酒窖里，每天偷喝一瓶酒，老板每天只能搜查一间酒窖，可发现被酒鬼喝空的酒瓶，而每过一天，酒鬼必定会转移到相邻的密室里. 问至少需要多少天才能保证找到酒鬼？ 注意：第一天会剩下1个空酒瓶。
+A: http://tieba.baidu.com/f?z=471979470&ct=335544320&lm=0&sc=0&rn=30&tn=baiduPostBrowser&word=%D6%C7%C1%A6&pn=30
+酒窖问题，实际上可以加一个条件，就是小偷知道你的步骤，也知道你当晚会搜查哪一间房，直到你将小偷逼到无路可逃才能说捉到他了。 
+这种情况只会发生在倒数第二间房。 
+要抓小偷实际上是在跟小偷相同奇偶性的情况下，将他逼到倒数第二间房，将他捉住。 
+要知道小偷的奇偶性，只要知道小偷在特定的某一天处在某个房间就行了。 
+小偷只能移动到相邻的房间，那么有空酒瓶的房间一定是连成一片的。 
+假设我们从房间的一头开始搜查，然后搜查到空酒瓶，直到在第k+1天搜查到没有空酒瓶的房间，也就是说在第k天搜查到最后一个有空酒瓶的房间，这个时候我们找到了l个空酒瓶，显然k>l。 
+这个时候便说明，我们现在的搜查结果，在k-l天前开始，就没有发生变化了，也就是说明了在k-l天前，我们刚好和小偷错过了，而k-l天前我们在哪个房间当然是清楚的。那么就可以判定小偷在k-l天前在哪个房间。 
+假设那一天是在n号房间，那么小偷所处的范围便是以n为中心前后k-l的房间内。奇偶性知道了，范围知道了，那么剩下来的便是选一条近一点的方向将小偷逼出来。 
+为了节约时间，我们从正中的房间开始搜查，正中的可能是n，也可能是n和n+1。
+顺序为n，n+1，n-1,n+2,n-2…… 
+当发现空酒瓶的房间便不用再检查另外一边了。 
+接下来便可以按照之前的方案实行。 
+如果我们在m号房间发现了空酒瓶，那么前天我们我们搜查m-1号房间时没有发现空酒瓶（也可能m+1，具体哪边并不影响！） 
+因为相邻的两间房我们隔了一天才检查，如果这个时候，我们和小偷已经错过了，我们就无法得知到底是前天还是昨天错过的，这种情况一定要防止。 
+防止的办法便是，立刻检查m-2号房间，如果有空瓶，那么说明昨天晚上小偷在m-2号房间，小偷便没有拖延时间的机会了。 
+如果没有空瓶，则说明小偷昨晚最多到了m-1号房间，既然今天m-2号房间没有，那么一定返回了m号房间，再次检查m号房间，多了一个空酒瓶，则说明昨天小偷在m号房间，他也就没有拖延的机会了。 
+显然小偷一定不会这么做了，为了尽量的拖延时间，他一定会到了m号房间，第二天回m+1号房间，等到我们做了确认之后再和我们错过，虽然我们 
+耽误了时间确认，但小偷也会耽误时间等待我们的确认过程。所以不影响。 
+最不利的便是刚确认完，小偷便立刻和我们错过，而我们要直到检查到没有空酒瓶的房间才会算出到底是哪天错过的。 
+于是，小偷的对策只能是，让我们检查完毕的时间尽量的延后，而他和我们错过的时间尽量的早，也就是说，小偷要尽量的远离最后一间有空酒瓶的房间。 
+所以小偷最有利的便是从一头末端开始，不做任何停留一开始便向另一头赶，那么我们会在1/3处错过。 
+如果小偷做了反复，虽然我们会在另一边浪费一天，但小偷却也是以错过后的时间减少两天为代价的。而如果小偷不从一端开始，虽然能更早的同我们错过，但他的代价也是两倍数量的我们不用检查的房间（另一边的房间和之后没有空酒瓶的房间）。所以这两种选择对小偷都是不利的。 
+于是结果就出来了，我们在3/1的时候错过，然后检查到末端的时候发现小偷何时错过。这个时候小偷最远能到另一头的1/3处，于是另一头的1/3不用检查，直接按小偷奇偶性从1/3处检查这边的2/3，就可以抓到小偷了。 
+总共用时1/3+1/3+2/3=4/3倍房间数。 
+实际上很容易能察觉到在小偷以上边的情况相对应时，我们会发现后边的房间都是只有一个空酒瓶，那我们立刻重新调查刚检查到空酒瓶的附近房间，则可以知道小偷何时同我们错过。完全不用等到检查到底。 
+所以4/3倍房间数肯定不是最终答案，还可以更少，不过这个已经不是我一个只有高中数学知识的人可以解得出来的了。 
+
+7.
+Q: 有m个nuts, n个bolts,规格大小都不相同 只能nut和bolt之间比较 怎么把他们排序?要求复杂度最小 类似题 There are N nuts and N bolts, all unique pairs od Nut and Bolt. You cant compare Nut with Nut. You cant compare Bolt with Bolt. You CAN compare Nut with Bolt. Now how would you figure out matching pairs of nut and bolt from the given N nut and Bolt. The basic soln is O(N^2). Give O(NlogN soln)
+A: http://www.wisdom.weizmann.ac.il/~naor/PUZZLES/nuts_solution.html
+Suppose that there are n nuts and bolts. A simple modification of Quicksort shows that there are randomized algorithms whose expected number of comparisons (and running time) are O(n log n): pick a random bolt, compare it to all the nuts, find its matching nut and compare it to all the bolts, thus splitting the problem into two problems, one consisting of the nuts and bolts smaller than the matched pair and one consisting of the larger ones. Repeating in this manner yields an algorithm whose expected running time can be analyzed by imitating the known analysis for Quicksort
+
+8.
+Q: 有一根27厘米长的细木杆，在第3厘米，7厘米，11厘米，17厘米，23厘米这五个位置上各有一只蚂蚁，木杆很细，不能同时通过两只蚂蚁，开始时，蚂蚁的头朝向左还是右是任意的，他们只会朝前走或掉头，但不会后退，当两只蚂蚁相遇后，蚂蚁会同时掉头朝反方向走，假设蚂蚁们每秒钟可以走1厘米的距离。求所有蚂蚁都离开木杆的最小时间和最大时间。
+A: 两只蚂蚁相遇后，各自掉头朝相反方向走。如果我们不考虑每个蚂蚁的具体身份，这和两只蚂蚁相遇后，打个招呼继续向前走没有什么区别。 
+所有蚂蚁都离开木杆的最小时间为 
+max(min(3, 27-3), min(7, 27-7), min(11, 27-11), min(17, 27-17), min(23, 27-23)) = 11 
+所有蚂蚁都离开木杆的最大时间为 
+max(max(3, 27-3), max(7, 27-7), max(11, 27-11), max(17, 27-17), max(23, 27-23)) = 24
+
+9.
+Q: 有一个天平，2克和7克砝码各一个。如何利用天平砝码在三次内将140克盐分成50，90克两份。
+A: 
+第一次：同时用2，7砝码称出9克； 
+第二次：用砝码7和9克盐称出16克盐，此时得盐25克 
+第三次：用这25克盐称出另外的25克，所以三次之后，称出了50克盐，剩下了就只有90克
+
+10.
+Q: A line of 100 airline passengers is waiting to board a plane. they each hold a ticket to one of the 100 seats on that flight. (for convenience, let's say that the nth passenger in line has a ticket for the seat number n.) Unfortunately, the first person in line is crazy, and will ignore the seat number on their ticket, picking a random seat to occupy. all of the other passengers are quite normal, and will go to their proper seat unless it is already occupied. if it is occupied, they will then find a free seat to sit in, at random. What is the probability that the last (100th) person to board the plane will sit in their proper seat (#100)?"
+A: http://discuss.techinterview.org/default.asp?interview.11.152825.1 很简单重要的分析 答案是1/2
+An easier way to think about it:
+There are only two (relevant) possible outcomes of a random seat choice:
+1) Seat 1  (1/100 chance)
+2) Seat 100 (1/100 chance)
+3) Some other seat (98/100 chance)
+
+Case 1 - Each other person can sit in their assigned seat, and the last passenger can sit his own. Let's call this a "win"
+Case 2 - Each other person can sit in their assigned seat, but the last passenger's seat is taken, and he has to sit in seat 1. Let's call this a "loss"
+Case 3 doesn't particularly interest us, because it simply defers the "decision" point to a passenger later, who will make another random choice.
+
+At each point, the chances of randomly choosing seat 1 is the same as randomly choosing seat n, so the chances will always be 1/2, no matter how many seats/passengers we're talking about.
+
+56. (Catalan Number)
+Q: How many distinct patterns are there of N companies merging, two at a time (resulting in a single company), where the order is not significant?  More formally, a merger pattern is the set of all companies (original, intermediate and final) formed in the process.  Since it is defined as a set, there is no order, even though the merging process is a sequence.
+
+For example, if A and B merge, then C and D merge, and then AB merges with CD, the corresponding pattern would be { A, B, C, D, AB, CD, ABCD }.
+The same pattern would emerge if C and D merged first, then A and B, and finally AB and CD.  However, a different pattern, namely { A, B, C, D, AB, ABC, ABCD } emerges when A and B merge, then AB and C, and then ABC and D.
+A: http://discuss.joelonsoftware.com/default.asp?interview.11.447684.35 (已建工程)
+int waysPicking(int x) {
+		if (x == 2)
+			return 1;
+		else
+			return x * (x - 1) * waysPicking(x - 1) / 2;
+	}
+
+11.
+Q: There is a village of wizards and a village of dwarves. Once a year, the wizards go over to the village of dwarves and line all the dwarves up in increasing height order, such that each dwarf can only see the dwarves smaller than himself. The wizards have an infinite supply of white and black hats. They place either a white or black hat on the head of each dwarf. Then, starting with the tallest dwarf (in the back of the line), they ask each what color hat he is wearing. If the dwarf answers incorrectly, the wizards kill him (the other dwarves can hear his answer, but can't tell if he was killed or not). What strategy can the dwarves use to minimize the number of dwarves that are killed? What is the most number of dwarves that will be killed using this optimal strategy? 
+A: 
+The dwarves have a strategy that will cost the life of at most one dwarf. If you want to know what this strategy is, read on. Let black hats signify 1's and white hats signify 0's. Each dwarf calculates the parity (sum modulo 2) of the hats in front of him. The first (tallest) dwarf announces the color corresponding to the parity he calculated. He may or may not be killed (depending on his luck... of course the Wizards can always engineer it so he dies, because they know this is the optimal strategy). The next dwarf compares the parity he calculated and the parity the first dwarf announced. If the two parities are the same, that means his hat is white, otherwise it is black. He announces this color, and lives. Each successive dwarf, armed with the original parity of all but the first dwarf and the colors of the hats of all the preceding dwarves (but the first), can easily calculate the color of his own hat. An inductive proof of correctness is pretty easy. Thus only the first (and tallest) dwarf dies... which I guess explains why dwarves are so short.
+
+12.
+Q: You have a bar of chocolate that consists of n x m square blocks. If you can only break one piece at a time, how many breaks are necessary to break the original n x m piece into n*m 1 x 1 pieces? How many are sufficient?
+A: There is a simple, one line solution: since every break creates exactly one new piece, n*m-1 breaks are both necessary and sufficient to create n*m total pieces.
+    
+13.
+Q: A couple invites n-1 other couples to dinner. Once everyone arrives, each person shakes hands with everyone he doesn't know. Then, the host asks everyone how many hands they shook, and each person replies with a different number. Assuming that everyone knows his or her own spouse, how many hands did the hostess shake? 
+A: http://everything2.com/title/answer%253A+handshakes
+The possible numbers of handshakes range from 0 to 2N-2. (2N-1 would require that a person shook hands with every other person at the party, but nobody shook hands with his/her spouse.)
+
+This is 2N-1 different numbers, and the host got 2N-1 different answers, so every number is represented.
+
+One person (0) shook no hands, and another (2N-2) shook hands with everybody from all the other couples. This is only possible if these two are a married couple, because otherwise 2N-2 would have had to have shaken 0's hand.
+
+One person (1) shook only 2N-2's hand, and another (2N-3) shook hands with everybody from all the other couples except 0. Again, these two must be married, or else 2N-3 would have had to have shaken 1's hand, a contradiction.
+
+Continuing this logic, eventually you pair up all the couples besides the hosts, each one pairing a shook-no-hands-not-already-mentioned person with a shook-all-hands-not-already-mentioned person, the last having shaken N-2 and N hands respectively.
+
+This tells us that the hostess must have shaken N-1 hands, by process of elimination, though we don't have to use the elimination -- since we have N-1 shook-no-other-hands people and N-1 shook-all-other-hands people, we know that both the host and hostess shook hands with exactly one member of each couple -- the same ones -- and thus each shook N-1 people's hands.
+
+14.
+Q: You are at the bottom of the elevator shaft of a 100 story building. You see 21 wires labelled 1...21. The wires go up to the 100th floor where the ends are labelled A...U, but you don't know how they correspond to the ends at the bottom. You have a battery, a light bulb, and many small wires. How can you determine the pairing between the numbers and letters by only making one trip to the 100th floor and back down?
+A: http://everything2.com/title/Elevator+and+wires+solution
+Note that your battery, light bulb and small wires are basically a connection tester, and that "connected" is an equivalence relation.
+
+At the bottom, leave 1 unconnected, connect 2 and 3 to each other, connect 4-6 to each other, 7-10, etc, so that we have "equivalence classes" of connectedness of sizes 1, 2, 3, 4, 5 and 6.
+
+Now make a trip to the top, and figure out which letters are connected to nothing else, to one other letter, to two others, etc, until you have figured out the equivalence classes.
+
+Now connect the first letters from each equivalence class (there are 6 of them) in a new equivalence class, the second from each (5 of them) in another, etc. Go to the bottom, remove the original connections, and figure out the new equivalence classes in a similar manner.
+
+We now know from the first set of classes what groups of n letters (for n=1 to 6) at the top correspond to what groups of n numbers at the bottom. From the second set of classes we now know which letters and numbers were the "first" in their original classes, which were the "second," etc, so we have the complete pairing.
+
+This solution works cleanly for any triangular number of wires, but can be easily adapted to work for all natural numbers.
+
+15.
+Q: Consider a circular race track with n gas stations spaced along it, each containing a fixed amount of gas. You are given an array containing the distances between consecutive gas stations and an array containing the amount of gas at each. Suppose the total amount of gas at all the gas stations is the same as the number of miles around the race track. Your car gets one mile to the gallon, but its gas tank has an unlimited capacity. Where do you start your car along the race track to guarantee that you get all the way around without running out of gas? Do this in O(n) time. 
+A: http://everything2.com/title/Circular+race+track+solution
+Consider again the array of net gain or loss of gas at each station. You know that the sum of the array is 0. Starting at the beginning of the array, keep a running sum of the elements. As soon as this sum becomes negative, reset the sum and continue. So what you are doing is marking off segments of the array, each with a negative sum. Thus, you know that the last segment must have a positive sum, since the sum of all the segment sums must be 0. Start your car at the beginning of this last segment.
+int racetrack(int stations, int* net_gas)
+{
+    int sum = 0;
+    int last = -1;
+
+    for (int i = 0; i < stations; i++)
+    {
+        sum += net_gas[i];
+        if (sum < 0)
+        {
+            sum = 0;
+            last = i;
+        }
+    }
+
+    return last;
+}
+
+16.
+Q: 背包问题 有一个背包，能盛放的物品的总重量为S，设有N个物品，重量分别为 w1,w2,............wn,希望从N个物品中选择若干件，使得所选的物品重量之和恰能放入该包，即其重量之和为S。 比较37题
+A: http://fayaa.com/tiku/view/177/
+
+17.
+Q: 有一条河，河边有100根香蕉，河面上有50个跳台一直连到对岸。一只猴子想抱香蕉过河。猴子最多能拿起50只香蕉，每次只能跳一个跳台，而且每跳一个跳台就要吃掉一根香蕉。问猴子怎么跳，才能使得剩下的香蕉最多。
+A: 假设猴子第一次抱 50 个到 X 台阶，那么需要放下 50-2X 个香蕉，之后抱着 X 个回去取剩下的 50 个。最后在第 X 个跳台上剩下 100-3X=A 个。如果此处 A 小于等于 50 个，显然不能再前后折腾，赶紧过河是正事。如果 A>50 个，那么需要走一个台阶，就得消耗 3 个，才能不把香蕉扔掉。最优的 X 值为 100-3X 最趋近于 50 的整数。100-50＝50 发现 50/3=16...2, 51/3 = 17。50-(50-16)=49-(50-17)=16。因此最后结果为 16。
+
+18.
+Q: 用10只老鼠做实验，测试1000瓶酒中哪瓶有毒？最多能选出几瓶没毒的? 另：老鼠吃了有毒的酒2小时后才有反应,设计一种方案,3小时内能最多检验出哪瓶有毒
+A: 检测一瓶的情况下很简单，分别将老鼠编号，作为 10 个二进制位，所有该位为 1 的酒，就喂给对应该位的老鼠喝。那么到最后查看哪几只老鼠死了，就得到 10 个二进制位哪个为 1，然后就是对应的瓶号。假设毒酒是第3瓶，第三瓶的二进制为 11，那么第三瓶都有第 0 只和第 1 只老鼠喝了，那么它们俩就会挂掉，剩下的老鼠都是活蹦乱跳。 http://fayaa.com/tiku/view/131/
+
+19.
+Q: 3 persons, how can they know the average salary of the three persons but without knowing other persons' salary. 
+A: 让每个人随机写一个数，传给下一个人。下一个人把自己薪水和这个数字相加传给下一个人，下一个人把这数字减去自己写的数字然后报出来。三个数字除以三就是三人平均薪水。
+
+20.
+Q: 一百囚犯和路灯问题 http://fayaa.com/tiku/view/10/
+A: 放风时，由A囚犯去关灯［如果灯是开着的］，所有别的囚犯去开灯［如果灯是关着的］，所有别的囚犯只能开一次灯。则：当囚犯A关到第99次的时候，就证明所有的人都曾经到过院子里。
+
+21.
+Q: 在一个重男轻女的国家里，每个家庭都想生男孩，如果他们生的孩子是女孩，就再生一个，直到生下的是男孩为止。这样的国家，男女比例会是多少？
+A: 还是1：1。在所有出生的第一个小孩中，男女比例是1：1；在所有出生的第二个小孩中，男女比例是1：1；.... 在所有出生的第n个小孩中，男女比例还是1：1。所以总的男女比例是1：1。
+
+22.
+Q: 如果在高速公路上30分钟内看到一辆车开过的几率是0.95，那么在10分钟内看到一辆车开过的几率是多少？(假设为常概率条件下)
+A: 假设10分钟内看到一辆车开过的概率是x，那么没有看到车开过的概率就是1-x，30分钟没有看到车开过的概率是(1-x)^3，也就是0.05。所以得到方程(1-x)^3 = 0.05 解方程得到x大约是0.63。
+
+23.
+Q: 有5个海盗，按照等级从5到1排列。最大的海盗有权提议他们如何分享100枚金币。但其他人要对此表决，如果多数（所有人中的多数）反对，那他就会被杀死。他应该提出怎样的方案，既让自己拿到尽可能多的金币又不会被杀死？
+A: http://hi.baidu.com/mianshiti/blog/item/53fcaa57645051143b293525.html
+
+24.
+Q: Suppose you're on a game show, and you're given the choice of three doors. Behind one door is a car, behind the others, goats. You pick a door, say number 1, and the host, who knows what's behind the doors, opens another door, say number 3, which has a goat. He says to you, "Do you want to pick door number 2?" Is it to your advantage to switch your choice of doors?
+A: http://hi.baidu.com/programf/blog/item/df000dd8d1bc9e2b10df9b2e.html
+
+25.
+Q: 2个人商量好策略，然后一个从52张牌里面随机抽5张，看牌，考虑。。。然后排在桌上，摊开前4张，第5张面朝下，由第二个人判断第5张牌。 问这个策略。 
+A: 用四张牌的正反面做0/1编码，就是一个四位二进制数，可以表达13个牌面值。52张牌可以约定一下排序的规则，比如红桃＞方片＞黑桃＞梅花，就是红桃5总大于方片5。这样你那四张牌里就总有张最大的牌，这张最大的牌在四张牌中放的位置，可以用来编码四种花色。
+
+26.
+Q: [50 black and 50 white ball probability problem ] There are two empty urns in a room. You have 50 white balls and 50 black balls. After you place the balls in the urns, a random ball will be picked from a random urn. Distribute the balls (all of them) into the urns to maximize the chance of picking a white ball.
+A: http://www.thecareerplus.com/?page=resources&cat=150&subCat=10&qNo=7
+Place one white in one urn, and all the others in the other urn. This gives a 74/99
+probability of picking white. 
+
+explanation:
+
+probability of picking white ball from which only one white ball is there = 1
+probability of picking white ball from which 49 white and 50 black ball is there
+= 49/99 
+
+probability of picking white ball = (1 + 49/99)/2
+
+27.
+Q: 给你三个烤箱,每个烤箱可以同时烤两片面包,需要的时间分别是3分钟,4分钟和3 分钟。但第三个烤箱有一个slot出了点问题,每次只能烤面包的一面。所以这个烤箱三 分钟后只能算烤好一片半面包,你需要把那半片翻个面,在同一个slot里再烤一次才算 一片完整的。现在给你这三个烤箱,问烤好21片面包最少需要多少时间?如果是2100片 呢?如果是任意给定的N片,要求O(1)时间内给出最少需要的时间。
+A:
+
+28.
+Q: 2个人商量好策略,然后一个从52张牌里面随机抽5张,看牌,考虑。。。然后排在桌上,摊开前4张,第5张面朝下,由第二个人判断第5张牌。 问这个策略。
+A:
+
+29.
+Q: If the probability of rain tomorrow is twice than no rain. What is the probability of rain tomorrow
+A:
+
+30.
+Q: Path Walk,给一条路径,写一个函数来走通它。(A*???)
+A: 

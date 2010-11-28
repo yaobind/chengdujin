@@ -1,0 +1,312 @@
+Matrix
+
+1. (难点 注意第12题)
+Q: Print a matrix spirally
+A: <http://www.careercup.com/question?id=2991909>
+	void m1(int[][] input) {
+		int i, w, h, k;
+		int height = input.length;
+		int width = input[0].length;
+		for (i = 0, w = width - 1, h = height - 1; w > 0; i++, w--, h--) {
+			for (k = i; k < w; k++)
+				System.out.println(input[i][k]);
+			for (k = i; k < h; k++)
+				System.out.println(input[k][w]);
+			for (k = w; k > i; k--)
+				System.out.println(input[h][k]);
+			for (k = h; k > i; k--)
+				System.out.println(input[k][i]);
+		}
+	}
+
+2.
+Q: You have a MxN matrix of 0s and 1s and in each row maximum one 1 is present. You have to tell the algorithm you'll use to find efficiently the number of 1s present in matrix along with the positions they are present i..e Matrix[i][j]. He was interested in minimizing comparisons basically and not any complexity.
+A: <http://discuss.techinterview.org/default.asp?interview.11.763599.12>
+typdef void (*func)(int, int) FUNC;
+void NOP(int m, int n) {
+}
+void PRINT(int m, int n) {
+    printf("(%d,%d)", m,n);
+    counter ++;
+}
+CheckArray(int **array, int M, int N) {
+    FUNC[2];
+    FUNC[0] = NOP;
+    FUNC[1] = PRINT;
+    int m, n;
+  	for (m = 0; m < M; m++)
+        for(n = 0; n < N; n++)
+            FUNC(array[m][n])(m,n);
+}
+
+3.
+Q: Given a 4 x 4 square, fill in each cell an integer selected from {1, 2, 3, 4}. Make sure that each row, each column, and each 2 x 2 sub-square (excluding the central one) do not contain duplicate numbers. Design an algorithm. The following example is a valid solution.
+1 3 2 4
+2 4 1 3
+3 1 4 2
+4 2 3 1
+A: <http://discuss.joelonsoftware.com/default.asp?interview.11.397435.11>
+见工程SudokuLight
+
+4. 
+Q: Given a matrix with each row and column sorted in ascending order. Find the median in the matrix.
+A: <http://www.careercup.com/question?id=4285682>
+It is Young Tableaux. It can be shown that A[i,j]>=A[k,l], where k=0..i and l=0..j except i=k and j=l. And same for lower-right part of matrix but with <= sign. So, I think that median element can appear only on matrix diagonal. So you should take all median elements, sort and find median. An observation - the median will always lie on the MINOR diagonal, the elements of the quadrants that are not on the diagonal will either be less than or more than half of the elements in the matrix, the major diagonal is already sorted so it has to lie on it, it will be the exact centre of the matrix, only the minor diagonal does not preserve any order, so effectively array of n -> elements of the minor diagonal, find the median :)
+
+5. (难题)
+Q: A m*n matrix of integer, all rows and columns are sorted in ascending order. Find the most efficient way to print out all numbers in ascending order. 类似题 Given a matrix of integers where every row is sorted and every column is sorted. Print all elements in sorted order. Cannot use merging of arrays. Solution should be better than O(n2logn)
+A: 见工程YoungTableauPrintAscendingly
+
+6.
+Q: Young Tableau: 一个NxM的matrix，每一行，每一列都是递增的，现找第k大个数，要求时间复杂度低于O(mn)
+A: <http://www.ruhike.com/blogs/travel/archive/2010/04/19/2-sorting-selection-searching.aspx>
+在young tableaux中找第K大元素可以参考在heap中找第k大元素，因为young tableaux和heap有些类似. youngify()与heapify()类似，通过shift元素来保持young tabuleaux特性，其实现可参考http://lyle.smu.edu/~saad/courses/cse3358/ps5/problemset5sol.pdf. for a table (m, n), youngify() 的复杂度：at most (m+n)
+while (count <k ) { 
+  e = table.remove_min(); 
+  table.youngify(); //去掉最小元素后，调整结构以保持young tabuleaux特性， 
+  count++; 
+} 
+return e;
+
+7. (马虎过)
+Q: 100*100部分有序矩阵数组的排序 有100个有序数组(从小到大),每个里面有100个数。设计一个算法合并这个一百个有序数组,中间步骤只允许多申请一个大小为100个数的空间(也就是一个数组的大小)。
+A: http://fayaa.com/tiku/view/102/ 见解法2
+void Merge(int data[][N], int startLine, int endLine)
+{
+    if(startLine + 1 >= endLine)
+        return;
+    int mid = (startLine + endLine) / 2;
+    Merge(data, startLine, mid);
+    Merge(data, mid, endLine);
+    int i, j, k;
+    i = j = k = 0;
+    int *first = (int*)&data[startLine][0];
+    int *second = (int*)&data[mid][0];
+    while(i < (mid - startLine) * N && j < (endLine - mid) * N)
+    {
+        if(first[i] < second[j])
+            buffer[k++] = first[i], ++i;
+        else
+            buffer[k++] = second[j], ++j;
+    }
+    while(i < (mid - startLine) * N)
+        buffer[k++] = first[i], ++i;
+    while(j < (endLine - mid) * N)
+        buffer[k++] = second[j], ++j;
+    assert(is_sorted(buffer, buffer + k));
+    for(i = 0; i < k; i++)
+    {
+        data[startLine + i / N][i % N] = buffer[i];
+    }
+}
+
+8. (难题)
+Q: Given a binary matrix, find out the maximum size square sub-matrix with all 1s.
+A: <http://geeksforgeeks.org/?p=6257>
+1) Construct a sum matrix S[R][C] for the given M[R][C].
+     a)	Copy first row and first columns as it is from M[][] to S[][]
+     b)	For other entries, use following expressions to construct S[][]
+         If M[i][j] is 1 then
+            S[i][j] = min(S[i][j-1], S[i-1][j], S[i-1][j-1]) + 1
+         Else /*If M[i][j] is 0*/
+            S[i][j] = 0
+2) Find the maximum entry in S[R][C]
+3) Using the value and coordinates of maximum entry in S[i], print
+   sub-matrix of M[][]
+
+9. (难题)
+Q: Maximum subarray with all 1’s. Given A two-dimensional array b (M rows, N columns) of Boolean values ("0" a 
+nd "1") Goal: Find the largest (most elements) rectangular subarray containing all ones. 
+A: <http://www.seas.gwu.edu/~simhaweb/cs151/lectures/module6/module6.html> 或者 <http://www.drdobbs.com/184410529>
+
+10.
+Q: Write a program to multiply two matrices.
+A: <http://www.thecareerplus.com/?page=resources&cat=10&subCat=90&qNo=38>
+// Matrix A (m*n)
+// Matrix B (n*k)
+// Matrix C (m*k)
+for(i=0; i<m; i++)
+{
+   for(j=0;j<k;j++)
+   {
+      c[i][j]=0;
+      for(l=0;l<n;l++)
+           c[i][j] += a[i][l] * b[l][j];
+   }
+}
+
+
+
+// CareerCups
+11.
+Q: [2.14.1] Write an algorithm such that if an element in an MxN matrix is 0, its entire row and column is set to 0.
+A: int[][] a = new int[m]n[];
+int[] row = new int[m];
+int[] column = new int[n];
+for (int i = 0; i < m; i++)
+    for (int j = 0; j < n; j++)
+        if (a[i][j] == 0) {
+            row[i] == 1;
+            column[j] == 1;
+        }
+for (int i = 0; i < m; i++)
+    for(int j = 0; j < n; j++)
+        if (row[i] == 1 || column[j] == 1)
+            a[i][j] = 0;
+
+12. (代码易写错 注意第1题)
+Q: [4.1.6] Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes, write a method to rotate the image by 90 degrees	Can you do this in place?
+A: public static void rotate(int[][] matrix, int n) {
+    for(int i = 0; i < n/2; i++) {
+        int first = i;
+        int last = matrix.length - first - 1;
+        for(int j = first; j < last; j++) {
+            int offset = j - first;
+            int temp = matrix[first][j];
+            matrix[first][j] = matrix[last-offset][first];
+            matrix[last-offset][first] = matrix[last][last-offset];
+            matrix[last][last-offset] = matrix[j][last];
+            matrix[j][last] = temp;
+        }
+    }
+}
+
+13. (难点)
+Q: [2.14.3] Given a matrix in which each row and each column is sorted, write a method to find an element in it.
+A: boolean findElement(int[][] matrix, int key) {
+    int m = matrix.length -1;
+    int n = 0;
+    while(m > 0 && n < matrix[0].length) {
+        if (key == matrix[m][n])
+            return true;
+        else if (key < matrix[m][n])
+            m -= 1;
+        else
+            n += 1; 
+    }
+    return false;
+}
+
+14. (难点)
+Q: [4.20.11] Imagine you have a square matrix, where each cell is filled with either black or white. Design and algorithm to find the maximum sub-square such that all four borders are filled with black pixels.
+A: Subsquare findSquare(int[][] matrix) {
+    int N = matrix.length;
+    int col = 0;
+    int currentMax = 0;
+    Subsquare square = null;
+    while (N-col > currentMax) {
+        for (int row = 0; row < matrix.length; row++) {
+            int size = N - Math.max(row, col);
+            while (size > currentMax) {
+                if (isSquare(matrix, row, col, size)) {
+                    currentMax = size;
+                    square = new Subsquare(row, col, size);
+                    break;
+                }
+                size--;
+            }
+        }
+        col++;
+    }
+    return square;
+}
+
+boolean isSquare(int[][] matrix, int row, int col, int size) {
+    for(int i = 0; i < size; i++) {
+        if (matrix[row][col + i] == 0)
+            return false;
+        if (matrix[row + size - 1][col + i] == 0)
+            return false;
+    }
+    for(int i = 0; i < size; i++) {
+        if (matrix[row + i][col] == 0)
+            return false;
+        if (matrix[row + i][col + size - 1] == 0)
+            return false;
+    }
+    return true;
+}
+
+class Subsquare {
+    public int row, column, size;
+    public Subsquare(int r, int c, int sz) {
+        this.row = r;
+        this.column = c;
+        this.size = sz;
+    }
+}
+
+15. (解决)
+Q: [4.20.12] Given an NxN matrix of positive and negative integers, write code to find the sub-matrix with the largest possible sum.
+A: int getMaxMatrix(int[][] original) {
+    int sumMax = 0;
+    int[][] preprost = preprocess(original);
+    for (int row1 = 0; row1 < original.length; row1++)
+        for(int row2 = row1; row2 < original.length; row2++)
+            for(int col1 = 0; col1 < original[0].length; col1++)
+                for(col2 = col1; col2 < original[0].length; col2++)
+                    sumMax = Math.max(sumMax, compute(preprost, row1, col1, 
+                        row2, col2));    
+}
+
+int[][] preprocess(int[][] original) {
+    int[][] matrix = new int[original.length][original[0].length];
+    for (int i = 0; i < original.length; i++)
+        for (int j = 0; j < original[0].length; j++) {
+            if (i == 0 && j == 0)
+                matrix[i][j] = original[i][j];
+            else if (i == 0)
+                matrix[i][j] += original[i][j-1];
+            else if (j == 0)
+                matrix[i][j] += original[i-1][j];
+            else
+                matrix[i][j] = matrix[i][j] + matrix[i-1][j] + matrix[i][j-1]
+                    - matrix[i-1][j-1];
+        }
+    return matrix;
+}
+
+int compute(int[][] matrix, int row1, int col1, int row2, int col2) {
+    if (row1 == 0 && col1 == 0)
+        return matrix[row2][col2];
+    else if (row1 == 0)
+        return matrix[row2][col2] - matrix[row2][col1-1];
+    else if (col1 == 0)
+        return matrix[row2][col2] - matrix[row1-1][col2];
+    else 
+        return matrix[row2][col2] - matrix[row2][col1-1] - matrix[row1-1][col2]
+            + matrix[row1-1][col1-1];
+}
+
+16.
+Q: [4.8.2] Imagine a robot sitting on the upper left hand corner of an NxN grid The robot can only move in two directions: right and down How many possible paths are there for the robot? Imagine certain squares are “off limits”, such that the robot can not step on them Design an algorithm to get all possible paths for the robot.
+A: 1). (X-1 + Y-1)! / ((X-1)! * (Y-1)!)
+2). boolean isFree(int x, int y) {
+		return (m[x][y] == 0)?true:false;
+	}
+	
+	boolean findPath(int x, int y) {
+		boolean success = false;
+		BoardPoint p = new BoardPoint(x, y);
+		path.add(p);
+		m[x][y] = 3;
+		
+		if (x == 9 && y == 9)
+			return true;
+		
+		if (x < 10 && isFree(x+1, y))
+			success = findPath(x+1, y);
+		if (!success && y < 10 && isFree(x, y+1))
+			success = findPath(x, y+1);
+		
+		if (!success) {
+			path.remove(p);
+			m[x][y] = 2;
+		}
+		
+		return success;
+	}
+	
+17.
+Q: Given a M*N matrix A in which all the elements in a row and all the elements in a column are strictly increasing. Find a path from the smallest element (ie A[0][0]) to the largest element (ie A[M-1][N-1]) such that the sum of the elements in the path is maximum. Time Complexity O(m+n). Use efficient space.
+A: <http://www.mitbbssg.com/bbsann2/life.faq/JobHunting/17/D12842543542i0/M.1287178937_2.40/%CE%CA%C1%BD%B5%C0%CE%A2%C8%ED%CC%E2> <http://www.careercup.com/question?id=421669>
