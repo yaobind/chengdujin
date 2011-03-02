@@ -4,24 +4,23 @@ import java.util.Arrays;
 
 public class InsertionSort {
 
-    private static int[] insertionSort(int[] input) {
-        int i, j, newValue;
-        for (i = 1; i < input.length; i++) {
-            newValue = input[i];
-            j = i;
-            while (j > 0 && input[j - 1] > newValue) {
-                  input[j] = input[j - 1];
-                  j--;
-            }
-            input[j] = newValue;
-      }
+	static int[] insertionSort(int[] input) {
+		int j = 0, key = 0;
+		for (int i = 1; i < input.length; i++) {
+			key = input[i];
+			j = i - 1;
+			while (j >= 0 && input[j] > key) {
+				input[j + 1] = input[j];
+				j--;
+			}
+			input[j + 1] = key;
+		}
 		return input;
-    }
+	}
 
-    public static void main(String[] args) {
-        int[] seq = { 1, 0, 5, 7, 4, 2 };
-        
-        System.out.println(Arrays.toString(insertionSort(seq)));
-    }
+	public static void main(String[] args) {
+		int[] seq = { 1, 0, 5, 7, 4, 2 };
+		System.out.println(Arrays.toString(insertionSort(seq)));
+	}
 
 }
