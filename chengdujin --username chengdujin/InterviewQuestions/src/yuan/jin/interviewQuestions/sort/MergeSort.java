@@ -14,26 +14,26 @@ public class MergeSort {
 	static void mergeSort(int[] input, int low, int high) {
 		if (low >= high)
 			return;
+		int middle = low + (high - low) / 2;
 		int low1 = low;
+		int high1 = middle;
+		int low2 = middle + 1;
 		int high2 = high;
-		int middle = low1 + (high2 - low1) / 2;
-		int low2 = middle;
-		int high1 = middle + 1;
 		
 		mergeSort(input, low1, middle);
 		mergeSort(input, middle + 1, high2);
 
-		while ((low1 <= low2) && (high1 <= high2)) {
-			if (input[low1] < input[high1])
+		while ((low1 <= high1) && (low2 <= high2)) {
+			if (input[low1] < input[low2])
 				low1++;
 			else {
-				int temp = input[high1];
-				for (int k = high1 - 1; k >= low1; k--)
+				int temp = input[low2];
+				for (int k = low2 - 1; k >= low1; k--)
 					input[k + 1] = input[k];
 				input[low1] = temp;
 				low1++;
-				low2++;
 				high1++;
+				low2++;
 			}
 		}
 	}
