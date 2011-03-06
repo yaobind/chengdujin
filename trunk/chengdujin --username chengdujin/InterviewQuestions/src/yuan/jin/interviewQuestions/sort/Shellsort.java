@@ -13,31 +13,31 @@ import java.util.Arrays;
 public class Shellsort {
 
 	/** Shell sort using Shell's (original) gap sequence: n/2, n/4, ..., 1. */
-	public static void shellSort(int[] array) {
+	public static void shellSort(int[] a) {
 		// loop over the gaps
-		for (int gap = array.length / 2; gap > 0; gap /= 2) {
+		for (int hop = a.length / 2; hop > 0; hop /= 2) {
 			// do the insertion sort
-			for (int i = gap; i < array.length; i++) {
-				int val = array[i];
-				int j;
-				for (j = i; j >= gap && (array[j - gap] > val); j -= gap)
-					array[j] = array[j - gap];
-				array[j] = val;
+			for (int i = hop; i < a.length; i++) {
+				int key = a[i];
+				int j = i;
+				for (; j >= hop && (a[j - hop] > key); j -= hop)
+					a[j] = a[j - hop];
+				a[j] = key;
 			}
 		}
 	}
 	
 	/** Implementation from Algorithms 4e by Robert Sedgewick*/
-	public static void shellSort2(int[] array) {
-		int N = array.length;
+	public static void shellSort2(int[] a) {
+		int N = a.length;
 		int h = 1;
 		while (h < N/3) h = 3*h + 1;
 		while (h >= 1) {
 			for (int i = h; i < N; i++)
-				for (int j = i; j >= h && array[j] < array[j-h]; j -= h) {
-					int t = array[j];
-					array[j] = array[j-h];
-					array[j-h] = t;
+				for (int j = i; j >= h && a[j] < a[j-h]; j -= h) {
+					int t = a[j];
+					a[j] = a[j-h];
+					a[j-h] = t;
 				}
 			h = h/3;
 		}
@@ -46,7 +46,7 @@ public class Shellsort {
 	public static void main(String[] args) {
 		int[] seq = { 3, 5, 0, 2, 1, 6 };
 
-		shellSort2(seq);
+		shellSort(seq);
 		System.out.println(Arrays.toString(seq));
 	}
 
