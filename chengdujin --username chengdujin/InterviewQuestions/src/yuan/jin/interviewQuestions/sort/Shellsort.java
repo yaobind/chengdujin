@@ -26,11 +26,27 @@ public class Shellsort {
 			}
 		}
 	}
+	
+	/** Implementation from Algorithms 4e by Robert Sedgewick*/
+	public static void shellSort2(int[] array) {
+		int N = array.length;
+		int h = 1;
+		while (h < N/3) h = 3*h + 1;
+		while (h >= 1) {
+			for (int i = h; i < N; i++)
+				for (int j = i; j >= h && array[j] < array[j-h]; j -= h) {
+					int t = array[j];
+					array[j] = array[j-h];
+					array[j-h] = t;
+				}
+			h = h/3;
+		}
+	}
 
 	public static void main(String[] args) {
 		int[] seq = { 3, 5, 0, 2, 1, 6 };
 
-		shellSort(seq);
+		shellSort2(seq);
 		System.out.println(Arrays.toString(seq));
 	}
 
