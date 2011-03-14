@@ -39,13 +39,11 @@ import java.util.Random;
 public class RandomBiased2Unbiased {
 
 	static int biased() {
-		int result = 0;
 		Random gen = new Random();
-		if (gen.nextInt() % 100 >= 60)
-			result = 1;
+		if (gen.nextInt(100) >= 70)
+			return 1;
 		else
-			result = 0;
-		return result;
+			return 0;
 	}
 
 	static int unbiased() {
