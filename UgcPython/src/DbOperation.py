@@ -18,7 +18,6 @@ class DbOperation:
                 self.con.close()
                 self.con = MySQLdb.connect(host = server, db = database, user = user, passwd = password)
             except Exception, e:
-                logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
                 raise e
         return self.con
     

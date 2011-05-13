@@ -54,7 +54,6 @@ def copyToDatabase(path):
         do.dbCreate(cur, TABLE)
         do.dbInsert(cur, TABLE, path)
     except Exception, e:
-        logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
         raise e
         
 
@@ -70,11 +69,12 @@ def copyToDatabase(path):
 # tem is much greater.
 #
 # pars: pathPrefix string; pathSuffix string; data
-# return: pathPrefix string
+# return: name string
 #
 def writeToFile(pathPrefix, pathSuffix, data):
     # find duplicate
     hasDuplicate = True
+    
     while hasDuplicate:
         hasDuplicate = False
         
@@ -83,31 +83,33 @@ def writeToFile(pathPrefix, pathSuffix, data):
             logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + (pathPrefix + pathSuffix))
             hasDuplicate = True
         
-        # check if the name is a duplicate in db
-        try:
-            con = MySQLdb.connect(host = SERVER, db = DATABASE, user = USER, passwd = PASSWORD)
-        except Exception, e:
-            logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
-            raise e
-        
-        # connection is valid, then check the the name's availability
-        if con:
+        # check if the name is a duplicate in the database
+        # if a dup is already found on the file system,
+        # save the time for checking the database
+        if not hasDuplicate:
             try:
-                cur = con.cursor()
-                cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, (pathPrefix + pathSuffix)))
-                con.commit()
-                res = cur.fetchone()
-                if res:
-                    logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + (pathPrefix + pathSuffix))
-                    hasDuplicate = True
+                con = MySQLdb.connect(host = SERVER, db = DATABASE, user = USER, passwd = PASSWORD)
             except Exception, e:
-                logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
                 raise e
-            
+        
+            # connection is valid, then check the the name's availability
+            if con:
+                try:
+                    cur = con.cursor()
+                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, (pathPrefix + pathSuffix)))
+                    con.commit()
+                    res = cur.fetchone()
+                    # holy shoot! we got a dup in the database!
+                    if res:
+                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + (pathPrefix + pathSuffix))
+                        hasDuplicate = True
+                except Exception, e:
+                    raise e
+        # we found a dup either on the file system, or in the database    
         if hasDuplicate:
             pathPrefix = randomizeName(pathPrefix)        
         
-    
+    # creating the file on the server
     opf = open(UPLOADED_DIRECTORY + pathPrefix + pathSuffix, 'wb+')
     opf.write(data)
     opf.close()
@@ -121,7 +123,7 @@ def writeToFile(pathPrefix, pathSuffix, data):
 # randomize the file name with time
 #
 # pars: name string
-# return: prefix string
+# return: newName string
 #
 def randomizeName(name):
     # get the complete form of current time (aaaaaabbbbbb), 
@@ -233,7 +235,7 @@ def typeAndSuffixCheck(item):
 # the database
 #
 # pars: n/a
-# return: name string
+# return: name string; skinIndexNumber integer
 #
 def saveToServer():
     # read from cgi's storage
@@ -256,20 +258,21 @@ def saveToServer():
             # read the file from binary data
             fileData = readFile(file)
             
-            # randomize the file name
+            # encoding: this might cause problems
             name = os.path.basename(unicode(file.filename, UPLOADED_NAME_ENCODING).encode(UPLOADED_NAME_ENCODING))
-            prefix = randomizeName(name)
-            name = prefix + '.' + fileNameSuffix
+            # randomize the file name
+            fileNamePrefix = randomizeName(name)
+            fileName = fileNamePrefix + '.' + fileNameSuffix
               
-            # create a file for user's uploaded image
+            # create a file on the server
             try:
-                name = writeToFile(prefix, '.' + fileNameSuffix, fileData)
+                fileName = writeToFile(fileNamePrefix, '.' + fileNameSuffix, fileData)
             except IOError:
                 # give it another try, before reporting
                 # probably it will get a new randomized name
                 try:
-                    name = writeToFile(prefix, '.' + fileNameSuffix, fileData)
-                    return name
+                    fileName = writeToFile(fileNamePrefix, '.' + fileNameSuffix, fileData)
+                    return fileName, skinIndexNumber
                 except Exception, e:
                     raise e
     else:
@@ -286,8 +289,9 @@ def saveToServer():
 def processRequest():
     try:
         # save user's file to a unique local file
-        filePathOnServer = saveToServer()
+        filePathOnServer, skinIndexNumber = saveToServer()
         logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + filePathOnServer + ' is created.')
+        logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skinIndexNumber) + ' is found.')
         
         # zip the file with other skin files to .bts
         
