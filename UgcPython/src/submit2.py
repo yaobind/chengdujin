@@ -33,7 +33,8 @@ config = minidom.parse('/home/work/yuanj/config.xml')
 
 # Self-defined error codes
 ERROR_CODE = {
-              "5":"File bearing no Skin Index Number",
+              "6":"Cannot find the skin template directory.",
+              "5":"File bearing no skin index number.",
               "4":"No file found or cannot be interpreted.", 
               "3":"No file uploaded or bearing with no name.",
               "2":"File of a wrong format or being incorrectly formatted.",
@@ -66,23 +67,25 @@ def copyToDatabase(path):
 # pars: sin string; path string
 # return: zippedFilePath string
 #
-def compressFiles(sin, path):
+def compressFiles(sin, path, suffix):
     # locate the specific skin directory
     skinDirectory = SKIN_DIRECTORY + 'skin' + sin
     
-    # create the zipped file sharing the same name
-    # as the saved jpeg/png file
-    zippedFilePath = UPLOADED_DIRECTORY + path + SKIN_PACKAGE_SUFFIX
-    zipped = zipfile.ZipFile(zippedFilePath, 'w')
+    # check if the skin directory exists
+    if os.path.isdir(skinDirectory):
+        # create the zipped file sharing the same name
+        # as the saved jpeg/png file
+        zippedFilePath = UPLOADED_DIRECTORY + path + '.' + SKIN_PACKAGE_SUFFIX
+        zipped = zipfile.ZipFile(zippedFilePath, 'w')
     
-    # rename the path file to candv.png
-    # however, it might cause problems a candv.png
-    # is already there and is zipped by another file
-    
-    if os.path.isdir(SKIN_DIRECTORY):
-        for d in os.listdir(SKIN_DIRECTORY):
-            zipped.write(SKIN_DIRECTORY + d)
-    zipped.close()
+        # include the transferred personal skin file first
+        zipped.write(UPLOADED_DIRECTORY + path + os.sep + SKIN_FILE_NAME + '.' + suffix)
+        
+        for d in os.listdir(skinDirectory):
+            zipped.write(skinDirectory + os.sep + d)
+        zipped.close()
+    else:
+        raise Exception('[Error 6]:' + ERROR_CODE['6'])
         
 
 ##
@@ -97,9 +100,9 @@ def compressFiles(sin, path):
 # tem is much greater.
 #
 # pars: pathPrefix string; pathSuffix string; data
-# return: name string
+# return: n/a
 #
-def writeToFile(pathPrefix, pathSuffix, data):
+def writeToFile(dir, fileSuffix, data):
     # find duplicate
     hasDuplicate = True
     
@@ -107,8 +110,8 @@ def writeToFile(pathPrefix, pathSuffix, data):
         hasDuplicate = False
         
         # check if the name is a duplicate on the file system
-        if os.path.isfile(UPLOADED_DIRECTORY + pathPrefix + pathSuffix):
-            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + (pathPrefix + pathSuffix))
+        if os.path.isdir(UPLOADED_DIRECTORY + dir):
+            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + dir)
             hasDuplicate = True
         
         # check if the name is a duplicate in the database
@@ -124,27 +127,27 @@ def writeToFile(pathPrefix, pathSuffix, data):
             if con:
                 try:
                     cur = con.cursor()
-                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, (pathPrefix + pathSuffix)))
+                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, dir))
                     con.commit()
                     res = cur.fetchone()
                     # holy shoot! we got a dup in the database!
                     if res:
-                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + (pathPrefix + pathSuffix))
+                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + dir)
                         hasDuplicate = True
                 except Exception, e:
                     raise e
         # we found a dup either on the file system, or in the database    
         if hasDuplicate:
-            pathPrefix = randomizeName(pathPrefix)        
+            dir = randomizeName(dir)
+    
+    # create the directory
+    os.mkdir(UPLOADED_DIRECTORY + dir)       
         
-    # creating the file on the server
-    opf = open(UPLOADED_DIRECTORY + pathPrefix + pathSuffix, 'wb')
+    # create the file dans le repertoire
+    fileName = UPLOADED_DIRECTORY + dir + os.sep + SKIN_FILE_NAME + '.' + fileSuffix
+    opf = open(fileName, 'wb')
     opf.write(data)
     opf.close()
-    
-    # return a correct randomized name
-    name = pathPrefix + pathSuffix
-    return name
 
 
 ## 
@@ -291,20 +294,19 @@ def saveToServer():
             
             # encoding: this might cause problems
             name = os.path.basename(unicode(file.filename, UPLOADED_NAME_ENCODING).encode(UPLOADED_NAME_ENCODING))
-            # randomize the file name
-            fileNamePrefix = randomizeName(name)
-            fileName = fileNamePrefix + '.' + fileNameSuffix
+            # randomize the directory name
+            dirName = randomizeName(name)
               
             # create a file on the server
             try:
-                fileName = writeToFile(fileName, fileData)
-                return fileNamePrefix, fileNameSuffix, skinIndexNumber
+                writeToFile(dirName, fileNameSuffix, fileData)
+                return dirName, fileNameSuffix, skinIndexNumber
             except IOError:
                 # give it another try, before reporting
                 # probably it will get a new randomized name
                 try:
-                    fileName = writeToFile(fileName, fileData)
-                    return fileNamePrefix, fileNameSuffix, skinIndexNumber
+                    writeToFile(dirName, fileNameSuffix, fileData)
+                    return dirName, fileNameSuffix, skinIndexNumber
                 except Exception, e:
                     raise e
     else:
@@ -321,20 +323,21 @@ def saveToServer():
 def processRequest():
     try:
         # save user's file to a unique local file
-        fileNameOnServer, fileSuffix, skinIndexNumber = saveToServer()
-        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + fileNameOnServer + '.' + fileSuffix + ' is created.')
+        dirPath, fileSuffix, skinIndexNumber = saveToServer()
+        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dirPath + os.sep + SKIN_FILE_NAME + '.' + fileSuffix + ' is created.')
         logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skinIndexNumber) + ' is found.')
         
         # zip the file with other skin files to .bts
-        compressedFilePath = compressFiles(str(skinIndexNumber), fileNameOnServer)
-        
-        # update the file path to the database
-        copyToDatabase(compressedFilePath)
-        logging.info('[' + time.strftime('%X %x') + '] ' + compressedFilePath + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
+#        compressFiles(str(skinIndexNumber), dirPath, fileSuffix)
+#        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dir + '.bts is found.')
+#        
+#        # update the file path to the database
+#        copyToDatabase(dirPath)
+#        logging.info('[' + time.strftime('%X %x') + '] ' + dirPath + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
         
         # echo to the requester
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
-        print UPLOADED_DIRECTORY + fileNameOnServer
+        print UPLOADED_DIRECTORY + dirPath
     except Exception, e:
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
         print '-1'
@@ -375,6 +378,7 @@ UPLOADED_NAME_LENGTH = int(readConfig('UploadedNameLength'))
 UPLOADED_NAME_ENCODING = readConfig('UploadedNameEncoding')
 LOGGING_FILE = readConfig('LoggingFile')
 SKIN_DIRECTORY = readConfig('SkinDirectory')
+SKIN_FILE_NAME = readConfig('SkinFileName')
 SKIN_PACKAGE_SUFFIX = readConfig('SkinPackageSuffix')
             
 
