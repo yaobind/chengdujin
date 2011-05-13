@@ -160,17 +160,17 @@ def randomizeName(name):
 # return: msg string (?)
 #
 def readFile(item):
-    file = ''
+    fileData = ''
     # binary data as a list
     for data in item.file:
-        file +=  data
+        fileData +=  data
             
     # avoid images larger than limit   
-    if len(file) > UPLOADED_MAX_SIZE:
+    if len(fileData) > UPLOADED_MAX_SIZE:
         logging.info('[' + time.strftime('%X %x') + '] ' + '1:' + ERROR_CODE['1'])
         raise Exception('[Error 1]:' + ERROR_CODE['1'])
     
-    return file
+    return fileData
 
 
 ## 
@@ -267,6 +267,7 @@ def saveToServer():
             # create a file on the server
             try:
                 fileName = writeToFile(fileNamePrefix, '.' + fileNameSuffix, fileData)
+                return fileName, skinIndexNumber
             except IOError:
                 # give it another try, before reporting
                 # probably it will get a new randomized name
