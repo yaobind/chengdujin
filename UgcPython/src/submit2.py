@@ -22,6 +22,7 @@ import os
 import random
 import time
 from xml.dom import minidom
+import zipfile
 
 
 ##
@@ -40,7 +41,7 @@ ERROR_CODE = {
 
 
 ## 
-# insert the file suffix to the database
+# insert the file name suffix to the database
 #
 # pars: path string
 # return: 
@@ -55,6 +56,33 @@ def copyToDatabase(path):
         do.dbInsert(cur, TABLE, path)
     except Exception, e:
         raise e
+    
+
+## 
+# create the zipped along against the saved file, 
+# and collect other necessary skin files from the
+# skin_directory
+#
+# pars: sin string; path string
+# return: zippedFilePath string
+#
+def compressFiles(sin, path):
+    # locate the specific skin directory
+    skinDirectory = SKIN_DIRECTORY + 'skin' + sin
+    
+    # create the zipped file sharing the same name
+    # as the saved jpeg/png file
+    zippedFilePath = UPLOADED_DIRECTORY + path + SKIN_PACKAGE_SUFFIX
+    zipped = zipfile.ZipFile(zippedFilePath, 'w')
+    
+    # rename the path file to candv.png
+    # however, it might cause problems a candv.png
+    # is already there and is zipped by another file
+    
+    if os.path.isdir(SKIN_DIRECTORY):
+        for d in os.listdir(SKIN_DIRECTORY):
+            zipped.write(SKIN_DIRECTORY + d)
+    zipped.close()
         
 
 ##
@@ -110,7 +138,7 @@ def writeToFile(pathPrefix, pathSuffix, data):
             pathPrefix = randomizeName(pathPrefix)        
         
     # creating the file on the server
-    opf = open(UPLOADED_DIRECTORY + pathPrefix + pathSuffix, 'wb+')
+    opf = open(UPLOADED_DIRECTORY + pathPrefix + pathSuffix, 'wb')
     opf.write(data)
     opf.close()
     
@@ -189,6 +217,7 @@ def readFile(item):
 def getSkinIndexNumber(item):
     try: 
         nameParts = item.filename.split('_')
+        # int() is to do a simple check here for null values
         skinIndex = int(nameParts[0])
         return skinIndex
     except Exception:
@@ -235,7 +264,9 @@ def typeAndSuffixCheck(item):
 # the database
 #
 # pars: n/a
-# return: name string; skinIndexNumber integer
+# return: fileNamePrefix string;
+#         fileNameSuffix string;
+#         skinIndexNumber integer
 #
 def saveToServer():
     # read from cgi's storage
@@ -266,14 +297,14 @@ def saveToServer():
               
             # create a file on the server
             try:
-                fileName = writeToFile(fileNamePrefix, '.' + fileNameSuffix, fileData)
-                return fileName, skinIndexNumber
+                fileName = writeToFile(fileName, fileData)
+                return fileNamePrefix, fileNameSuffix, skinIndexNumber
             except IOError:
                 # give it another try, before reporting
                 # probably it will get a new randomized name
                 try:
-                    fileName = writeToFile(fileNamePrefix, '.' + fileNameSuffix, fileData)
-                    return fileName, skinIndexNumber
+                    fileName = writeToFile(fileName, fileData)
+                    return fileNamePrefix, fileNameSuffix, skinIndexNumber
                 except Exception, e:
                     raise e
     else:
@@ -290,19 +321,20 @@ def saveToServer():
 def processRequest():
     try:
         # save user's file to a unique local file
-        filePathOnServer, skinIndexNumber = saveToServer()
-        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + filePathOnServer + ' is created.')
+        fileNameOnServer, fileSuffix, skinIndexNumber = saveToServer()
+        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + fileNameOnServer + '.' + fileSuffix + ' is created.')
         logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skinIndexNumber) + ' is found.')
         
         # zip the file with other skin files to .bts
+        compressedFilePath = compressFiles(str(skinIndexNumber), fileNameOnServer)
         
         # update the file path to the database
-        copyToDatabase(filePathOnServer)
-        logging.info('[' + time.strftime('%X %x') + '] ' + filePathOnServer + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
+        copyToDatabase(compressedFilePath)
+        logging.info('[' + time.strftime('%X %x') + '] ' + compressedFilePath + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
         
         # echo to the requester
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
-        print UPLOADED_DIRECTORY + filePathOnServer
+        print UPLOADED_DIRECTORY + fileNameOnServer
     except Exception, e:
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
         print '-1'
@@ -342,6 +374,8 @@ UPLOADED_MAX_SIZE = int(readConfig('UploadedMaxSize'))
 UPLOADED_NAME_LENGTH = int(readConfig('UploadedNameLength'))
 UPLOADED_NAME_ENCODING = readConfig('UploadedNameEncoding')
 LOGGING_FILE = readConfig('LoggingFile')
+SKIN_DIRECTORY = readConfig('SkinDirectory')
+SKIN_PACKAGE_SUFFIX = readConfig('SkinPackageSuffix')
             
 
 if __name__ == '__main__':

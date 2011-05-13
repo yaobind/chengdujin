@@ -15,4 +15,5 @@
 	<UploadedNameLength>45</UploadedNameLength>
 	<ThumbnailPrefix>thumbnail_</ThumbnailPrefix>
 	<LoggingFile>/home/work/yuanj/submit.log</LoggingFile>
+	<SkinDirectory>/Users/Yuan/Desktop/skins/</SkinDirectory>
 </UGC>
