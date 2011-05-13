@@ -29,7 +29,7 @@ import zipfile
 # global variables
 #
 # Configuration file
-config = minidom.parse('/home/work/yuanj/config.xml')
+config = minidom.parse('/Users/Yuan/Desktop/config.xml')
 
 # Self-defined error codes
 ERROR_CODE = {
@@ -68,8 +68,8 @@ def copyToDatabase(path):
 # return: zippedFilePath string
 #
 def compressFiles(sin, path, suffix):
-    # locate the specific skin directory
-    skinDirectory = SKIN_DIRECTORY + 'skin' + sin
+    # locate the specific skin template directory
+    skinDirectory = SKIN_DIRECTORY + SKIN_TEMPLATE_DIRECTORY + sin
     
     # check if the skin directory exists
     if os.path.isdir(skinDirectory):
@@ -78,11 +78,17 @@ def compressFiles(sin, path, suffix):
         zippedFilePath = UPLOADED_DIRECTORY + path + '.' + SKIN_PACKAGE_SUFFIX
         zipped = zipfile.ZipFile(zippedFilePath, 'w')
     
-        # include the transferred personal skin file first
-        zipped.write(UPLOADED_DIRECTORY + path + os.sep + SKIN_FILE_NAME + '.' + suffix)
+        # all files are compressed in the directory
+        # skin_template_directory
         
+        # include the transferred personal skin file first
+        zipped.write(UPLOADED_DIRECTORY + path + os.sep + SKIN_FILE_NAME + '.' + suffix, 
+                     SKIN_TEMPLATE_DIRECTORY + os.sep + SKIN_FILE_NAME + '.' + suffix)
+        # include all the files in the template
+        # directory
         for d in os.listdir(skinDirectory):
-            zipped.write(skinDirectory + os.sep + d)
+            zipped.write(skinDirectory + os.sep + d, SKIN_TEMPLATE_DIRECTORY + os.sep + d)
+            
         zipped.close()
     else:
         raise Exception('[Error 6]:' + ERROR_CODE['6'])
@@ -328,12 +334,12 @@ def processRequest():
         logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skinIndexNumber) + ' is found.')
         
         # zip the file with other skin files to .bts
-#        compressFiles(str(skinIndexNumber), dirPath, fileSuffix)
-#        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dir + '.bts is found.')
+        compressFiles(str(skinIndexNumber), dirPath, fileSuffix)
+        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dirPath + '.bts is created.')
 #        
 #        # update the file path to the database
-#        copyToDatabase(dirPath)
-#        logging.info('[' + time.strftime('%X %x') + '] ' + dirPath + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
+        copyToDatabase(dirPath)
+        logging.info('[' + time.strftime('%X %x') + '] ' + dirPath + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
         
         # echo to the requester
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
@@ -372,14 +378,17 @@ USER = readConfig('User')
 PASSWORD = readConfig('Password')
 
 # File system
+LOGGING_FILE = readConfig('LoggingFile')
+
 UPLOADED_DIRECTORY = readConfig('UploadedDirectory')
 UPLOADED_MAX_SIZE = int(readConfig('UploadedMaxSize'))
 UPLOADED_NAME_LENGTH = int(readConfig('UploadedNameLength'))
 UPLOADED_NAME_ENCODING = readConfig('UploadedNameEncoding')
-LOGGING_FILE = readConfig('LoggingFile')
+
 SKIN_DIRECTORY = readConfig('SkinDirectory')
 SKIN_FILE_NAME = readConfig('SkinFileName')
 SKIN_PACKAGE_SUFFIX = readConfig('SkinPackageSuffix')
+SKIN_TEMPLATE_DIRECTORY = readConfig('SkinTemplateDirectory')
             
 
 if __name__ == '__main__':
