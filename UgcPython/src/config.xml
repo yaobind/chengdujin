@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file is used for configuring DBMS and File System connections -->
+<UGC>
+	<FormKey>attachment</FormKey>
+	<Server>localhost</Server>
+	<Database>test</Database>
+	<Table>SubmittedFiles</Table>
+	<Column1>fileName</Column1>
+	<User>root</User>
+	<Password>root</Password>
+	<UploadedDirectory>/home/work/yuanj/images/</UploadedDirectory>
+	<UploadedMaxSize>2100000</UploadedMaxSize>
+	<UploadedNameEncoding>euc-jp</UploadedNameEncoding>
+	<!-- '.jpeg' adds it to 50 -->
+	<UploadedNameLength>45</UploadedNameLength>
+	<ThumbnailPrefix>thumbnail_</ThumbnailPrefix>
+	<LoggingFile>/home/work/yuanj/submit.log</LoggingFile>
+</UGC>
