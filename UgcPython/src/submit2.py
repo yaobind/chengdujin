@@ -32,11 +32,11 @@ config = minidom.parse('/home/work/yuanj/config.xml')
 
 # Self-defined error codes
 ERROR_CODE = {
-              "5":"[Error] File bearing no Skin Index Number",
-              "4":"[Error] No file found or cannot be interpreted.", 
-              "3":"[Error] No file uploaded or bearing with no name.",
-              "2":"[Error] File of a wrong format or being incorrectly formatted.",
-              "1":"[Error] File size larger than the limit 2MB." }
+              "5":"File bearing no Skin Index Number",
+              "4":"No file found or cannot be interpreted.", 
+              "3":"No file uploaded or bearing with no name.",
+              "2":"File of a wrong format or being incorrectly formatted.",
+              "1":"File size larger than the limit 2MB." }
 
 
 ## 
@@ -168,7 +168,7 @@ def readFile(item):
     # avoid images larger than limit   
     if len(file) > UPLOADED_MAX_SIZE:
         logging.info('[' + time.strftime('%X %x') + '] ' + '1:' + ERROR_CODE['1'])
-        raise Exception('1:' + ERROR_CODE['1'])
+        raise Exception('[Error 1]:' + ERROR_CODE['1'])
     
     return file
 
@@ -192,7 +192,7 @@ def getSkinIndexNumber(item):
         skinIndex = int(nameParts[0])
         return skinIndex
     except Exception:
-        raise Exception('5:' + ERROR_CODE['5'])  
+        raise Exception('[Error 5]:' + ERROR_CODE['5'])  
 
 
 ## 
@@ -210,7 +210,7 @@ def typeAndSuffixCheck(item):
     
     # check if file is in a wrong format
     if not str(item.headers['content-type']) in acptTypes:
-        raise Exception('2:' + ERROR_CODE['2'])
+        raise Exception('[Error 2]:' + ERROR_CODE['2'])
             
     # copy the file suffix for renaming
     # it's possible that the file name passes the content-type
@@ -218,7 +218,7 @@ def typeAndSuffixCheck(item):
     nameParts = item.headers['content-type'].split('/')
     
     if not (nameParts[len(nameParts)-1]).lower() in acptSuffix:
-        raise Exception('2:' + ERROR_CODE['2']) 
+        raise Exception('[Error 2]:' + ERROR_CODE['2']) 
     
     suffix = (nameParts[len(nameParts)-1]).lower()
     return suffix
@@ -247,7 +247,7 @@ def saveToServer():
         
         # check if nothing is uploaded
         if not file.filename:
-            raise Exception('3:' + ERROR_CODE['3'])
+            raise Exception('[Error 3]:' + ERROR_CODE['3'])
         else:
             # check the file type and its file name suffix
             fileNameSuffix = typeAndSuffixCheck(file)
@@ -276,7 +276,7 @@ def saveToServer():
                 except Exception, e:
                     raise e
     else:
-        raise Exception('4:' + ERROR_CODE['4'])
+        raise Exception('[Error 4]:' + ERROR_CODE['4'])
 
 
 ## 
