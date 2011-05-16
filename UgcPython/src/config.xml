@@ -13,12 +13,12 @@
 	<UploadedNameEncoding>euc-jp</UploadedNameEncoding>
 	<!-- '.jpeg' adds it to 50 -->
 	<UploadedNameLength>45</UploadedNameLength>
-	<!-- directory where skin templates are located -->
 	<LoggingFile>/Users/Yuan/Desktop/submit.log</LoggingFile>
-	<SkinTemplateDirPath>/Users/Yuan/Desktop/skins/</SkinTemplateDirPath>
-	<!-- it serves as the template directory name prefix -->
-	<SkinTemplateDirPrefix>skin</SkinTemplateDirPrefix>
+	<!-- directory where skin templates are located -->
+	<SkinTemplateDirectory>/Users/Yuan/Desktop/skins/</SkinTemplateDirectory>
+	<!-- Datoutie file name-->
 	<DttFileName>candv</DttFileName>
+	<!-- Compressed skin directory suffix-->
 	<CompressedSkinPackageSuffix>bts</CompressedSkinPackageSuffix>
 	<!-- it is the directory name inside the compressed file -->
 	<CompressedSkinDirectory>BaiduImeSkin</CompressedSkinDirectory>

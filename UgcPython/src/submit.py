@@ -35,6 +35,7 @@ config = minidom.parse('/Users/Yuan/Desktop/config.xml')
 
 # Self-defined error codes
 ERROR_CODE = {
+              "7":"Item in configuration is null.",
               "6":"Cannot find the skin template directory.",
               "5":"File bearing no skin index number.",
               "4":"No file found or cannot be interpreted.", 
@@ -79,12 +80,12 @@ def copyToDatabase(path):
 # and collect other necessary skin files from the
 # skin_directory
 #
-# pars: sin string; path string
+# pars: sin string; path string; suffix string
 # return: n/a
 #
 def compressFiles(sin, path, suffix):
     # locate the specific skin template directory
-    skinDirectory = SKIN_TEMPLATE_DIR_PATH + SKIN_TEMPLATE_DIR_PREFIX + sin
+    skinDirectory = SKIN_TEMPLATE_DIRECTORY + sin
     
     # check if the skin directory exists
     if os.path.isdir(skinDirectory):
@@ -157,6 +158,7 @@ def writeToFile(dir, fileSuffix, data):
                         hasDuplicate = True
                 except Exception, e:
                     raise e
+                
         # we found a dup either on the file system, or in the database    
         if hasDuplicate:
             dir = randomizeName(dir)
@@ -209,7 +211,7 @@ def randomizeName(name):
 # next step
 #
 # pars: item file object; message string (?)
-# return: msg string (?)
+# return: fileData string (?)
 #
 def readFile(item):
     fileData = ''
@@ -219,7 +221,6 @@ def readFile(item):
             
     # avoid images larger than limit   
     if len(fileData) > UPLOADED_MAX_SIZE:
-        logging.info('[' + time.strftime('%X %x') + '] ' + '1:' + ERROR_CODE['1'])
         raise Exception('[Error 1]:' + ERROR_CODE['1'])
     
     return fileData
@@ -258,17 +259,19 @@ def getSkinIndexNumber(item):
 #
 def typeAndSuffixCheck(item):    
     # file suffix acceptable
-    acptTypes = ['image/png', 'image/jpeg', 'image/gif']
+#    acptTypes = ['image/png', 'image/jpeg', 'image/gif']
     acptSuffix = ['png', 'jpeg', 'jpg', 'gif']
     
     # check if file is in a wrong format
-    if not str(item.headers['content-type']) in acptTypes:
-        raise Exception('[Error 2]:' + ERROR_CODE['2'])
+    # this seems to be wrong with the actual content-type
+    # commented for now
+#    if not str(item.headers['content-type']) in acptTypes:
+#        raise Exception('[Error 2]:' + ERROR_CODE['2'])
             
     # copy the file suffix for renaming
     # it's possible that the file name passes the content-type
     # checking, but it has no file suffix
-    nameParts = item.headers['content-type'].split('/')
+    nameParts = item.filename.split('.')
     
     if not (nameParts[len(nameParts)-1]).lower() in acptSuffix:
         raise Exception('[Error 2]:' + ERROR_CODE['2']) 
@@ -288,7 +291,7 @@ def typeAndSuffixCheck(item):
 # the database
 #
 # pars: n/a
-# return: fileNamePrefix string;
+# return: dirName string;
 #         fileNameSuffix string;
 #         skinIndexNumber integer
 #
@@ -301,6 +304,7 @@ def saveToServer():
         file = form[FORM_KEY]
         
         # check if nothing is uploaded
+        # a dangerous trick
         if not file.filename:
             raise Exception('[Error 3]:' + ERROR_CODE['3'])
         else:
@@ -362,10 +366,10 @@ def processRequest():
         logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dttDirectoryName + ' is removed.')
         
         # echo to the requester
-        print UPLOADED_DIRECTORY + dttDirectoryName + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX
+        print HEADER + RET_PAGE % (UPLOADED_DIRECTORY + dttDirectoryName + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX)
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
     except Exception, e:
-        print '-1'
+        print HEADER + RET_PAGE % ('-1')
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
 
 
@@ -377,19 +381,26 @@ def processRequest():
 # by reading other files
 #
 # pars: tag string
-# return: data string
+# return: ret string
 #
 def readConfig(tag):
     try:
         refs = config.getElementsByTagName(tag)
-        return refs[0].childNodes[0].data
+        ret = refs[0].childNodes[0].data
+        if len(ret) == 0:
+            Exception('[Error 7]:' + ERROR_CODE['7'])
+        else:
+            return ret
     except Exception, e:
+        # config.xml might be deprecated
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
         raise e
 
 
 ##
 # Constants
+#
+# For more info, check config.xml
 #
 # Form key
 FORM_KEY = readConfig('FormKey')
@@ -410,14 +421,26 @@ UPLOADED_NAME_LENGTH = int(readConfig('UploadedNameLength'))
 UPLOADED_NAME_ENCODING = readConfig('UploadedNameEncoding')
 
 # directory where skin templates are located
-SKIN_TEMPLATE_DIR_PATH = readConfig('SkinTemplateDirPath')
-SKIN_TEMPLATE_DIR_PREFIX = readConfig('SkinTemplateDirPrefix')
+SKIN_TEMPLATE_DIRECTORY = readConfig('SkinTemplateDirectory')
 # e.g. candv
 DTT_FILE_NAME = readConfig('DttFileName')
 # e.g. bts, n.b. without '.'
 COMPRESSED_SKIN_PACKAGE_SUFFIX = readConfig('CompressedSkinPackageSuffix')
 # directory name where all skin files are grouped
 COMPRESSED_SKIN_DIRECTORY = readConfig('CompressedSkinDirectory')
+
+# Form
+FORM_KEY = 'attachment'
+HEADER = 'Content-Type: text/html \n\n'
+RET_PAGE = '''
+<html>
+<head><title>
+Link to your uploaded image
+</title></head>
+<body> 
+%s
+</body>
+</html>'''
             
 
 if __name__ == '__main__':
