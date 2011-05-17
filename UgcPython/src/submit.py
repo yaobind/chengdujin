@@ -7,12 +7,12 @@
 # 2. saving to a unique local file
 # 3. zipping the skin files
 # 4. inserting the name to the db
-# 5. cleaning up 
-# 6. returning the file path
+# 5. returning the file path
 #
 #@author: Yuan JIN
 #@contact: jinyuan@baidu.com
 #@since: April 20, 2011
+#@latest: May 17, 2011
 
 
 import cgi
@@ -21,7 +21,6 @@ import logging
 import MySQLdb
 import os
 import random
-import shutil
 import time
 from xml.dom import minidom
 import zipfile
@@ -43,19 +42,6 @@ ERROR_CODE = {
               "2":"File of a wrong format or being incorrectly formatted.",
               "1":"File size larger than the limit 2MB." }
 
-
-##
-# remove the unnecessary dtt directory, as
-# well as the dtt file in that directory.
-#
-# n.b. rmtree will fail if there are read-
-# only files
-#
-# pars: dir string
-# return n/a
-#
-def cleanUp(dir):
-    shutil.rmtree(dir)
 
 ## 
 # insert the file name suffix to the database
@@ -99,11 +85,11 @@ def compressFiles(sin, path, suffix):
         
         # include the transferred personal skin file first
         zipped.write(UPLOADED_DIRECTORY + path + os.sep + DTT_FILE_NAME + '.' + suffix, 
-                     COMPRESSED_SKIN_DIRECTORY + os.sep + DTT_FILE_NAME + '.' + suffix)
+                     DTT_FILE_NAME + '.' + suffix)
         # include all the files in the template
         # directory
         for d in os.listdir(skinDirectory):
-            zipped.write(skinDirectory + os.sep + d, COMPRESSED_SKIN_DIRECTORY + os.sep + d)
+            zipped.write(skinDirectory + os.sep + d, d)
             
         zipped.close()
     else:
@@ -121,10 +107,10 @@ def compressFiles(sin, path, suffix):
 # this, the cost to change the name on the file sys-
 # tem is much greater.
 #
-# pars: pathPrefix string; pathSuffix string; data
+# pars: dirPath string; fileSuffix string; data
 # return: n/a
 #
-def writeToFile(dir, fileSuffix, data):
+def writeToFile(dirPath, fileSuffix, data):
     # find duplicate
     hasDuplicate = True
     
@@ -132,8 +118,8 @@ def writeToFile(dir, fileSuffix, data):
         hasDuplicate = False
         
         # check if the name is a duplicate on the file system
-        if os.path.isdir(UPLOADED_DIRECTORY + dir):
-            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + dir)
+        if os.path.isdir(UPLOADED_DIRECTORY + dirPath):
+            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + dirPath)
             hasDuplicate = True
         
         # check if the name is a duplicate in the database
@@ -149,25 +135,25 @@ def writeToFile(dir, fileSuffix, data):
             if con:
                 try:
                     cur = con.cursor()
-                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, dir))
+                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, dirPath))
                     con.commit()
                     res = cur.fetchone()
                     # holy shoot! we got a dup in the database!
                     if res:
-                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + dir)
+                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + dirPath)
                         hasDuplicate = True
                 except Exception, e:
                     raise e
                 
         # we found a dup either on the file system, or in the database    
         if hasDuplicate:
-            dir = randomizeName(dir)
+            dirPath = randomizeName(dirPath)
     
     # create the directory
-    os.mkdir(UPLOADED_DIRECTORY + dir)       
+    os.mkdir(UPLOADED_DIRECTORY + dirPath)       
         
     # create the file dans le repertoire
-    fileName = UPLOADED_DIRECTORY + dir + os.sep + DTT_FILE_NAME + '.' + fileSuffix
+    fileName = UPLOADED_DIRECTORY + dirPath + os.sep + DTT_FILE_NAME + '.' + fileSuffix
     opf = open(fileName, 'wb')
     opf.write(data)
     opf.close()
@@ -262,11 +248,13 @@ def typeAndSuffixCheck(item):
 #    acptTypes = ['image/png', 'image/jpeg', 'image/gif']
     acptSuffix = ['png', 'jpeg', 'jpg', 'gif']
     
+    ''' This is a low level danger to ignore checking content-type
     # check if file is in a wrong format
     # this seems to be wrong with the actual content-type
     # commented for now
 #    if not str(item.headers['content-type']) in acptTypes:
 #        raise Exception('[Error 2]:' + ERROR_CODE['2'])
+    '''
             
     # copy the file suffix for renaming
     # it's possible that the file name passes the content-type
@@ -301,24 +289,24 @@ def saveToServer():
     
     # get the data out from cgi
     if form.has_key(FORM_KEY):
-        file = form[FORM_KEY]
+        item = form[FORM_KEY]
         
         # check if nothing is uploaded
         # a dangerous trick
-        if not file.filename:
+        if not item.filename:
             raise Exception('[Error 3]:' + ERROR_CODE['3'])
         else:
             # check the file type and its file name suffix
-            fileNameSuffix = typeAndSuffixCheck(file)
+            fileNameSuffix = typeAndSuffixCheck(item)
             
             # get the skin index number from the file name
-            skinIndexNumber = getSkinIndexNumber(file)
+            skinIndexNumber = getSkinIndexNumber(item)
             
             # read the file from binary data
-            fileData = readFile(file)
+            fileData = readFile(item)
             
             # encoding: this might cause problems
-            name = os.path.basename(unicode(file.filename, UPLOADED_NAME_ENCODING).encode(UPLOADED_NAME_ENCODING))
+            name = os.path.basename(unicode(item.filename, UPLOADED_NAME_ENCODING).encode(UPLOADED_NAME_ENCODING))
             # randomize the directory name
             dirName = randomizeName(name)
               
@@ -361,15 +349,11 @@ def processRequest():
         copyToDatabase(dttDirectoryName)
         logging.info('[' + time.strftime('%X %x') + '] ' + dttDirectoryName + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
         
-        # remove the dtt directory and the dtt file
-        cleanUp(UPLOADED_DIRECTORY + dttDirectoryName)
-        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dttDirectoryName + ' is removed.')
-        
         # echo to the requester
-        print HEADER + RET_PAGE % (UPLOADED_DIRECTORY + dttDirectoryName + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX)
+        print HEADER + (dttDirectoryName)
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
     except Exception, e:
-        print HEADER + RET_PAGE % ('-1')
+        print HEADER + ('0')
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
 
 
@@ -426,8 +410,6 @@ SKIN_TEMPLATE_DIRECTORY = readConfig('SkinTemplateDirectory')
 DTT_FILE_NAME = readConfig('DttFileName')
 # e.g. bts, n.b. without '.'
 COMPRESSED_SKIN_PACKAGE_SUFFIX = readConfig('CompressedSkinPackageSuffix')
-# directory name where all skin files are grouped
-COMPRESSED_SKIN_DIRECTORY = readConfig('CompressedSkinDirectory')
 
 # Form
 FORM_KEY = 'attachment'
