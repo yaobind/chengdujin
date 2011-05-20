@@ -1,28 +1,33 @@
 #!/usr/local/bin/python
+# -*- coding: utf-8 -*-
 
 
 ##
 # submit.py serves:
 # 1. binary data uploaded by users
 # 2. saving to a unique local file
-# 3. zipping the skin files
+# 3. compressing the skin files
 # 4. inserting the name to the db
-# 5. returning the file path
+# 5. returning the file name
 #
 #@author: Yuan JIN
 #@contact: jinyuan@baidu.com
 #@since: April 20, 2011
-#@latest: May 17, 2011
+#@latest: May 18, 2011
+#
+# TODO read_config
 
 
-import cgi
 from DbOperation import DbOperation
-import logging
 import MySQLdb
+import cgi
+import codecs
+import logging
 import os
 import random
+import shutil
 import time
-from xml.dom import minidom
+import xml.dom.minidom
 import zipfile
 
 
@@ -30,10 +35,11 @@ import zipfile
 # global variables
 #
 # Configuration file
-config = minidom.parse('/Users/Yuan/Desktop/config.xml')
+config = xml.dom.minidom.parse('/Users/Yuan/Desktop/config.xml')
 
 # Self-defined error codes
 ERROR_CODE = {
+              "8": "File manipulation with zipfile goes wrong.", 
               "7":"Item in configuration is null.",
               "6":"Cannot find the skin template directory.",
               "5":"File bearing no skin index number.",
@@ -49,17 +55,16 @@ ERROR_CODE = {
 # pars: path string
 # return: 
 #
-def copyToDatabase(path):
+def copy_to_database(path):
     try:
         do = DbOperation()
         db = do.dbConnect(SERVER, DATABASE, USER, PASSWORD)
         cur = db.cursor()
         # create the database if it isn't there
-        do.dbCreate(cur, TABLE)
-        do.dbInsert(cur, TABLE, path)
+        do.dbCreate(cur, TABLE, COLUMN1)
+        do.dbInsert(cur, TABLE, COLUMN1, path)
     except Exception, e:
         raise e
-    
 
 ## 
 # create the zipped along against the saved file, 
@@ -69,32 +74,36 @@ def copyToDatabase(path):
 # pars: sin string; path string; suffix string
 # return: n/a
 #
-def compressFiles(sin, path, suffix):
+def compress_files(sin, path, suffix):
     # locate the specific skin template directory
-    skinDirectory = SKIN_TEMPLATE_DIRECTORY + sin
+    skin_directory = SKIN_TEMPLATE_DIRECTORY + SKIN_TEMPLATE_DIR_NAME + sin
     
     # check if the skin directory exists
-    if os.path.isdir(skinDirectory):
+    if os.path.isdir(skin_directory):
         # create the zipped file sharing the same name
         # as the dtt file
-        zippedFilePath = UPLOADED_DIRECTORY + path + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX
-        zipped = zipfile.ZipFile(zippedFilePath, 'w')
-    
-        # all files are compressed in the directory
-        # skin_template_directory
+        zipped_file_path = UPLOADED_DIRECTORY + path + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX
+        try :
+            zipped = zipfile.ZipFile(zipped_file_path, 'w')
         
-        # include the transferred personal skin file first
-        zipped.write(UPLOADED_DIRECTORY + path + os.sep + DTT_FILE_NAME + '.' + suffix, 
+            # include the transferred personal skin file first
+            zipped.write(UPLOADED_DIRECTORY + path + os.sep + DTT_FILE_NAME + '.' + suffix, 
                      DTT_FILE_NAME + '.' + suffix)
-        # include all the files in the template
-        # directory
-        for d in os.listdir(skinDirectory):
-            zipped.write(skinDirectory + os.sep + d, d)
+            # and then the local Skin.xml file
+            zipped.write(UPLOADED_DIRECTORY + path + os.sep + SKIN_CONFIGURATION_FILE, 
+                     SKIN_CONFIGURATION_FILE)
             
-        zipped.close()
+            # include all the files in the template
+            # directory, except Skin.xml
+            for d in os.listdir(skin_directory):
+                if d != SKIN_CONFIGURATION_FILE:
+                    zipped.write(skin_directory + os.sep + d, d)
+            
+            zipped.close()
+        except RuntimeError:
+            raise Exception('[Error 8]:' + ERROR_CODE['8'])
     else:
         raise Exception('[Error 6]:' + ERROR_CODE['6'])
-        
 
 ##
 # write the binary data to a unique file. it needs
@@ -107,89 +116,107 @@ def compressFiles(sin, path, suffix):
 # this, the cost to change the name on the file sys-
 # tem is much greater.
 #
-# pars: dirPath string; fileSuffix string; data
+# pars: dir_path string; 
+#       file_suffix string; 
+#       data unknown; 
+#       skin integer;
 # return: n/a
 #
-def writeToFile(dirPath, fileSuffix, data):
+def write_to_file(dir_path, file_suffix, data, sin):
     # find duplicate
-    hasDuplicate = True
+    has_duplicate = True
     
-    while hasDuplicate:
-        hasDuplicate = False
+    while has_duplicate:
+        has_duplicate = False
         
         # check if the name is a duplicate on the file system
-        if os.path.isdir(UPLOADED_DIRECTORY + dirPath):
-            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + dirPath)
-            hasDuplicate = True
+        if os.path.isdir(UPLOADED_DIRECTORY + dir_path):
+            logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate on the file system: ' + dir_path)
+            has_duplicate = True 
         
         # check if the name is a duplicate in the database
         # if a dup is already found on the file system,
         # save the time for checking the database
-        if not hasDuplicate:
+        if not has_duplicate:
             try:
                 con = MySQLdb.connect(host = SERVER, db = DATABASE, user = USER, passwd = PASSWORD)
             except Exception, e:
-                raise e
+                raise e 
         
             # connection is valid, then check the the name's availability
             if con:
                 try:
                     cur = con.cursor()
-                    cur.execute("SELECT fileName FROM %s.%s WHERE fileName=\'%s\'" % (DATABASE, TABLE, dirPath))
+                    cur.execute("SELECT %s FROM %s.%s WHERE %s=\'%s\'" % (COLUMN1, DATABASE, TABLE, COLUMN1, dir_path))
                     con.commit()
-                    res = cur.fetchone()
+                    res = cur.fetchone() 
                     # holy shoot! we got a dup in the database!
                     if res:
-                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + dirPath)
-                        hasDuplicate = True
+                        logging.info('[' + time.strftime('%X %x') + '] ' + 'Find one duplicate in DB: ' + dir_path)
+                        has_duplicate = True
                 except Exception, e:
-                    raise e
+                    raise e  
                 
         # we found a dup either on the file system, or in the database    
-        if hasDuplicate:
-            dirPath = randomizeName(dirPath)
+        if has_duplicate:
+            dir_path = randomize_name(dir_path)
     
     # create the directory
-    os.mkdir(UPLOADED_DIRECTORY + dirPath)       
+    os.mkdir(UPLOADED_DIRECTORY + dir_path)
         
     # create the file dans le repertoire
-    fileName = UPLOADED_DIRECTORY + dirPath + os.sep + DTT_FILE_NAME + '.' + fileSuffix
-    opf = open(fileName, 'wb')
+    file_name = UPLOADED_DIRECTORY + dir_path + os.sep + DTT_FILE_NAME + '.' + file_suffix
+    opf = open(file_name, 'wb')
     opf.write(data)
     opf.close()
-
+    
+    # copy skin.xml from skin_template_directory 
+    # to new directory
+    srcPath = SKIN_TEMPLATE_DIRECTORY + SKIN_TEMPLATE_DIR_NAME + str(sin) + os.sep + SKIN_CONFIGURATION_FILE
+    dstPath = UPLOADED_DIRECTORY + dir_path
+    shutil.copy(srcPath, dstPath)
+    
+    # update the skin_configuration_file
+    local_config_file = UPLOADED_DIRECTORY + dir_path + os.sep + SKIN_CONFIGURATION_FILE
+    doc = xml.dom.minidom.parse(local_config_file)
+    root = doc.getElementsByTagName(SKIN_CONFIG_ELEMENT)[0]
+    root.setAttribute(SKIN_CONFIG_ATTRIBUTE, dir_path)
+    f = open(local_config_file, 'w')
+    # encoding: utf-8, or else by default: ascii
+    f = codecs.lookup('utf_8')[-1](f)
+    doc.writexml(f)
+    f.close()
 
 ## 
 # randomize the file name with time
 #
 # pars: name string
-# return: newName string
+# return: new_name string
 #
-def randomizeName(name):
+def randomize_name(name):
     # get the complete form of current time (aaaaaabbbbbb), 
     # instead of aaaaaa.bbbbb
-    newName = int(repr(time.time()).replace('.', ''))
+    new_name = int(repr(time.time()).replace('.', ''))
     
-    newName += ~(newName << random.randint(1, len(str(newName))))
+    new_name += ~(new_name << random.randint(1, len(str(new_name))))
     # mix the file name's ascii code into the prefix
     for ch in name:
-        newName += ord(ch)
-    newName ^= (newName >> random.randint(1, len(str(newName))))
+        new_name += ord(ch)
+    new_name ^= (new_name >> random.randint(1, len(str(new_name))))
     
     # shuffle for some random times
-    newName = str(newName)
-    runs = int(newName[random.randint(0, len(newName)-1)])
+    new_name = str(new_name)
+    runs = int(new_name[random.randint(0, len(new_name)-1)])
     while runs >=0:
-        random.shuffle(list(newName))
+        random.shuffle(list(new_name))
         runs -= 1
     
     # if the length of the new name is longer than limit
     # , cut only a section of the new name
-    if len(newName) > UPLOADED_NAME_LENGTH:
-        newName = newName[:(UPLOADED_NAME_LENGTH - 1)]
+    if len(new_name) > UPLOADED_NAME_LENGTH:
+        new_name = new_name[:(UPLOADED_NAME_LENGTH - 1)]
         
-    return newName
-
+    return new_name
 
 ## 
 # iterate all the data in the file object and,
@@ -197,20 +224,19 @@ def randomizeName(name):
 # next step
 #
 # pars: item file object; message string (?)
-# return: fileData string (?)
+# return: file_data string (?)
 #
-def readFile(item):
-    fileData = ''
+def read_file_data(item):
+    file_data = ''
     # binary data as a list
     for data in item.file:
-        fileData +=  data
+        file_data +=  data
             
     # avoid images larger than limit   
-    if len(fileData) > UPLOADED_MAX_SIZE:
+    if len(file_data) > UPLOADED_MAX_SIZE:
         raise Exception('[Error 1]:' + ERROR_CODE['1'])
     
-    return fileData
-
+    return file_data
 
 ## 
 # get the skin index number from the 
@@ -223,17 +249,17 @@ def readFile(item):
 # is subject to potential changes.
 #
 # pars: item file object
-# return: skinIndex integer
+# return: skin_index integer
 #
-def getSkinIndexNumber(item):
+def get_skin_index_number(item):
     try: 
-        nameParts = item.filename.split('_')
+        name_parts = item.filename.split('_')
         # int() is to do a simple check here for null values
-        skinIndex = int(nameParts[0])
-        return skinIndex
+        # TODO need more complicated check
+        skin_index = int(name_parts[0])
+        return skin_index
     except Exception:
         raise Exception('[Error 5]:' + ERROR_CODE['5'])  
-
 
 ## 
 # check the content-type section of the header of the request,
@@ -243,30 +269,29 @@ def getSkinIndexNumber(item):
 # pars: item file object
 # return: suffix string
 #
-def typeAndSuffixCheck(item):    
-    # file suffix acceptable
-#    acptTypes = ['image/png', 'image/jpeg', 'image/gif']
-    acptSuffix = ['png', 'jpeg', 'jpg', 'gif']
-    
-    ''' This is a low level danger to ignore checking content-type
+def check_type_and_suffix(item):
+    # TODO rewrite this part
+    # This is a low level danger to ignore checking content-type
     # check if file is in a wrong format
     # this seems to be wrong with the actual content-type
     # commented for now
+#    acptTypes = ['image/png', 'image/jpeg', 'image/gif']    
 #    if not str(item.headers['content-type']) in acptTypes:
 #        raise Exception('[Error 2]:' + ERROR_CODE['2'])
-    '''
-            
+    
+    # acceptable file suffix
+    acpt_suffix = ['png', 'jpeg', 'jpg', 'gif']
+    
     # copy the file suffix for renaming
     # it's possible that the file name passes the content-type
     # checking, but it has no file suffix
-    nameParts = item.filename.split('.')
+    name_parts = item.filename.split('.')
     
-    if not (nameParts[len(nameParts)-1]).lower() in acptSuffix:
+    if not (name_parts[len(name_parts)-1]).lower() in acpt_suffix:
         raise Exception('[Error 2]:' + ERROR_CODE['2']) 
     
-    suffix = (nameParts[len(nameParts)-1]).lower()
+    suffix = (name_parts[len(name_parts)-1]).lower()
     return suffix
-
 
 ## 
 # create a local file on server for user's
@@ -279,11 +304,11 @@ def typeAndSuffixCheck(item):
 # the database
 #
 # pars: n/a
-# return: dirName string;
-#         fileNameSuffix string;
-#         skinIndexNumber integer
+# return: dir_name string;
+#         file_name_suffix string;
+#         skin_index_number integer
 #
-def saveToServer():
+def save_to_server():
     # read from cgi's storage
     form = cgi.FieldStorage()
     
@@ -297,34 +322,33 @@ def saveToServer():
             raise Exception('[Error 3]:' + ERROR_CODE['3'])
         else:
             # check the file type and its file name suffix
-            fileNameSuffix = typeAndSuffixCheck(item)
+            file_name_suffix = check_type_and_suffix(item)
             
             # get the skin index number from the file name
-            skinIndexNumber = getSkinIndexNumber(item)
+            skin_index_number = get_skin_index_number(item)
             
             # read the file from binary data
-            fileData = readFile(item)
+            file_data = read_file_data(item)
             
             # encoding: this might cause problems
             name = os.path.basename(unicode(item.filename, UPLOADED_NAME_ENCODING).encode(UPLOADED_NAME_ENCODING))
             # randomize the directory name
-            dirName = randomizeName(name)
+            dir_name = randomize_name(name)
               
             # create a file on the server
             try:
-                writeToFile(dirName, fileNameSuffix, fileData)
-                return dirName, fileNameSuffix, skinIndexNumber
+                write_to_file(SKIN_TEMPLATE_DIR_NAME + str(skin_index_number) + '_' + dir_name, file_name_suffix, file_data, skin_index_number)
+                return (SKIN_TEMPLATE_DIR_NAME + str(skin_index_number) + '_' + dir_name), file_name_suffix, skin_index_number
             except IOError:
                 # give it another try, before reporting
                 # probably it will get a new randomized name
                 try:
-                    writeToFile(dirName, fileNameSuffix, fileData)
-                    return dirName, fileNameSuffix, skinIndexNumber
+                    write_to_file(SKIN_TEMPLATE_DIR_NAME + str(skin_index_number) + '_' + dir_name, file_name_suffix, file_data, skin_index_number)
+                    return (SKIN_TEMPLATE_DIR_NAME + str(skin_index_number) + '_' + dir_name), file_name_suffix, skin_index_number
                 except Exception, e:
                     raise e
     else:
         raise Exception('[Error 4]:' + ERROR_CODE['4'])
-
 
 ## 
 # distribute the tasks - it is the actual
@@ -333,29 +357,28 @@ def saveToServer():
 # pars: n/a
 # return: n/a
 #
-def processRequest():
+def main():
     try:
         # save user's file to a unique local file
         # dtt is short for da-tou-tie
-        dttDirectoryName, dttFileSuffix, skinIndexNumber = saveToServer()
-        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dttDirectoryName + os.sep + DTT_FILE_NAME + '.' + dttFileSuffix + ' is created.')
-        logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skinIndexNumber) + ' is found.')
+        dtt_directory_name, dtt_file_suffix, skin_index_number = save_to_server()
+        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dtt_directory_name + os.sep + DTT_FILE_NAME + '.' + dtt_file_suffix + ' is created.')
+        logging.info('[' + time.strftime('%X %x') + '] Skin Index Number ' + str(skin_index_number) + ' is found.')
         
         # zip the file with other skin files to skin_package_suffix
-        compressFiles(str(skinIndexNumber), dttDirectoryName, dttFileSuffix)
-        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dttDirectoryName + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX + ' is created.')
+        compress_files(str(skin_index_number), dtt_directory_name, dtt_file_suffix)
+        logging.info('[' + time.strftime('%X %x') + '] ' + UPLOADED_DIRECTORY + dtt_directory_name + '.' + COMPRESSED_SKIN_PACKAGE_SUFFIX + ' is created.')
         
         # update the file path to the database
-        copyToDatabase(dttDirectoryName)
-        logging.info('[' + time.strftime('%X %x') + '] ' + dttDirectoryName + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
+        copy_to_database(dtt_directory_name)
+        logging.info('[' + time.strftime('%X %x') + '] ' + dtt_directory_name + ' is inserted to table ' + TABLE + ' of database ' + SERVER + ':'+ DATABASE)
         
         # echo to the requester
-        print HEADER + (dttDirectoryName)
+        print HEADER + (dtt_directory_name)
         logging.info('[' + time.strftime('%X %x') + '] Service successfully delivered!')
     except Exception, e:
         print HEADER + ('0')
         logging.info('[' + time.strftime('%X %x') + '] ' + str(e))
-
 
 ## 
 # load constant values from the configuration file
@@ -367,7 +390,7 @@ def processRequest():
 # pars: tag string
 # return: ret string
 #
-def readConfig(tag):
+def read_config(tag):
     try:
         refs = config.getElementsByTagName(tag)
         ret = refs[0].childNodes[0].data
@@ -385,44 +408,37 @@ def readConfig(tag):
 # Constants
 #
 # For more info, check config.xml
-#
+
 # Form key
-FORM_KEY = readConfig('FormKey')
+FORM_KEY = read_config('FormKey')
+HEADER = 'Content-Type: text/html \n\n'
 
 # Database
-SERVER = readConfig('Server')
-DATABASE = readConfig('Database')
-TABLE = readConfig('Table')
-USER = readConfig('User')
-PASSWORD = readConfig('Password')
+SERVER = read_config('Server')
+DATABASE = read_config('Database')
+TABLE = read_config('Table')
+COLUMN1 = read_config('Column1')
+USER = read_config('User')
+PASSWORD = read_config('Password')
 
 # File system
-LOGGING_FILE = readConfig('LoggingFile')
+LOGGING_FILE = read_config('LoggingFile')
 
-UPLOADED_DIRECTORY = readConfig('UploadedDirectory')
-UPLOADED_MAX_SIZE = int(readConfig('UploadedMaxSize'))
-UPLOADED_NAME_LENGTH = int(readConfig('UploadedNameLength'))
-UPLOADED_NAME_ENCODING = readConfig('UploadedNameEncoding')
+UPLOADED_DIRECTORY = read_config('UploadedDirectory')
+UPLOADED_MAX_SIZE = int(read_config('UploadedMaxSize'))
+UPLOADED_NAME_LENGTH = int(read_config('UploadedNameLength'))
+UPLOADED_NAME_ENCODING = read_config('UploadedNameEncoding')
 
 # directory where skin templates are located
-SKIN_TEMPLATE_DIRECTORY = readConfig('SkinTemplateDirectory')
+SKIN_TEMPLATE_DIRECTORY = read_config('SkinTemplateDirectory')
+SKIN_TEMPLATE_DIR_NAME = read_config('SkinTemplateDirName')
+SKIN_CONFIGURATION_FILE = read_config('SkinConfigurationFile')
+SKIN_CONFIG_ELEMENT = read_config('SkinConfigElement')
+SKIN_CONFIG_ATTRIBUTE = read_config('SkinConfigAttribute')
 # e.g. candv
-DTT_FILE_NAME = readConfig('DttFileName')
+DTT_FILE_NAME = read_config('DttFileName')
 # e.g. bts, n.b. without '.'
-COMPRESSED_SKIN_PACKAGE_SUFFIX = readConfig('CompressedSkinPackageSuffix')
-
-# Form
-FORM_KEY = 'attachment'
-HEADER = 'Content-Type: text/html \n\n'
-RET_PAGE = '''
-<html>
-<head><title>
-Link to your uploaded image
-</title></head>
-<body> 
-%s
-</body>
-</html>'''
+COMPRESSED_SKIN_PACKAGE_SUFFIX = read_config('CompressedSkinPackageSuffix')
             
 
 if __name__ == '__main__':
@@ -430,4 +446,4 @@ if __name__ == '__main__':
     logging.basicConfig(filename=LOGGING_FILE, level=logging.DEBUG)
     logging.info('')
     logging.info('[' + time.strftime('%X %x') + '] Service started!')
-    processRequest()
+    main()

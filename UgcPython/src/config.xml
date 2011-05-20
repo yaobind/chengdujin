@@ -13,10 +13,13 @@
 	<UploadedNameEncoding>euc-jp</UploadedNameEncoding>
 	<!-- '.jpeg' adds it to 50 -->
 	<UploadedNameLength>45</UploadedNameLength>
-	<Thumbnail>thumbnail_</Thumbnail>
 	<LoggingFile>/Users/Yuan/Desktop/submit.log</LoggingFile>
 	<!-- directory where skin templates are located -->
 	<SkinTemplateDirectory>/Users/Yuan/Desktop/skins/</SkinTemplateDirectory>
+	<SkinTemplateDirName>skin</SkinTemplateDirName>
+	<SkinConfigurationFile>Skin.xml</SkinConfigurationFile>
+	<SkinConfigElement>skin</SkinConfigElement>
+	<SkinConfigAttribute>name</SkinConfigAttribute>
 	<!-- Datoutie file name-->
 	<DttFileName>candv</DttFileName>
 	<!-- Compressed skin directory suffix-->

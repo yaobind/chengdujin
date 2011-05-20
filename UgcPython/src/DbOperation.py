@@ -22,9 +22,9 @@ class DbOperation:
         return self.con
     
     
-    def dbCreate(self, cur, table):
+    def dbCreate(self, cur, table, column):
         try:
-            cur.execute("CREATE TABLE %s (fileName VARCHAR(80))" % table)
+            cur.execute("CREATE TABLE %s (%s VARCHAR(80))" % (table, column))
             self.con.commit()
             self.con.close()
         except Exception, e:
@@ -32,7 +32,7 @@ class DbOperation:
             pass
     
     
-    def dbInsert(self, cur, table, data):
-        cur.execute("INSERT INTO %s VALUES (\'%s\')" % (table, data))
+    def dbInsert(self, cur, table, column, data):
+        cur.execute("INSERT INTO %s(%s) VALUES (\'%s\')" % (table, column, data))
         self.con.commit()
         self.con.close()
