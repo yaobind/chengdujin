@@ -14,8 +14,9 @@
 #@contact: jinyuan@baidu.com
 #@since: April 20, 2011
 #@latest: May 18, 2011
-#
+
 # TODO read_config
+# TODO encoding checking
 
 
 from DbOperation import DbOperation
